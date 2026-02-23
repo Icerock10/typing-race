@@ -1,0 +1,33 @@
+@supports (font-variation-settings: normal) {
+    @font-face {
+        font-family: Nunito;
+        font-style: normal;
+        font-weight: 200 900;
+        src: url("../fonts/Nunito-VariableFont_wght.ttf")
+            format("truetype-variations");
+    }
+}
+
+@supports (font-variation-settings: normal) {
+    @font-face {
+        font-family: Onest;
+        font-style: normal;
+        font-weight: 100 900;
+        src: url("../fonts/Onest-VariableFont_wght.ttf")
+            format("truetype-variations");
+    }
+}
+
+@font-face {
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    src: url("../fonts/Avenir-Roman.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: 800;
+    src: url("../fonts/Avenir-Heavy.ttf") format("truetype");
+}

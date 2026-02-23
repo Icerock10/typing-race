@@ -1,0 +1,10 @@
+:root {
+    --gutter: var(--space-xs);
+    --base-radius: var(--space-xs);
+    --radius-xs: var(--space-3xs);
+    --radius-s: var(--space-2xs);
+    --radius-m: var(--space-s);
+    --radius-l: var(--space-m);
+    --radius-xl: var(--space-l);
+    --radius-full: 100%;
+}

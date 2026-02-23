@@ -1,0 +1,15 @@
+.header {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding-inline: var(--space-2xl);
+}
+
+.logo {
+    grid-column: 2;
+    justify-self: center;
+}
+
+.login-group {
+    justify-self: end;
+    font-family: var(--font-family-onest);
+}

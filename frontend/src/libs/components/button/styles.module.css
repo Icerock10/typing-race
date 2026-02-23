@@ -1,0 +1,29 @@
+.button {
+    position: relative;
+    box-shadow: 0 4px 8px #0000001a;
+    transform: translateY(0);
+    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.button-primary {
+    padding: var(--space-3xs-2xs);
+    border-radius: var(--radius-xs);
+}
+
+.button-secondary {
+    padding: var(--space-3xs-2xs);
+    background-color: var(--color-border-gray);
+    border-radius: var(--radius-xs);
+}
+
+.button-secondary:hover {
+    opacity: var(--button-opacity);
+}
+
+.button-primary:hover {
+    background-color: var(--color-border-gray);
+}
+
+.button-large {
+    width: 100%;
+}

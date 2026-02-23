@@ -1,0 +1,1 @@
+export { HandlerParameterIndexes } from 'shared';

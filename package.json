@@ -1,0 +1,58 @@
+{
+    "name": "project",
+    "private": "true",
+    "type": "module",
+    "engines": {
+        "node": "22.x.x",
+        "npm": "10.x.x"
+    },
+    "workspaces": [
+        "shared",
+        "backend",
+        "frontend"
+    ],
+    "scripts": {
+        "build:shared": "npm run build -w shared",
+        "build": "npm run build:shared && npm run build:backend && npm run build:frontend && sh ./prepare-build.sh",
+        "prestart": "npm install --include=dev && npm run build",
+        "start": "cd build/backend && npm run start",
+        "build:frontend": "npm run build -w frontend",
+        "build:backend": "npm run build -w backend",
+        "lint:editor": "editorconfig-checker",
+        "lint:fs": "ls-lint",
+        "lint:type": "npm run lint:type --workspaces --if-present",
+        "lint:js": "npm run lint:js --workspaces --if-present -- --max-warnings=0",
+        "lint:css": "npm run lint:css --workspaces --if-present",
+        "lint:prettify": "prettier --check \"**/*.{ts,tsx,json,md,scss,html,yml}\"",
+        "lint": "npm run lint:editor && npm run lint:fs && npm run lint:prettify && npm run lint:type && npm run lint:js && npm run lint:css",
+        "prettify": "prettier --write \"**/*.{ts,tsx,json,md,scss,html,yml}\"",
+        "postinstall": "npm run build:shared"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^19.8.1",
+        "@commitlint/config-conventional": "^19.8.1",
+        "@ls-lint/ls-lint": "^2.3.1",
+        "@types/node": "^25.3.0",
+        "@typescript-eslint/eslint-plugin": "8.56.0",
+        "danger": "13.0.5",
+        "dotenv": "17.2.2",
+        "editorconfig-checker": "^6.1.0",
+        "eslint": "^9.35.0",
+        "eslint-import-resolver-typescript": "4.4.4",
+        "eslint-plugin-import": "^2.32.0",
+        "eslint-plugin-unicorn": "^61.0.1",
+        "lint-staged": "^16.1.6",
+        "prettier": "^3.6.2",
+        "simple-git-hooks": "^2.13.1",
+        "stylelint": "17.3.0",
+        "stylelint-config-recess-order": "7.6.1",
+        "stylelint-config-standard": "40.0.0",
+        "tsc-alias": "^1.8.16",
+        "typescript": "^5.9.2"
+    },
+    "simple-git-hooks": {
+        "pre-commit": "npx lint-staged",
+        "commit-msg": "npx commitlint --edit $1"
+    },
+    "version": "1.0.0"
+}

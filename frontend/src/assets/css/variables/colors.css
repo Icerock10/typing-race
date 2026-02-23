@@ -1,0 +1,29 @@
+:root {
+    --color-bg-dark: #0f0f0f;
+    --color-bg-light: #f6f5fa;
+    --color-bg-white: #ffffff;
+    --color-text-primary: #000000;
+    --color-bg-dark-gray: #202020;
+    --color-text-accent: #363e49;
+    --color-bg-dark-gray-light: #272626;
+    --color-border-gray: #e3e3e3;
+    --text-color-gray: #b7b4bd;
+    --button-opacity: 0.85;
+    --opacity-60: 0.6;
+    --gradient-surface-dark: linear-gradient(
+        90deg,
+        rgb(47 54 64 / 100%) 23%,
+        rgb(24 27 32 / 100%) 100%
+    );
+    --gradient-surface-light: linear-gradient(
+        90deg,
+        rgb(208 208 208 / 100%) 48%,
+        rgb(145 145 145 / 100%) 100%
+    );
+    --gradient-surface-light-accent: linear-gradient(
+        90deg,
+        rgb(122 122 122 / 100%) 38%,
+        rgb(195 195 195 / 100%) 100%
+    );
+    --color-brand-accent: #f04242;
+}

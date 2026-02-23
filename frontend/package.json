@@ -1,0 +1,47 @@
+{
+    "name": "frontend",
+    "private": true,
+    "version": "1.21.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc -b && vite build",
+        "preview": "vite preview",
+        "lint:css": "npx stylelint \"src/**/*.css\"",
+        "lint:js": "npx eslint \"src/**/*.{ts,tsx}\"",
+        "lint:js:fix": "npx eslint \"src/**/*.{ts,tsx}\" --fix",
+        "lint:css:fix": "npx stylelint \"src/**/*.{css,scss}\" --fix",
+        "lint:type": "npx tsc --noEmit",
+        "lint": "npm run lint:type && npm run lint:js"
+    },
+    "dependencies": {
+        "@reduxjs/toolkit": "2.9.0",
+        "clsx": "2.1.1",
+        "react": "^19.1.1",
+        "react-dom": "^19.1.1",
+        "react-redux": "9.2.0",
+        "react-router-dom": "7.13.0",
+        "react-toastify": "11.0.5",
+        "shared": "*"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.33.0",
+        "@hookform/resolvers": "5.2.2",
+        "@types/node": "^24.3.1",
+        "@types/react": "^19.1.10",
+        "@types/react-dom": "^19.1.7",
+        "@vitejs/plugin-react": "^5.0.2",
+        "eslint": "^9.33.0",
+        "eslint-plugin-jsx-a11y": "6.10.2",
+        "eslint-plugin-react": "7.37.5",
+        "eslint-plugin-react-hooks": "5.2.0",
+        "eslint-plugin-react-refresh": "^0.4.20",
+        "globals": "^16.3.0",
+        "react-hook-form": "7.62.0",
+        "typescript": "~5.8.3",
+        "typescript-eslint": "^8.39.1",
+        "vite": "7.3.1",
+        "vite-plugin-svgr": "^4.5.0",
+        "vite-tsconfig-paths": "^5.1.4"
+    }
+}

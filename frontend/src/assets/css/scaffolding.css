@@ -1,0 +1,56 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    font-family: var(--font-family-nunito);
+    color: var(--color-text-primary);
+}
+
+#root {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+:is(h1, h2, h3, h4) {
+    text-wrap: balance;
+}
+
+:is(h1, h2, h3) {
+    font-family: var(--font-family-onest);
+}
+
+:is(h4, h5) {
+    font-family: var(--font-family-nunito);
+}
+
+:focus {
+    outline: none;
+}
+
+:focus-visible {
+    outline-offset: 2px;
+}
+
+::selection {
+    background: var(--color-selection-bg);
+}
+
+:is(button) {
+    text-decoration: none;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+svg[class~="icon"] {
+    width: auto;
+    max-width: 1lh;
+    height: 1lh;
+}
+
+svg {
+    flex-shrink: 0;
+}

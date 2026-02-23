@@ -1,0 +1,111 @@
+.input-container {
+    --gutter: var(--space-2xs);
+
+    position: relative;
+    width: 100%;
+    font-size: var(--text-body);
+    font-weight: var(--font-weight-body-small);
+
+    --cluster-vertical-alignment: baseline;
+}
+
+.input-field {
+    width: 100%;
+    padding: var(--space-3xs-2xs);
+    border: 1.5px solid var(--color-border-gray);
+    border-radius: var(--radius-s);
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-field::placeholder {
+    font-weight: var(--font-weight-semi-bold);
+    opacity: 0.85;
+    transition: all 0.15s ease;
+}
+
+.input-field:hover::placeholder {
+    opacity: 1;
+    transform: translateX(2px);
+}
+
+.input-field:focus {
+    outline-offset: 0;
+    border: 2px solid var(--text-color-gray);
+}
+
+.input-field-error {
+    border-color: var(--color-brand-accent);
+    animation: shake 0.6s ease-in-out;
+}
+
+.input-text-error {
+    font-size: var(--text-caption);
+    color: var(--color-brand-accent);
+    transform: translateY(0);
+    animation: slide-in 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.input-field--password {
+    padding-right: var(--space-xl);
+}
+
+.password-toggle-button {
+    position: absolute;
+    top: 50%;
+    right: var(--space-xs);
+    padding-inline: var(--space-2xs);
+    border-radius: var(--radius-xs);
+    transform: translateY(-50%);
+    transition: all 0.15s ease;
+}
+
+.password-toggle-button .toggle-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease;
+}
+
+.password-toggle-button:hover .toggle-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+@keyframes shake {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-1px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(1px);
+    }
+}
+
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}

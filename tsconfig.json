@@ -1,0 +1,17 @@
+{
+    "include": ["**/*.ts", "**/*.js"],
+    "exclude": ["node_modules", "dangerfile.ts"],
+    "compilerOptions": {
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "target": "ESNext",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "types": ["node"],
+        "allowSyntheticDefaultImports": true
+    }
+}

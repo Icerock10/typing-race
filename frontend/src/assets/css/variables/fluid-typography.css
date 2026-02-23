@@ -1,0 +1,15 @@
+:root {
+    --step-minus-4: clamp(9.2576px, 8.0848px + 0.3668vw, 12.4864px);
+    --step-minus-3: clamp(9.8784px, 8.3632px + 0.4737vw, 14.0464px);
+    --step-minus-2: clamp(10.5408px, 8.6272px + 0.598vw, 15.8032px);
+    --step-minus-1: clamp(11.2464px, 8.872px + 0.7422vw, 17.7776px);
+    --step-0: clamp(12px, 9.0912px + 0.9091vw, 20px);
+    --step-1: clamp(12.8048px, 9.2784px + 1.1018vw, 22.5008px);
+    --step-2: clamp(13.6624px, 9.4256px + 1.3239vw, 25.312px);
+    --step-3: clamp(14.5776px, 9.5232px + 1.5795vw, 28.4768px);
+    --step-4: clamp(15.5536px, 9.56px + 1.873vw, 32.0368px);
+    --step-5: clamp(16.5952px, 9.5248px + 2.2096vw, 36.04px);
+    --step-6: clamp(17.7072px, 9.4032px + 2.5952vw, 40.5456px);
+    --step-7: clamp(18.8944px, 9.1776px + 3.0363vw, 45.6144px);
+    --step-8: clamp(32px, 17.4544px + 4.5455vw, 72px);
+}

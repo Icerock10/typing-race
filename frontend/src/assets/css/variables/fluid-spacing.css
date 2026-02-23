@@ -1,0 +1,22 @@
+:root {
+    --space-3xs: clamp(3px, 2.6364px + 0.1136vw, 4px);
+    --space-2xs: clamp(6px, 4.9091px + 0.3409vw, 9px);
+    --space-xs: clamp(9px, 7.5455px + 0.4545vw, 13px);
+    --space-s: clamp(12px, 10.1818px + 0.5682vw, 17px);
+    --space-m: clamp(18px, 15.0909px + 0.9091vw, 26px);
+    --space-l: clamp(24px, 20.3636px + 1.1364vw, 34px);
+    --space-xl: clamp(36px, 30.5455px + 1.7045vw, 51px);
+    --space-2xl: clamp(48px, 40.7273px + 2.2727vw, 68px);
+    --space-3xl: clamp(72px, 61.0909px + 3.4091vw, 102px);
+    --space-4xl: clamp(96px, 81.8182px + 4.5455vw, 136px);
+    --space-3xs-2xs: clamp(3px, 0.8182px + 0.6818vw, 9px);
+    --space-2xs-xs: clamp(6px, 3.4545px + 0.7955vw, 13px);
+    --space-xs-s: clamp(9px, 6.0909px + 0.9091vw, 17px);
+    --space-s-m: clamp(12px, 6.9091px + 1.5909vw, 26px);
+    --space-m-l: clamp(18px, 12.1818px + 1.8182vw, 34px);
+    --space-l-xl: clamp(24px, 14.1818px + 3.0682vw, 51px);
+    --space-xl-2xl: clamp(36px, 24.3636px + 3.6364vw, 68px);
+    --space-2xl-3xl: clamp(48px, 28.3636px + 6.1364vw, 102px);
+    --space-m-2xl: clamp(18px, -0.1818px + 5.6818vw, 68px);
+    --space-m-3xl: clamp(18px, -12.5455px + 9.5455vw, 102px);
+}
