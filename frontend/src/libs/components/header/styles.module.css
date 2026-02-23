@@ -1,3 +1,5 @@
+@import url("~/assets/css/animations.css");
+
 .header {
     --padding: 20px 40px;
 
@@ -32,15 +34,4 @@
 
 .logo-text-highlight {
     color: var(--color-accent-yellow);
-}
-
-@keyframes blink {
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.6;
-    }
 }

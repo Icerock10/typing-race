@@ -1,4 +1,5 @@
 export { AppRoute } from './app-route.enum.js';
+export { ClusterVariant } from './cluster-properties.enum.js';
 export {
     ButtonLabels,
     ButtonSizes,

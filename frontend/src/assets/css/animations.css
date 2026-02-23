@@ -1,0 +1,33 @@
+@keyframes blink {
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(0.7);
+    }
+}
+
+@keyframes progress {
+    0% {
+        width: 60%;
+    }
+
+    100% {
+        width: 80%;
+    }
+}
