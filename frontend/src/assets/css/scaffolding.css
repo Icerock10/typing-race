@@ -1,11 +1,20 @@
 body {
     display: flex;
     flex-direction: column;
-    min-width: 320px;
-    min-height: 100vh;
-    margin: 0;
-    font-family: var(--font-family-nunito);
-    color: var(--color-text-primary);
+    overflow-x: hidden;
+    font-family: var(--font-family-syne);
+    color: var(--color-text-main);
+    background: var(--color-bg-main);
+}
+
+body::before {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    content: "";
+    background-image: var(--color-bg-gradient);
+    background-size: 40px 40px;
 }
 
 #root {
@@ -19,11 +28,7 @@ body {
 }
 
 :is(h1, h2, h3) {
-    font-family: var(--font-family-onest);
-}
-
-:is(h4, h5) {
-    font-family: var(--font-family-nunito);
+    font-family: var(--font-family-syne);
 }
 
 :focus {
@@ -32,10 +37,6 @@ body {
 
 :focus-visible {
     outline-offset: 2px;
-}
-
-::selection {
-    background: var(--color-selection-bg);
 }
 
 :is(button) {

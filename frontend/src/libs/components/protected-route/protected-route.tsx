@@ -28,13 +28,13 @@ const ProtectedRoute: React.FC = () => {
             return isAuthorized ? (
                 <Outlet />
             ) : (
-                <Navigate replace to={AppRoute.SIGN_IN} />
+                <Navigate replace to={AppRoute.RACE} />
             );
         }
 
         case RouteAccess.NOT_AUTHENTICATED: {
             return isAuthorized ? (
-                <Navigate replace to={AppRoute.DASHBOARD} />
+                <Navigate replace to={AppRoute.ROOT} />
             ) : (
                 <Outlet />
             );

@@ -6,6 +6,7 @@ import {
     ProtectedRoute,
     RouterProvider,
     StoreProvider,
+    ErrorBoundary,
 } from './libs/components/components.js';
 import '~/assets/css/styles.css';
 
@@ -16,19 +17,21 @@ const Root = (): JSX.Element => {
     return (
         <StrictMode>
             <StoreProvider store={store.instance}>
-                <RouterProvider
-                    routes={[
-                        {
-                            children: routes,
-                            element: (
-                                <App>
-                                    <ProtectedRoute />
-                                </App>
-                            ),
-                            path: '/',
-                        },
-                    ]}
-                />
+                <ErrorBoundary>
+                    <RouterProvider
+                        routes={[
+                            {
+                                children: routes,
+                                element: (
+                                    <App>
+                                        <ProtectedRoute />
+                                    </App>
+                                ),
+                                path: '/',
+                            },
+                        ]}
+                    />
+                </ErrorBoundary>
             </StoreProvider>
         </StrictMode>
     );

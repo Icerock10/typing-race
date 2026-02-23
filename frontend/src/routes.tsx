@@ -1,7 +1,7 @@
 import { type RouteObject } from 'react-router-dom';
 
 import { AppRoute, RouteAccess } from './libs/enums/enums.js';
-import { Auth, Dashboard, Home, NotFound } from './pages/pages.js';
+import { Auth, Lobby, NotFound, Race } from './pages/pages.js';
 
 type CustomRouteObject = RouteObject & { handle: RouteHandle };
 
@@ -11,25 +11,32 @@ type RouteHandle = {
 
 const routes: CustomRouteObject[] = [
     {
-        element: <Home />,
+        element: <Lobby />,
         handle: {
             access: RouteAccess.PUBLIC,
         },
         path: AppRoute.ROOT,
     },
     {
-        element: <Auth />,
+        element: <Race />,
         handle: {
-            access: RouteAccess.NOT_AUTHENTICATED,
+            access: RouteAccess.PUBLIC,
         },
-        path: AppRoute.SIGN_IN,
+        path: AppRoute.RACE,
     },
     {
         element: <Auth />,
         handle: {
             access: RouteAccess.NOT_AUTHENTICATED,
         },
-        path: AppRoute.SIGN_UP,
+        path: AppRoute.RACE,
+    },
+    {
+        element: <Auth />,
+        handle: {
+            access: RouteAccess.NOT_AUTHENTICATED,
+        },
+        path: AppRoute.RACE,
     },
     {
         element: <NotFound />,
@@ -37,13 +44,6 @@ const routes: CustomRouteObject[] = [
             access: RouteAccess.PUBLIC,
         },
         path: AppRoute.NOT_FOUND,
-    },
-    {
-        element: <Dashboard />,
-        handle: {
-            access: RouteAccess.AUTHENTICATED,
-        },
-        path: AppRoute.DASHBOARD,
     },
 ];
 

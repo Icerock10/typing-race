@@ -1,33 +1,23 @@
 @supports (font-variation-settings: normal) {
     @font-face {
-        font-family: Nunito;
+        font-family: Syne;
         font-style: normal;
-        font-weight: 200 900;
-        src: url("../fonts/Nunito-VariableFont_wght.ttf")
-            format("truetype-variations");
-    }
-}
-
-@supports (font-variation-settings: normal) {
-    @font-face {
-        font-family: Onest;
-        font-style: normal;
-        font-weight: 100 900;
-        src: url("../fonts/Onest-VariableFont_wght.ttf")
+        font-weight: 400 800;
+        src: url("../fonts/Syne-VariableFont_wght.ttf")
             format("truetype-variations");
     }
 }
 
 @font-face {
-    font-family: Avenir;
+    font-family: SpaceMono;
     font-style: normal;
-    font-weight: normal;
-    src: url("../fonts/Avenir-Roman.ttf") format("truetype");
+    font-weight: 400;
+    src: url("../fonts/SpaceMono-Regular.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: Avenir;
+    font-family: SpaceMono;
     font-style: normal;
-    font-weight: 800;
-    src: url("../fonts/Avenir-Heavy.ttf") format("truetype");
+    font-weight: 700;
+    src: url("../fonts/SpaceMono-Bold.ttf") format("truetype");
 }
