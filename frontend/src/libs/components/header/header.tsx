@@ -10,20 +10,20 @@ type Properties = {
 };
 
 const Header: React.FC<Properties> = ({ children, isCompact }) => {
-    const logoMarkClasses = getClassNames(styles['logo__mark'], 'flex-cluster');
+    const logoMarkClasses = getClassNames(styles['logo-mark'], 'flex-cluster');
 
     const headerStyles = getClassNames(
         styles['header'],
-        isCompact && styles['header__compact'],
+        isCompact && styles['header-compact'],
         'flex-cluster',
     );
     return (
         <header className={headerStyles}>
             <Link className="flex-cluster" to={AppRoute.ROOT}>
                 <div className={logoMarkClasses}>T_</div>
-                <div className={styles['logo__text']}>
+                <div className={styles['logo-text']}>
                     <span>type</span>
-                    <span className={styles['logo__text_highlight']}>race</span>
+                    <span className={styles['logo-text-highlight']}>race</span>
                 </div>
             </Link>
             {children}

@@ -1,6 +1,6 @@
 import { getClassNames } from '~/libs/helpers/helpers.js';
-import { type ButtonVariant } from '~/libs/types/button-variant.type.js';
-
+import { type ButtonVariants } from '~/libs/enums/button-properties-enum.js';
+import { type ValueOf } from '~/libs/types/types.js';
 import styles from './styles.module.css';
 
 type Properties = {
@@ -8,13 +8,14 @@ type Properties = {
     icon?: React.ReactNode;
     iconOnlySize?: 'large' | 'medium' | 'small';
     isDisabled?: boolean;
+    isActive?: boolean;
     isIconOnly?: boolean;
     label: string;
     loader?: React.ReactNode;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
     size?: 'large' | 'small';
     type?: 'button' | 'submit';
-    variant?: ButtonVariant;
+    variant?: ValueOf<typeof ButtonVariants>;
 };
 
 const Button: React.FC<Properties> = ({
@@ -29,6 +30,7 @@ const Button: React.FC<Properties> = ({
     size = 'large',
     type = 'button',
     variant = 'primary',
+    isActive,
 }: Properties) => {
     const buttonClasses = getClassNames(
         styles['button'],
@@ -36,7 +38,7 @@ const Button: React.FC<Properties> = ({
         styles[`button-${size}`],
         isIconOnly && styles['button-icon-only'],
         isIconOnly && styles[`button-icon-only-${iconOnlySize}`],
-        'cluster',
+        isActive && styles[`button-${variant}-active`],
         className,
     );
 

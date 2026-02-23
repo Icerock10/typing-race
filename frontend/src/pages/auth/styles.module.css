@@ -1,0 +1,21 @@
+.header-tabs {
+    display: flex;
+    gap: 2px;
+    padding: 6px;
+    background: var(--surface-inline);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+.header-nav {
+    font-size: 13px;
+}
+
+.header-nav a {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent-yellow);
+}
+
+.header-nav span {
+    color: var(--color-text-muted);
+}

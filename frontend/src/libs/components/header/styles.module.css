@@ -7,11 +7,11 @@
     --cluster-horizontal-alignment: space-between;
 }
 
-.header__compact {
+.header-compact {
     --padding: 14px 32px;
 }
 
-.logo__mark {
+.logo-mark {
     width: 36px;
     height: 36px;
     font-family: var(--font-family-space-mono);
@@ -24,13 +24,13 @@
     --cluster-horizontal-alignment: center;
 }
 
-.logo__text {
+.logo-text {
     font-size: 22px;
     font-weight: var(--font-weight-extra-bold);
     letter-spacing: -0.5px;
 }
 
-.logo__text_highlight {
+.logo-text-highlight {
     color: var(--color-accent-yellow);
 }
 
