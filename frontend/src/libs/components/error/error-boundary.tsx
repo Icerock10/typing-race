@@ -1,4 +1,4 @@
-import { Component, type ErrorInfo, type ReactNode } from 'react';
+import { Component, type ErrorInfo, type ReactNode, Fragment } from 'react';
 
 type State = {
     hasError: boolean;
@@ -45,7 +45,9 @@ class ErrorBoundary extends Component<Properties, State> {
         if (this.state.hasError) {
             return this.renderError();
         }
-        return <div key={this.state.errorKey}>{this.props.children}</div>;
+        return (
+            <Fragment key={this.state.errorKey}>{this.props.children}</Fragment>
+        );
     }
 }
 

@@ -7,3 +7,4 @@ export { ProtectedRoute } from './protected-route/protected-route.js';
 export { RouterProvider } from './router-provider/router-provider.js';
 export { Provider as StoreProvider } from 'react-redux';
 export { ErrorBoundary } from './error/error-boundary.js';
+export { Header } from './header/header.js';

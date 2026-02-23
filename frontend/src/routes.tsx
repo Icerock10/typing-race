@@ -29,14 +29,7 @@ const routes: CustomRouteObject[] = [
         handle: {
             access: RouteAccess.NOT_AUTHENTICATED,
         },
-        path: AppRoute.RACE,
-    },
-    {
-        element: <Auth />,
-        handle: {
-            access: RouteAccess.NOT_AUTHENTICATED,
-        },
-        path: AppRoute.RACE,
+        path: AppRoute.AUTH,
     },
     {
         element: <NotFound />,

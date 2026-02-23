@@ -35,7 +35,7 @@ const Link: React.FC<Properties> = ({
               buttonStyles[`button-${asButtonSize}`],
               styles['link'],
           )
-        : '';
+        : styles['link'];
 
     return (
         <NavLink
@@ -43,7 +43,7 @@ const Link: React.FC<Properties> = ({
             tabIndex={tabindex}
             to={to}
         >
-            {asButtonVariant ? children : <span>{children}</span>}
+            {children}
         </NavLink>
     );
 };

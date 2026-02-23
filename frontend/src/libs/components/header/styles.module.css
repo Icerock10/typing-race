@@ -1,0 +1,46 @@
+.header {
+    --padding: 20px 40px;
+
+    padding: var(--padding);
+    border-bottom: 1px solid var(--color-border);
+
+    --cluster-horizontal-alignment: space-between;
+}
+
+.header__compact {
+    --padding: 14px 32px;
+}
+
+.logo__mark {
+    width: 36px;
+    height: 36px;
+    font-family: var(--font-family-space-mono);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-bg-main);
+    background: var(--color-accent-yellow);
+    border-radius: var(--radius-xs);
+    animation: blink 2s step-end infinite;
+
+    --cluster-horizontal-alignment: center;
+}
+
+.logo__text {
+    font-size: 22px;
+    font-weight: var(--font-weight-extra-bold);
+    letter-spacing: -0.5px;
+}
+
+.logo__text_highlight {
+    color: var(--color-accent-yellow);
+}
+
+@keyframes blink {
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
