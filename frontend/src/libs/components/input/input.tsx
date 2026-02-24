@@ -6,7 +6,7 @@ import {
     type FieldValues,
 } from 'react-hook-form';
 
-import { EyeIcon, EyeOffIcon } from '~/assets/image/input/input.img.js';
+import { EyeIcon } from '~/assets/image/input/input.img.js';
 import { getClassNames } from '~/libs/helpers/helpers.js';
 import {
     useCallback,
@@ -72,6 +72,10 @@ const Input = <T extends FieldValues>({
         hasError && styles['input-field-error'],
         isPasswordField && styles['input-field--password'],
     );
+    const toggleIconClasses = getClassNames(
+        styles['toggle-icon'],
+        showPassword ? styles['active'] : '',
+    );
 
     const handleBlur = useCallback(
         (event: React.FocusEvent<HTMLInputElement>) => {
@@ -82,12 +86,6 @@ const Input = <T extends FieldValues>({
             }
         },
         [field, onBlur],
-    );
-
-    const passwordIcon = showPassword ? (
-        <EyeIcon width="45px" />
-    ) : (
-        <EyeOffIcon width="45px" />
     );
 
     return (
@@ -118,11 +116,8 @@ const Input = <T extends FieldValues>({
                         onClick={togglePasswordVisibility}
                         type="button"
                     >
-                        <span
-                            aria-hidden="true"
-                            className={styles['toggle-icon']}
-                        >
-                            {passwordIcon}
+                        <span aria-hidden="true" className={toggleIconClasses}>
+                            <EyeIcon width="45px" />
                         </span>
                     </button>
                 )}

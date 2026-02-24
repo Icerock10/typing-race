@@ -15,7 +15,7 @@ const stats: Stat[] = [
     { id: 'record', value: 201, text: 'Today`s record' },
 ];
 
-const Stats = (): React.ReactNode => {
+const Stats: React.FC = () => {
     return (
         <Cluster cluster={ClusterVariant.FLEX} className={styles['auth-stats']}>
             {stats.map((stat) => (

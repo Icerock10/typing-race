@@ -12,15 +12,11 @@ import styles from './styles.module.css';
 
 const Auth: React.FC = () => {
     const [activeTab, setActiveTab] = useState<ValueOf<typeof ButtonLabels>>(
-        ButtonLabels.SIGN_IN,
+        ButtonLabels.REGISTER,
     );
 
-    const toggleTab = useCallback(() => {
-        setActiveTab((previous) =>
-            previous === ButtonLabels.SIGN_IN
-                ? ButtonLabels.REGISTER
-                : ButtonLabels.SIGN_IN,
-        );
+    const handleTabClick = useCallback((tab: ValueOf<typeof ButtonLabels>) => {
+        setActiveTab(tab);
     }, []);
 
     return (
@@ -33,14 +29,16 @@ const Auth: React.FC = () => {
                         label={ButtonLabels.SIGN_IN}
                         variant={ButtonVariants.TAB}
                         isActive={activeTab === ButtonLabels.SIGN_IN}
-                        onClick={toggleTab}
+                        value={ButtonLabels.SIGN_IN}
+                        onClick={handleTabClick}
                     />
                     <Button
                         size="small"
                         label={ButtonLabels.REGISTER}
                         variant={ButtonVariants.TAB}
-                        onClick={toggleTab}
+                        onClick={handleTabClick}
                         isActive={activeTab === ButtonLabels.REGISTER}
+                        value={ButtonLabels.REGISTER}
                     />
                 </div>
                 <div className={styles['header-nav']}>
@@ -50,7 +48,10 @@ const Auth: React.FC = () => {
             </Header>
             <Cluster cluster={ClusterVariant.GRID} className={styles['auth']}>
                 <LeftPanel />
-                <RightPanel />
+                <RightPanel
+                    handleTabClick={handleTabClick}
+                    activeTab={activeTab}
+                />
             </Cluster>
         </>
     );

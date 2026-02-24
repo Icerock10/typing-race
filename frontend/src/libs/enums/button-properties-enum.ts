@@ -3,6 +3,8 @@ const ButtonLabels = {
     LOGIN: 'Login',
     NEXT: 'NEXT',
     REGISTER: 'Register',
+    CREATE: 'Create Account →',
+    SIGN_UP: 'Sign up with Discord',
     SIGN_IN: 'Sign in',
     SKIP: 'SKIP',
     SUBMIT: 'SUBMIT',

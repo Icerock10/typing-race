@@ -1,12 +1,15 @@
 :root {
---color-bg-main: #0a0a0f;
---color-bg-gradient: linear-gradient(rgb(232 244 48 / 3%) 1px, transparent 1px), linear-gradient(90deg, rgb(232 244 48 / 3%) 1px, transparent 1px);
---color-surface: #111118;
---surface-inline: #1a1a24;
---color-border: #2a2a3a ;
---color-accent-yellow: #e8f430;
---color-accent-red: #ff4d6d;
---color-accent-turquoise: #4dffd2;
---color-text-main: #f0f0f8;
---color-text-muted: #6b6b88;
+    --color-bg-main: #0a0a0f;
+    --color-bg-gradient:
+        linear-gradient(rgb(232 244 48 / 3%) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(232 244 48 / 3%) 1px, transparent 1px);
+    --color-surface: #111118;
+    --surface-inline: #1a1a24;
+    --color-discord: #5865f2;
+    --color-border: #2a2a3a;
+    --color-accent-yellow: #e8f430;
+    --color-accent-red: #ff4d6d;
+    --color-accent-turquoise: #4dffd2;
+    --color-text-main: #f0f0f8;
+    --color-text-muted: #6b6b88;
 }
