@@ -24,10 +24,10 @@
 
 @keyframes progress {
     0% {
-        width: 60%;
+        width: var(--from);
     }
 
     100% {
-        width: 80%;
+        width: var(--to);
     }
 }
