@@ -1,3 +1,4 @@
 .auth-right-panel {
+    display: flex;
     place-items: center;
 }

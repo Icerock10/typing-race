@@ -10,6 +10,7 @@
 
 .form-title {
     margin-bottom: 6px;
+    font-size: 1.7rem;
     font-weight: var(--font-weight-extra-bold);
     letter-spacing: -1px;
 }
@@ -37,10 +38,6 @@
     flex: 1;
     height: 1px;
     background: var(--color-border);
-}
-
-.input-row {
-    --cluster-wrap: nowrap;
 }
 
 .create-btn {
