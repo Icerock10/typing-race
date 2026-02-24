@@ -1,29 +1,82 @@
 .button {
-    position: relative;
-    box-shadow: 0 4px 8px #0000001a;
-    transform: translateY(0);
-    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    --cluster-horizontal-alignment: center;
+    --cluster-vertical-alignment: center;
+    --cluster-wrap: nowrap;
 }
 
-.button-primary {
-    padding: var(--space-3xs-2xs);
-    border-radius: var(--radius-xs);
-}
-
-.button-secondary {
-    padding: var(--space-3xs-2xs);
-    background-color: var(--color-border-gray);
-    border-radius: var(--radius-xs);
-}
-
-.button-secondary:hover {
-    opacity: var(--button-opacity);
-}
-
-.button-primary:hover {
-    background-color: var(--color-border-gray);
+.button-icon {
+    display: flex;
 }
 
 .button-large {
     width: 100%;
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-extra-bold);
+}
+
+.button-small {
+    width: 50%;
+}
+
+.button-fit {
+    width: fit-content;
+    font-weight: var(--font-weight-semi-bold);
+}
+
+.button-primary {
+    padding: 0.7rem;
+    border-radius: var(--radius-s);
+}
+
+.button-primary,
+.button-secondary {
+    transition: all 0.15s;
+}
+
+.button-primary:hover {
+    box-shadow: 0 4px 24px rgb(88 101 242 / 40%);
+    transform: translateY(-2px);
+}
+
+.button-secondary {
+    padding: 10px 20px;
+    color: var(--color-text-main);
+    letter-spacing: 0.3px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-s);
+}
+
+.button-secondary:hover {
+    color: var(--color-accent-yellow);
+    border-color: var(--color-accent-yellow);
+    transform: translateY(-1px);
+}
+
+.button-ghost {
+    font-weight: var(--font-weight-extra-bold);
+    color: var(--ghost-color, var(--color-accent-yellow));
+}
+
+.button-ghost:hover {
+    text-decoration: underline;
+}
+
+.button-tab {
+    padding: 8px 22px;
+    font-size: 14px;
+    font-weight: var(--font-weight-semi-bold);
+    color: var(--color-text-muted);
+    letter-spacing: 0.2px;
+    border-radius: 7px;
+    transition: all 0.2s ease;
+}
+
+.button-tab-active {
+    color: var(--color-bg-main);
+    background: var(--color-accent-yellow);
+}
+
+.button-tab:not(.button-tab-active):hover {
+    color: var(--color-text-main);
+    background: rgb(255 255 255 / 5%);
 }

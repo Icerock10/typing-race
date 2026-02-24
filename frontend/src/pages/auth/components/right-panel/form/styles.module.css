@@ -1,0 +1,55 @@
+.form {
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+}
+
+.form :is(.form-subtitle, .discord-btn, .create-btn, .divider) {
+    margin-bottom: 25px;
+}
+
+.form-title {
+    margin-bottom: 6px;
+    font-size: 1.7rem;
+    font-weight: var(--font-weight-extra-bold);
+    letter-spacing: -1px;
+}
+
+.form-subtitle {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+}
+
+.discord-btn {
+    color: var(--color-text-main);
+    background: var(--color-discord);
+}
+
+.divider-text {
+    font-family: var(--font-family-space-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--color-border);
+}
+
+.create-btn {
+    background: var(--color-accent-yellow);
+}
+
+.switch-prompt {
+    --cluster-horizontal-alignment: center;
+    --gutter: 0px;
+}
+
+.switch-prompt > span {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}

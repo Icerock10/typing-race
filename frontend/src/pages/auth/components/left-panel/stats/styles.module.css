@@ -1,0 +1,32 @@
+.auth-stats {
+    padding-top: 32px;
+    margin-top: var(--space-3xl);
+    border-top: 1px solid var(--color-border);
+
+    --gutter: var(--space-l);
+}
+
+.stat-value {
+    font-family: var(--font-family-space-mono);
+    font-size: 22px;
+    font-weight: var(--font-weight-extra-bold);
+    color: var(--stat-color);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+}
+
+[data-stat="online"] {
+    --stat-color: var(--color-accent-yellow);
+}
+
+[data-stat="rooms"] {
+    --stat-color: var(--color-accent-turquoise);
+}
+
+[data-stat="record"] {
+    --stat-color: var(--color-accent-red);
+}

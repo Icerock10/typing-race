@@ -1,25 +1,37 @@
+@import url("../../../assets/css/animations.css");
+
 .input-container {
     --gutter: var(--space-2xs);
 
     position: relative;
     width: 100%;
-    font-size: var(--text-body);
-    font-weight: var(--font-weight-body-small);
 
     --cluster-vertical-alignment: baseline;
+    --cluster-direction: column;
+
+    margin-bottom: var(--space-s);
+    color: var(--color-text-muted);
+}
+
+.input-container label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
 }
 
 .input-field {
     width: 100%;
-    padding: var(--space-3xs-2xs);
-    border: 1.5px solid var(--color-border-gray);
+    padding: var(--space-xs);
+    color: var(--color-text-main);
+    background: var(--surface-inline);
+    border: 1.5px solid var(--color-border);
     border-radius: var(--radius-s);
     transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .input-field::placeholder {
+    font-size: 0.8rem;
     font-weight: var(--font-weight-semi-bold);
-    opacity: 0.85;
     transition: all 0.15s ease;
 }
 
@@ -30,7 +42,7 @@
 
 .input-field:focus {
     outline-offset: 0;
-    border: 2px solid var(--text-color-gray);
+    border-color: var(--color-accent-yellow);
 }
 
 .input-field-error {
@@ -39,8 +51,7 @@
 }
 
 .input-text-error {
-    font-size: var(--text-caption);
-    color: var(--color-brand-accent);
+    color: var(--color-accent-red);
     transform: translateY(0);
     animation: slide-in 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -67,8 +78,8 @@
 
 .password-toggle-button .toggle-icon {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    place-items: center;
+    color: var(--color-text-muted);
     transition: transform 0.15s ease;
 }
 
@@ -76,36 +87,6 @@
     transform: scale(1.1) rotate(5deg);
 }
 
-@keyframes shake {
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-
-    10%,
-    30%,
-    50%,
-    70%,
-    90% {
-        transform: translateX(-1px);
-    }
-
-    20%,
-    40%,
-    60%,
-    80% {
-        transform: translateX(1px);
-    }
-}
-
-@keyframes slide-in {
-    from {
-        opacity: 0;
-        transform: translateY(-8px) scale(0.95);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+.toggle-icon.active {
+    color: var(--color-accent-yellow);
 }

@@ -1,0 +1,27 @@
+.avatar-group {
+    margin-bottom: 25px;
+}
+
+.avatar-group-label {
+    margin-bottom: 6px;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.avatar-option {
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    background: var(--surface-inline);
+    border: 2px solid transparent;
+    border-radius: var(--radius-full);
+    transition: all 0.15s;
+
+    --cluster-horizontal-alignment: center;
+}
+
+.avatar-option-selected {
+    border-color: var(--color-accent-yellow);
+}

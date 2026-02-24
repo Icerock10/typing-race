@@ -1,0 +1,137 @@
+@import url("~/assets/css/animations.css");
+
+.race-preview {
+    position: relative;
+    padding: 20px 24px;
+    margin-top: 40px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+}
+
+.race-title {
+    font-family: var(--font-family-space-mono);
+    font-size: 12px;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.race-header {
+    --cluster-horizontal-alignment: space-between;
+
+    margin-bottom: 16px;
+}
+
+.race-live {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-family: var(--font-family-space-mono);
+    font-size: 11px;
+    color: var(--color-accent-turquoise);
+}
+
+.live-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--color-accent-turquoise);
+    border-radius: 50%;
+    animation: pulse 1.5s ease infinite;
+}
+
+.race-text {
+    padding-left: 14px;
+    margin-bottom: 20px;
+    font-family: var(--font-family-space-mono);
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--color-text-muted);
+    border-left: 2px solid var(--color-border);
+}
+
+.typed {
+    color: var(--color-accent-turquoise);
+}
+
+.cursor {
+    display: inline-block;
+    width: 2px;
+    height: 14px;
+    margin-left: 1px;
+    vertical-align: middle;
+    background: var(--color-accent-yellow);
+    animation: blink 0.8s step-end infinite;
+}
+
+.racers {
+    --grid-columns: 1;
+    --grid-min-item-size: 5rem;
+}
+
+.racer-avatar {
+    width: 24px;
+    height: 24px;
+    font-family: var(--font-family-syne);
+    font-size: 10px;
+    font-weight: var(--font-weight-bold);
+    background-color: var(--color-border);
+    border-radius: var(--radius-m);
+
+    --cluster-horizontal-alignment: center;
+}
+
+.racer-wpm {
+    width: 48px;
+    font-family: var(--font-family-space-mono);
+    font-size: 11px;
+    text-align: right;
+}
+
+.racer-progress {
+    flex: 1;
+    height: 6px;
+    overflow: hidden;
+    background: var(--surface-inline);
+    border-radius: 3px;
+}
+
+.racer-progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1s ease;
+    animation: progress 2s ease-in-out infinite alternate;
+}
+
+.racer-name {
+    width: 70px;
+    font-family: var(--font-family-space-mono);
+    font-size: 11px;
+    color: var(--color-text-muted);
+}
+
+[data-rank="1"] {
+    --rank-color: var(--color-accent-turquoise);
+    --from: 70%;
+    --to: 90%;
+}
+
+[data-rank="2"] {
+    --rank-color: var(--color-accent-yellow);
+    --from: 55%;
+    --to: 75%;
+}
+
+[data-rank="3"] {
+    --rank-color: var(--color-accent-red);
+    --from: 40%;
+    --to: 60%;
+}
+
+[data-rank] {
+    color: var(--rank-color);
+}
+
+[data-rank] .racer-progress-fill {
+    background: var(--rank-color);
+}

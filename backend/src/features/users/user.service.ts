@@ -22,7 +22,7 @@ class UserService implements Service {
 
         const user = await this.userRepository.create({
             email: payload.email,
-            name: payload.name,
+            name: payload.firstName,
             passwordHash: hash,
         } as UserDto & { passwordHash: string });
 

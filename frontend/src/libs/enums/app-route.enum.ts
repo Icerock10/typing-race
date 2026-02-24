@@ -3,6 +3,7 @@ const AppRoute = {
     NOT_FOUND: '*',
     ROOT: '/',
     RACE: '/race',
+    AUTH: '/auth',
 } as const;
 
 export { AppRoute };

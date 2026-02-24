@@ -1,25 +1,60 @@
-import { type JSX } from 'react';
-import { useLocation } from '~/libs/hooks/hooks.js';
+import { Header, Button, Link, Cluster } from '~/libs/components/components.js';
+import { LeftPanel, RightPanel } from './components/components.js';
+import { type ValueOf } from '~/libs/types/types.js';
+import {
+    ButtonVariants,
+    ButtonLabels,
+    AppRoute,
+    ClusterVariant,
+} from '~/libs/enums/enums.js';
+import { useState, useCallback } from '~/libs/hooks/hooks.js';
+import styles from './styles.module.css';
 
 const Auth: React.FC = () => {
-    const location = useLocation();
-    const { pathname } = location;
+    const [activeTab, setActiveTab] = useState<ValueOf<typeof ButtonLabels>>(
+        ButtonLabels.REGISTER,
+    );
 
-    const getScreen = (screen: string): JSX.Element => {
-        switch (screen) {
-            case 'sign-in': {
-                return <div>Sign in</div>;
-            }
+    const handleTabClick = useCallback((tab: ValueOf<typeof ButtonLabels>) => {
+        setActiveTab(tab);
+    }, []);
 
-            case 'sign-up': {
-                return <div>Sign up</div>;
-            }
-        }
-
-        return <></>;
-    };
-
-    return getScreen(pathname);
+    return (
+        <>
+            <div className={styles['glow-top-left']} />
+            <Header>
+                <div className={styles['header-tabs']}>
+                    <Button
+                        size="small"
+                        label={ButtonLabels.SIGN_IN}
+                        variant={ButtonVariants.TAB}
+                        isActive={activeTab === ButtonLabels.SIGN_IN}
+                        value={ButtonLabels.SIGN_IN}
+                        onClick={handleTabClick}
+                    />
+                    <Button
+                        size="small"
+                        label={ButtonLabels.REGISTER}
+                        variant={ButtonVariants.TAB}
+                        onClick={handleTabClick}
+                        isActive={activeTab === ButtonLabels.REGISTER}
+                        value={ButtonLabels.REGISTER}
+                    />
+                </div>
+                <div className={styles['header-nav']}>
+                    <span>Back to </span>
+                    <Link to={AppRoute.ROOT}>lobby →</Link>
+                </div>
+            </Header>
+            <Cluster cluster={ClusterVariant.GRID} className={styles['auth']}>
+                <LeftPanel />
+                <RightPanel
+                    handleTabClick={handleTabClick}
+                    activeTab={activeTab}
+                />
+            </Cluster>
+        </>
+    );
 };
 
 export { Auth };

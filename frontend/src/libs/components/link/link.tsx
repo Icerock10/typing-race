@@ -1,19 +1,14 @@
 import { NavLink } from 'react-router-dom';
 
 import buttonStyles from '~/libs/components/button/styles.module.css';
-import { type AppRoute } from '~/libs/enums/enums.js';
+import { type AppRoute, type ButtonVariants } from '~/libs/enums/enums.js';
 import { getClassNames } from '~/libs/helpers/get-class-names.js';
-import {
-    type ButtonSize,
-    type ButtonVariant,
-    type ValueOf,
-} from '~/libs/types/types.js';
-
+import { type ButtonSize, type ValueOf } from '~/libs/types/types.js';
 import styles from './styles.module.css';
 
 type Properties = {
     asButtonSize?: ButtonSize;
-    asButtonVariant?: ButtonVariant;
+    asButtonVariant?: ValueOf<typeof ButtonVariants>;
     children: React.ReactNode;
     className?: string;
     tabindex?: number;
@@ -35,7 +30,7 @@ const Link: React.FC<Properties> = ({
               buttonStyles[`button-${asButtonSize}`],
               styles['link'],
           )
-        : '';
+        : styles['link'];
 
     return (
         <NavLink
@@ -43,7 +38,7 @@ const Link: React.FC<Properties> = ({
             tabIndex={tabindex}
             to={to}
         >
-            {asButtonVariant ? children : <span>{children}</span>}
+            {children}
         </NavLink>
     );
 };

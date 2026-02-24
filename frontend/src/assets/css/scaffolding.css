@@ -17,6 +17,13 @@ body::before {
     background-size: 40px 40px;
 }
 
+.container {
+    max-width: var(--container-max-width);
+    max-width: 1200px;
+    padding: 0 24px;
+    margin: 0 auto;
+}
+
 #root {
     display: flex;
     flex-grow: 1;
