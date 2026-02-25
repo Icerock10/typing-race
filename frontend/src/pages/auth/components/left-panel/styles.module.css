@@ -1,34 +1,3 @@
 .auth-left-panel {
     border-right: 1px solid var(--color-border);
 }
-
-.left-panel-label {
-    width: fit-content;
-    padding: 4px 12px;
-    margin-bottom: 28px;
-    font-family: var(--font-family-space-mono);
-    font-size: 12px;
-    color: var(--color-accent-yellow);
-    background: rgb(232 244 48 / 8%);
-    border: 1px solid rgb(232 244 48 / 20%);
-    border-radius: 100px;
-}
-
-.auth-left-panel h1 {
-    margin-bottom: 16px;
-    font-size: 44px;
-    font-weight: var(--font-weight-extra-bold);
-    line-height: 1.05;
-    letter-spacing: -2px;
-}
-
-.highlight {
-    color: var(--color-accent-yellow);
-}
-
-.auth-left-sub {
-    max-width: 340px;
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--color-text-muted);
-}

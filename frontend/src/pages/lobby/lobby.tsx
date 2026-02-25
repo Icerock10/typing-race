@@ -4,7 +4,7 @@ import {
     HeaderVariants,
 } from '~/libs/enums/enums.js';
 import { Ticker } from './components/components.js';
-import { Header, Button, Cluster } from '~/libs/components/components.js';
+import { Header, Button, Cluster, Hero } from '~/libs/components/components.js';
 import styles from './styles.module.css';
 
 const Lobby: React.FC = () => {
@@ -30,6 +30,20 @@ const Lobby: React.FC = () => {
                     />
                 </Cluster>
             </Header>
+            <div className="container">
+                <Hero
+                    isLobbyPage
+                    label="Live rooms open now"
+                    title={
+                        <>
+                            Race to the{' '}
+                            <span className="highlight">finish line</span> —
+                            word by word.
+                        </>
+                    }
+                    subtitle="Join a room, type as fast as you can, and beat your rivals in real-time typing battles."
+                />
+            </div>
         </>
     );
 };

@@ -20,6 +20,7 @@ body::before {
 }
 
 .container {
+    width: 100%;
     max-width: var(--container-max-width, 1200px);
     padding: 0 24px;
     margin: 0 auto;
@@ -31,6 +32,10 @@ body::before {
     background: var(--color-accent-turquoise);
     border-radius: 50%;
     animation: pulse 1.5s ease infinite;
+}
+
+.highlight {
+    color: var(--color-accent-yellow);
 }
 
 #root {
