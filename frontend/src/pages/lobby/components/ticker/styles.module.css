@@ -1,0 +1,35 @@
+.ticker-bar {
+    padding: 8px 0;
+    margin-bottom: 0;
+    overflow: hidden;
+    background: var(--surface-inline);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.ticker-inner {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    white-space: nowrap;
+    animation: ticker 20s linear infinite;
+}
+
+.ticker-item {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-family: var(--font-family-space-mono);
+    font-size: 11px;
+    color: var(--color-text-muted);
+}
+
+@keyframes ticker {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
