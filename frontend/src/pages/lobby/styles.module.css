@@ -1,0 +1,12 @@
+.button-register {
+    background: var(--color-accent-yellow);
+}
+
+.user-badge {
+    padding: 6px 14px;
+    font-size: 13px;
+    color: var(--color-text-muted);
+    background: var(--surface-inline);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-m);
+}
