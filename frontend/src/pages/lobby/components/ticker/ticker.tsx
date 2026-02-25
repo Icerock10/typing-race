@@ -1,11 +1,11 @@
 import styles from './styles.module.css';
+import { mockApi } from '~/libs/modules/api/api.js';
 
 const Ticker: React.FC = () => {
-    const tickers = Array.from({ length: 6 });
     return (
         <div className={styles['ticker-bar']}>
             <div className={styles['ticker-inner']}>
-                {tickers.map((_, index) => {
+                {mockApi.tickers.map((_, index) => {
                     return (
                         <div key={index} className={styles['ticker-item']}>
                             <span>
