@@ -15,11 +15,6 @@
     --cluster-horizontal-alignment: space-between;
 }
 
-.header-container-shrunk {
-    max-width: var(--container-max-width);
-    margin: 0 auto;
-}
-
 .logo-mark {
     width: 36px;
     height: 36px;

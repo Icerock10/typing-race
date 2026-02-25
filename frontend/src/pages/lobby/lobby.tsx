@@ -4,16 +4,19 @@ import {
     HeaderVariants,
 } from '~/libs/enums/enums.js';
 import { Ticker } from './components/components.js';
+import { getClassNames } from '~/libs/helpers/helpers.js';
 import {
     Header,
     Button,
     Cluster,
     Hero,
     Stats,
+    Footer,
 } from '~/libs/components/components.js';
 import styles from './styles.module.css';
 
 const Lobby: React.FC = () => {
+    const mainContentClasses = getClassNames(styles['main'], 'container');
     return (
         <>
             <Ticker />
@@ -36,7 +39,7 @@ const Lobby: React.FC = () => {
                     />
                 </Cluster>
             </Header>
-            <div className="container">
+            <main className={mainContentClasses}>
                 <Hero
                     isLobbyPage
                     label="Live rooms open now"
@@ -50,7 +53,8 @@ const Lobby: React.FC = () => {
                     subtitle="Join a room, type as fast as you can, and beat your rivals in real-time typing battles."
                 />
                 <Stats />
-            </div>
+            </main>
+            <Footer />
         </>
     );
 };

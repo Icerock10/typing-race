@@ -11,3 +11,4 @@ export { Header } from './header/header.js';
 export { Cluster } from './cluster/cluster.js';
 export { Hero } from './hero/hero.js';
 export { Stats } from './stats/stats.js';
+export { Footer } from './footer/footer.js';

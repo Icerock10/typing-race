@@ -20,8 +20,7 @@ const Header: React.FC<Properties> = ({ children, variant }) => {
 
     const headerContainerStyles = getClassNames(
         styles['header-container'],
-        variant === HeaderVariants.SHRUNK &&
-            styles[`header-container-${variant}`],
+        variant === HeaderVariants.SHRUNK && 'container',
     );
     return (
         <header className={headerStyles}>
