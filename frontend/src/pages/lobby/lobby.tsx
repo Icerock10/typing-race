@@ -3,7 +3,7 @@ import {
     ButtonVariants,
     HeaderVariants,
 } from '~/libs/enums/enums.js';
-import { Ticker } from './components/components.js';
+import { Ticker, Rooms } from './components/components.js';
 import { getClassNames } from '~/libs/helpers/helpers.js';
 import {
     Header,
@@ -16,7 +16,7 @@ import {
 import styles from './styles.module.css';
 
 const Lobby: React.FC = () => {
-    const mainContentClasses = getClassNames(styles['main'], 'container');
+    const mainContentClasses = getClassNames(styles['main'], 'grid');
     return (
         <>
             <Ticker />
@@ -39,7 +39,7 @@ const Lobby: React.FC = () => {
                     />
                 </Cluster>
             </Header>
-            <main className={mainContentClasses}>
+            <div className="container">
                 <Hero
                     isLobbyPage
                     label="Live rooms open now"
@@ -53,8 +53,12 @@ const Lobby: React.FC = () => {
                     subtitle="Join a room, type as fast as you can, and beat your rivals in real-time typing battles."
                 />
                 <Stats />
-            </main>
-            <Footer />
+                <main className={mainContentClasses}>
+                    <Rooms />
+                    {/* <div className="col-2">col 2</div> */}
+                </main>
+                <Footer />
+            </div>
         </>
     );
 };

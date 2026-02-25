@@ -9,6 +9,8 @@ const ButtonLabels = {
     SIGN_IN: 'Sign in',
     SKIP: 'SKIP',
     SUBMIT: 'SUBMIT',
+    REFRESH: 'Refresh ↻',
+    SPECTATE: 'Spectate',
 } as const;
 
 const ButtonVariants = {
