@@ -1,5 +1,4 @@
-import { Stats } from './stats/stats.js';
-import { Hero } from '~/libs/components/components.js';
+import { Hero, Stats } from '~/libs/components/components.js';
 import { RacePreview } from './race-preview/race-preview.js';
 import styles from './styles.module.css';
 

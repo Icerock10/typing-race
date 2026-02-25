@@ -10,3 +10,4 @@ export { ErrorBoundary } from './error/error-boundary.js';
 export { Header } from './header/header.js';
 export { Cluster } from './cluster/cluster.js';
 export { Hero } from './hero/hero.js';
+export { Stats } from './stats/stats.js';

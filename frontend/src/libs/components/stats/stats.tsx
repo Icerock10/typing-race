@@ -13,7 +13,14 @@ const Stats: React.FC = () => {
                         data-stat={stat.id}
                         className={getClassNames(styles['stat-value'])}
                     >
-                        {stat.value}
+                        {stat.id === 'record' ? (
+                            <span>
+                                {stat.value}
+                                <span> wpm</span>
+                            </span>
+                        ) : (
+                            <span>{stat.value}</span>
+                        )}
                     </div>
                     <div className={styles['stat-label']}>{stat.text}</div>
                 </div>
