@@ -40,3 +40,19 @@
     font-weight: var(--font-weight-black);
     background: var(--color-accent-turquoise);
 }
+
+@media screen and (width <= 900px) {
+    .button-group {
+        align-self: end;
+    }
+
+    .join-panel {
+        --grid-min-item-size: 10rem;
+    }
+}
+
+@media screen and (width <= 600px) {
+    .join-panel {
+        grid-column: span 2;
+    }
+}

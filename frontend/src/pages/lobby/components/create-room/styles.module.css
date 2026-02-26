@@ -12,3 +12,11 @@
 .form-button {
     background-color: var(--color-accent-yellow);
 }
+
+@media screen and (width <= 900px) {
+    .form {
+        --cluster-wrap: nowrap;
+        --cluster-direction: column;
+        --cluster-vertical-alignment: stretch;
+    }
+}

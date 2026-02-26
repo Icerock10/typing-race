@@ -96,3 +96,9 @@
     font-size: 0.7rem;
     color: var(--color-text-muted);
 }
+
+@media screen and (width <= 900px) {
+    .rooms {
+        grid-column: span 2;
+    }
+}

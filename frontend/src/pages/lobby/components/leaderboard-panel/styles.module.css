@@ -42,3 +42,9 @@
 .row-name {
     flex: 1;
 }
+
+@media screen and (width <= 900px) {
+    .leaderboard {
+        grid-column: span 2;
+    }
+}

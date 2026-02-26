@@ -17,3 +17,19 @@
     min-height: 50vh;
     padding-block: 40px;
 }
+
+@media screen and (width <= 750px) {
+    .main {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .button-register {
+        display: none;
+    }
+}
+
+@media screen and (width <= 600px) {
+    .main {
+        grid-template-columns: 1fr auto;
+    }
+}
