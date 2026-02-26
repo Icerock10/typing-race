@@ -7,6 +7,7 @@ const ButtonLabels = {
     SIGN_IN: 'Sign in',
     REFRESH: 'Refresh ↻',
     SPECTATE: 'Spectate',
+    JOIN: 'Join',
 } as const;
 
 const ButtonVariants = {

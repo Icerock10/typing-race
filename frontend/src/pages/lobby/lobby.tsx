@@ -4,7 +4,12 @@ import {
     ButtonVariants,
     HeaderVariants,
 } from '~/libs/enums/enums.js';
-import { Ticker, Rooms, Createroom } from './components/components.js';
+import {
+    Ticker,
+    Rooms,
+    Createroom,
+    JoinPanel,
+} from './components/components.js';
 import { getClassNames } from '~/libs/helpers/helpers.js';
 import {
     Header,
@@ -57,6 +62,7 @@ const Lobby: React.FC = () => {
                 <main className={mainContentClasses}>
                     <Rooms />
                     <Createroom />
+                    <JoinPanel />
                 </main>
                 <Footer />
             </div>

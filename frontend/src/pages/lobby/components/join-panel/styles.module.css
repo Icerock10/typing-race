@@ -1,0 +1,43 @@
+.join-panel {
+    position: relative;
+    grid-column: 2 / 2;
+    padding: 20px 24px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-m);
+}
+
+h3 {
+    grid-column: span 2;
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-extra-bold);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.button-group {
+    --cluster-wrap: nowrap;
+
+    grid-column: 1 / span 2;
+    align-items: stretch;
+}
+
+.button-group * input:focus {
+    border-color: var(--color-accent-turquoise);
+}
+
+.button-group * input::placeholder {
+    font-family: var(--font-family-space-mono);
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+}
+
+.button-group * label {
+    display: none;
+}
+
+.join-button {
+    font-weight: var(--font-weight-black);
+    background: var(--color-accent-turquoise);
+}
