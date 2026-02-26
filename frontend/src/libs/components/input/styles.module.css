@@ -9,7 +9,6 @@
     --cluster-vertical-alignment: baseline;
     --cluster-direction: column;
 
-    margin-bottom: var(--space-s);
     color: var(--color-text-muted);
 }
 
@@ -32,6 +31,7 @@
 .input-field::placeholder {
     font-size: 0.8rem;
     font-weight: var(--font-weight-semi-bold);
+    color: var(--color-text-muted);
     transition: all 0.15s ease;
 }
 

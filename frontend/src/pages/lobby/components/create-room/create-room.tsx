@@ -2,12 +2,17 @@ import { ButtonLabels } from '~/libs/enums/enums.js';
 import { useAppForm, useCallback } from '~/libs/hooks/hooks.js';
 import { getClassNames } from '~/libs/helpers/helpers.js';
 import styles from './styles.module.css';
-import { Button, Input, RadioGroup } from '~/libs/components/components.js';
+import {
+    Button,
+    Input,
+    RadioGroup,
+    Select,
+} from '~/libs/components/components.js';
 
 const Createroom: React.FC = () => {
     type RoomCreateDto = {
         roomName: string;
-        language: string;
+        language: 'English' | 'Deutsch';
         dificulty: 'easy' | 'medium' | 'hard';
         maxPlayers: string;
     };
@@ -17,6 +22,7 @@ const Createroom: React.FC = () => {
             roomName: '',
             dificulty: 'easy',
             maxPlayers: '4',
+            language: 'English',
         },
     });
 
@@ -43,6 +49,16 @@ const Createroom: React.FC = () => {
                 control={control}
                 errors={errors}
             />
+            <Select
+                control={control}
+                errors={errors}
+                label="Language"
+                name="language"
+                options={[
+                    { label: 'English', value: 'en' },
+                    { label: 'Deutsch', value: 'de' },
+                ]}
+            />
             <RadioGroup
                 control={control}
                 errors={errors}
@@ -65,6 +81,7 @@ const Createroom: React.FC = () => {
                     { label: 'Lobby', value: '6' },
                 ]}
             />
+
             <Button
                 type="submit"
                 className={styles['form-button']}
