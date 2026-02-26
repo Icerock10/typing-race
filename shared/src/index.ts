@@ -1,6 +1,6 @@
 export { HandlerParameterIndexes } from './libs/constants/constants.js';
 export { AppEnvironment, ErrorMessage } from './libs/enums/enums.js';
-export { mockApi } from './libs/modules/mockApi/mock-api.js';
+export { mockApi } from './libs/modules/mock-api/mock-api.js';
 export {
     APIPath,
     ContentType,
