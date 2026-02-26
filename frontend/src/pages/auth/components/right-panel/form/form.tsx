@@ -4,6 +4,7 @@ import { SignIn, Registration } from './components/components.js';
 import { Button, Cluster } from '~/libs/components/components.js';
 import {
     ButtonLabels,
+    ButtonSizes,
     ButtonVariants,
     ClusterVariant,
 } from '~/libs/enums/enums.js';
@@ -54,7 +55,7 @@ const Form: React.FC<Properties> = ({
                 </span>
                 <Button
                     onClick={handleTabClick}
-                    size="fit"
+                    size={ButtonSizes.FIT}
                     label={
                         isSignIn
                             ? ButtonLabels.REGISTER_FREE

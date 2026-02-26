@@ -1,14 +1,10 @@
 const ButtonLabels = {
-    BACK: 'BACK',
-    LOGIN: 'Login',
-    NEXT: 'NEXT',
     REGISTER: 'Register',
     REGISTER_FREE: 'Register for free',
     CREATE: 'Create Account →',
+    CREATE_ROOM: '+ Create Room',
     SIGN_UP: 'Sign with Discord',
     SIGN_IN: 'Sign in',
-    SKIP: 'SKIP',
-    SUBMIT: 'SUBMIT',
     REFRESH: 'Refresh ↻',
     SPECTATE: 'Spectate',
 } as const;
@@ -24,6 +20,7 @@ const ButtonVariants = {
 const ButtonSizes = {
     LARGE: 'large',
     SMALL: 'small',
+    FIT: 'fit',
 } as const;
 
 export { ButtonLabels, ButtonSizes, ButtonVariants };

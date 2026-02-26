@@ -4,6 +4,7 @@ import {
     ButtonVariants,
     ButtonLabels,
     ClusterVariant,
+    ButtonSizes,
 } from '~/libs/enums/enums.js';
 import styles from './styles.module.css';
 
@@ -14,7 +15,7 @@ const Rooms: React.FC = () => {
                 <Cluster className={styles['rooms-title']}>Open rooms</Cluster>
                 <Button
                     variant={ButtonVariants.SECONDARY}
-                    size="fit"
+                    size={ButtonSizes.FIT}
                     label={ButtonLabels.REFRESH}
                 />
             </Cluster>
@@ -47,7 +48,7 @@ const Rooms: React.FC = () => {
                             </time>
                         </Cluster>
                         <Button
-                            size="fit"
+                            size={ButtonSizes.FIT}
                             variant={ButtonVariants.SECONDARY}
                             label={ButtonLabels.SPECTATE}
                             className={styles['room-action']}

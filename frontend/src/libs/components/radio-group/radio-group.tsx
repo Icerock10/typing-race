@@ -1,0 +1,71 @@
+import {
+    type Control,
+    type FieldPath,
+    type FieldErrors,
+    type FieldValues,
+} from 'react-hook-form';
+import { type JSX } from 'react';
+import { useFormController } from '~/libs/hooks/hooks.js';
+import { getClassNames } from '~/libs/helpers/helpers.js';
+import styles from './styles.module.css';
+
+type RadioOption = {
+    icon?: React.ReactNode;
+    label: string;
+    value: string;
+};
+
+type Properties<T extends FieldValues> = {
+    control: Control<T, null>;
+    errors: FieldErrors<T>;
+    label?: string;
+    name: FieldPath<T>;
+    options: RadioOption[];
+};
+
+const RadioGroup = <T extends FieldValues>({
+    control,
+    errors,
+    label,
+    name,
+    options,
+}: Properties<T>): JSX.Element => {
+    const { field } = useFormController({ control, name });
+    const error = errors[name]?.message;
+    const hasError = Boolean(error);
+
+    return (
+        <fieldset className={styles['radio-group-fieldset']}>
+            {label && <legend>{label}</legend>}
+
+            {options.map((option) => {
+                const id = `${name}-${option.value}`;
+                const isChecked = field.value === option.value;
+                const optionClasses = getClassNames(
+                    styles['option'],
+                    isChecked && styles['option-checked'],
+                );
+                return (
+                    <div className={optionClasses} key={option.value}>
+                        <input
+                            {...field}
+                            checked={isChecked}
+                            id={id}
+                            type="radio"
+                            value={option.value}
+                        />
+                        <span className={styles['option-value']}>
+                            {option.icon || option.value}
+                        </span>
+
+                        <label htmlFor={id}>{option.label}</label>
+                    </div>
+                );
+            })}
+
+            {hasError && <p>{error as string}</p>}
+        </fieldset>
+    );
+};
+
+export { RadioGroup };

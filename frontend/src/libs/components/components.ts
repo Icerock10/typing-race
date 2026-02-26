@@ -12,3 +12,4 @@ export { Cluster } from './cluster/cluster.js';
 export { Hero } from './hero/hero.js';
 export { Stats } from './stats/stats.js';
 export { Footer } from './footer/footer.js';
+export { RadioGroup } from './radio-group/radio-group.js';

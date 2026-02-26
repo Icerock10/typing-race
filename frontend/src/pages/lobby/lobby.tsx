@@ -1,9 +1,10 @@
 import {
     ButtonLabels,
+    ButtonSizes,
     ButtonVariants,
     HeaderVariants,
 } from '~/libs/enums/enums.js';
-import { Ticker, Rooms } from './components/components.js';
+import { Ticker, Rooms, Createroom } from './components/components.js';
 import { getClassNames } from '~/libs/helpers/helpers.js';
 import {
     Header,
@@ -28,11 +29,11 @@ const Lobby: React.FC = () => {
                     </Cluster>
                     <Button
                         variant={ButtonVariants.SECONDARY}
-                        size="fit"
+                        size={ButtonSizes.FIT}
                         label={ButtonLabels.SIGN_IN}
                     />
                     <Button
-                        size="fit"
+                        size={ButtonSizes.FIT}
                         variant={ButtonVariants.PRIMARY}
                         className={styles['button-register']}
                         label={ButtonLabels.REGISTER}
@@ -55,7 +56,7 @@ const Lobby: React.FC = () => {
                 <Stats />
                 <main className={mainContentClasses}>
                     <Rooms />
-                    {/* <div className="col-2">col 2</div> */}
+                    <Createroom />
                 </main>
                 <Footer />
             </div>
