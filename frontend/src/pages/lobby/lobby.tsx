@@ -9,6 +9,7 @@ import {
     Rooms,
     Createroom,
     JoinPanel,
+    LeaderBoardPanel,
 } from './components/components.js';
 import { getClassNames } from '~/libs/helpers/helpers.js';
 import {
@@ -63,6 +64,7 @@ const Lobby: React.FC = () => {
                     <Rooms />
                     <Createroom />
                     <JoinPanel />
+                    <LeaderBoardPanel />
                 </main>
                 <Footer />
             </div>

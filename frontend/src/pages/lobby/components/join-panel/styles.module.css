@@ -1,5 +1,4 @@
 .join-panel {
-    position: relative;
     grid-column: 2 / 2;
     padding: 20px 24px;
     background: var(--color-surface);
@@ -7,7 +6,7 @@
     border-radius: var(--radius-m);
 }
 
-h3 {
+.join-panel-title {
     grid-column: span 2;
     font-size: 0.9rem;
     font-weight: var(--font-weight-extra-bold);

@@ -12,6 +12,7 @@
 }
 
 .main {
+    position: relative;
     grid-template-columns: 1fr 340px;
     min-height: 50vh;
     padding-block: 40px;

@@ -17,7 +17,7 @@ const JoinPanel: React.FC = () => {
 
     return (
         <Cluster cluster={ClusterVariant.GRID} className={styles['join-panel']}>
-            <h3>Join by code</h3>
+            <h3 className={styles['join-panel-title']}>Join by code</h3>
             <Cluster className={styles['button-group']}>
                 <Input
                     label=""
