@@ -1,0 +1,51 @@
+.radio-group-fieldset {
+    display: grid;
+    flex: 1;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2xs);
+    padding: 0;
+    font-size: 0.7rem;
+    font-weight: var(--font-weight-semi-bold);
+    text-transform: uppercase;
+    border: none;
+}
+
+legend {
+    margin-bottom: 0.4rem;
+    color: var(--color-text-muted);
+    letter-spacing: 1.5px;
+}
+
+.option {
+    position: relative;
+    padding: 10px 8px;
+    color: var(--color-text-muted);
+    text-align: center;
+    background: var(--surface-inline);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-s);
+}
+
+input[type="radio"] {
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.option-value {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-family-space-mono);
+    font-size: var(--step-minus-3);
+    font-weight: var(--font-weight-extra-bold);
+    color: var(--color-text-main);
+}
+
+.option-checked {
+    border-color: var(--color-accent-yellow);
+}
+
+.option-checked * {
+    color: var(--color-accent-yellow);
+}

@@ -6,6 +6,7 @@ import {
     ButtonLabels,
     AppRoute,
     ClusterVariant,
+    ButtonSizes,
 } from '~/libs/enums/enums.js';
 import { useState, useCallback } from '~/libs/hooks/hooks.js';
 import styles from './styles.module.css';
@@ -25,7 +26,7 @@ const Auth: React.FC = () => {
             <Header>
                 <div className={styles['header-tabs']}>
                     <Button
-                        size="small"
+                        size={ButtonSizes.SMALL}
                         label={ButtonLabels.SIGN_IN}
                         variant={ButtonVariants.TAB}
                         isActive={activeTab === ButtonLabels.SIGN_IN}
@@ -33,7 +34,7 @@ const Auth: React.FC = () => {
                         onClick={handleTabClick}
                     />
                     <Button
-                        size="small"
+                        size={ButtonSizes.SMALL}
                         label={ButtonLabels.REGISTER}
                         variant={ButtonVariants.TAB}
                         onClick={handleTabClick}

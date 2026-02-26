@@ -1,0 +1,23 @@
+.footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    font-family: var(--font-family-space-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--color-border);
+}
+
+.links {
+    --cluster-wrap: nowrap;
+}
+
+.links a:hover {
+    color: var(--color-accent-yellow);
+}
+
+@media screen and (width < 480px) {
+    .footer {
+        flex-wrap: wrap;
+    }
+}

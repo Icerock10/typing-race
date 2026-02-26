@@ -4,8 +4,8 @@
     margin: 0 auto;
 }
 
-.form :is(.form-subtitle, .discord-btn, .create-btn, .divider) {
-    margin-bottom: 25px;
+.form :is(.form-subtitle, .discord-btn, .create-btn, .divider, input) {
+    margin-bottom: 15px;
 }
 
 .form-title {

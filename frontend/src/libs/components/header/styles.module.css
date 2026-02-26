@@ -5,12 +5,14 @@
 
     padding: var(--padding);
     border-bottom: 1px solid var(--color-border);
-
-    --cluster-horizontal-alignment: space-between;
 }
 
 .header-compact {
-    --padding: 14px 32px;
+    --padding: 10px 32px;
+}
+
+.header-container {
+    --cluster-horizontal-alignment: space-between;
 }
 
 .logo-mark {

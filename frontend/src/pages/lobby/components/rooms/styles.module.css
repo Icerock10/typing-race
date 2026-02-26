@@ -1,0 +1,104 @@
+.rooms {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+}
+
+.rooms button {
+    font-size: 0.8rem;
+}
+
+.rooms-header {
+    --cluster-horizontal-alignment: space-between;
+
+    margin-bottom: 1.5rem;
+}
+
+.rooms-title {
+    font-size: 0.8rem;
+    font-weight: var(--font-weight-semi-bold);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.rooms-title::before {
+    width: 20px;
+    height: 2px;
+    content: "";
+    background: var(--color-accent-yellow);
+}
+
+.room {
+    position: relative;
+    grid-template-columns: 1fr auto;
+    padding: 15px 24px;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-s);
+}
+
+.room:hover {
+    background: var(--surface-inline);
+}
+
+.room::before {
+    position: absolute;
+    inset: 0;
+    width: 3px;
+    content: "";
+    background: var(--color-accent-yellow);
+}
+
+.room-meta {
+    font-family: var(--font-family-space-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+.room-players {
+    --gutter: 0;
+}
+
+.room-name {
+    font-weight: var(--font-weight-extra-bold);
+}
+
+.status {
+    padding: 2px 8px;
+    font-family: var(--font-family-space-mono);
+    font-size: 0.6rem;
+    color: var(--color-accent-turquoise);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid var(--color-accent-turquoise);
+    border-radius: 4px;
+}
+
+.racer-avatar {
+    width: 24px;
+    height: 24px;
+    margin-left: -4px;
+    font-family: var(--font-family-syne);
+    font-size: 10px;
+    font-weight: var(--font-weight-bold);
+    background-color: var(--color-border);
+    border-radius: var(--radius-m);
+
+    --cluster-horizontal-alignment: center;
+}
+
+.player-count {
+    margin-left: 8px;
+    font-family: var(--font-family-space-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+}
+
+@media screen and (width <= 900px) {
+    .rooms {
+        grid-column: span 2;
+    }
+}

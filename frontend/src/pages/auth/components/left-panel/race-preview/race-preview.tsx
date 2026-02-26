@@ -1,5 +1,6 @@
 import styles from './styles.module.css';
 import { useEffect, useState, useRef } from '~/libs/hooks/hooks.js';
+import { mockApi } from '~/libs/modules/api/api.js';
 import { Cluster } from '~/libs/components/components.js';
 import { ClusterVariant } from '~/libs/enums/enums.js';
 
@@ -7,24 +8,6 @@ const typedText = ['jumps', 'over', 'the'];
 const initialText = 'The quick brown fox';
 const OFFSET = 1;
 const INDEX_REFERENCE_VALUE = 0;
-
-const racersPreview = [
-    {
-        avatar: 'K',
-        name: 'kinetic',
-        wpm: 148,
-    },
-    {
-        avatar: 'V',
-        name: 'voxel_',
-        wpm: 132,
-    },
-    {
-        avatar: 'R',
-        name: 'rocketfin',
-        wpm: 117,
-    },
-];
 
 const RacePreview: React.FC = () => {
     const [text, setText] = useState<string>(initialText);
@@ -63,7 +46,7 @@ const RacePreview: React.FC = () => {
                     Room: Speed Demons 🔥
                 </span>
                 <div className={styles['race-live']}>
-                    <div className={styles['live-dot']} /> Live
+                    <div className="live-dot" /> Live
                 </div>
             </Cluster>
             <div className={styles['race-text']}>
@@ -74,7 +57,7 @@ const RacePreview: React.FC = () => {
                 </span>
             </div>
             <Cluster cluster={ClusterVariant.GRID} className={styles['racers']}>
-                {racersPreview.map((racer, index) => {
+                {mockApi.racersPreview.map((racer, index) => {
                     return (
                         <div
                             className="flex-cluster"

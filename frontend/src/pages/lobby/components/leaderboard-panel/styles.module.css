@@ -1,0 +1,50 @@
+.leaderboard {
+    grid-column: 2;
+    padding: 20px 24px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-m);
+}
+
+.leaderboard-row {
+    padding-block: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.leaderboard-title {
+    margin-bottom: 16px;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.row-avatar {
+    width: 28px;
+    height: 28px;
+    background-color: var(--color-border);
+    border-radius: var(--radius-full);
+
+    --cluster-horizontal-alignment: center;
+}
+
+.row-rank,
+.row-wpm {
+    font-family: var(--font-family-space-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent-yellow);
+}
+
+.row-rank {
+    width: 16px;
+}
+
+.row-name {
+    flex: 1;
+}
+
+@media screen and (width <= 900px) {
+    .leaderboard {
+        grid-column: span 2;
+    }
+}
