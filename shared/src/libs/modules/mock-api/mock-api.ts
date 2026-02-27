@@ -21,7 +21,7 @@ const mockApi = {
         { id: 'rooms', value: 14, text: 'Open rooms' },
         { id: 'record', value: 201, text: 'Today`s record' },
     ],
-    tickers: Array.from({ length: 6 }),
+    tickers: Array.from({ length: 5 }),
 };
 
 export { mockApi };
