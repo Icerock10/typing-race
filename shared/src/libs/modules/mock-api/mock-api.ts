@@ -4,16 +4,19 @@ const mockApi = {
             avatar: 'K',
             name: 'kinetic',
             wpm: 148,
+            isFinished: true,
         },
         {
             avatar: 'V',
             name: 'voxel_',
             wpm: 132,
+            isFinished: false,
         },
         {
             avatar: 'R',
             name: 'rocketfin',
             wpm: 117,
+            isFinished: false,
         },
     ],
     stats: [
