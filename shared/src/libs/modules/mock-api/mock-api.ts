@@ -21,6 +21,11 @@ const mockApi = {
         { id: 'rooms', value: 14, text: 'Open rooms' },
         { id: 'record', value: 201, text: 'Today`s record' },
     ],
+    liveStats: [
+        { id: 'wpm', value: 112 },
+        { id: 'acc', value: 97 },
+        { id: 'err', value: 3 },
+    ],
     tickers: Array.from({ length: 5 }),
 };
 

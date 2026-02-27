@@ -1,5 +1,5 @@
 import { Header, Cluster, Button } from '~/libs/components/components.js';
-import { RaceProgress } from './components/components.js';
+import { RaceProgress, Typing } from './components/components.js';
 import styles from './styles.module.css';
 import {
     ButtonLabels,
@@ -45,9 +45,7 @@ const Race: React.FC = () => {
                     className={styles['race']}
                 >
                     <RaceProgress />
-                    <section className={styles['race-typing']}>
-                        Typing section
-                    </section>
+                    <Typing />
                     <section className={styles['race-leaderboard']}>
                         LeaderBoard
                     </section>
