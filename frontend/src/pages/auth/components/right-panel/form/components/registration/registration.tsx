@@ -1,13 +1,24 @@
 import styles from './styles.module.css';
-import { AvatarPicker } from './components/components.js';
-import { Cluster, Input } from '~/libs/components/components.js';
+import { Cluster, Input, RadioGroup } from '~/libs/components/components.js';
 import { ClusterVariant } from '~/libs/enums/enums.js';
 import { type UserSignUpRequestDto } from '~/libs/types/types.js';
 import { useAppForm } from '~/libs/hooks/hooks.js';
 
+const AVATAR_ICONS = ['🐱', '🦊', '🐺', '🦅', '🤖', '👾', '🔥', '⚡'];
+
+const AVATAR_OPTIONS = AVATAR_ICONS.map((icon, index) => ({
+    label: `a-${String(index)}`,
+    value: String(index),
+    icon,
+}));
+
 const Registration: React.FC = () => {
-    const { control, errors } = useAppForm<UserSignUpRequestDto>({
-        defaultValues: {},
+    const { control, errors } = useAppForm<
+        UserSignUpRequestDto & { avatar: string }
+    >({
+        defaultValues: {
+            avatar: '0',
+        },
     });
 
     return (
@@ -62,7 +73,16 @@ const Registration: React.FC = () => {
                 errors={errors}
                 control={control}
             />
-            <AvatarPicker />
+            <Cluster className={styles['avatar-group']}>
+                <RadioGroup
+                    control={control}
+                    errors={errors}
+                    isIconOnly
+                    label="Pick your avatar"
+                    name="avatar"
+                    options={AVATAR_OPTIONS}
+                />
+            </Cluster>
         </>
     );
 };

@@ -1,3 +1,7 @@
 .input-row {
     --cluster-wrap: nowrap;
 }
+
+.avatar-group {
+    margin-bottom: 25px;
+}

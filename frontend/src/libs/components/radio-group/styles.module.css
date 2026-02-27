@@ -26,6 +26,19 @@ legend {
     border-radius: var(--radius-s);
 }
 
+.option-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: var(--radius-full);
+}
+
+.option-avatar :is(span, input[type="radio"]) {
+    margin: 0;
+}
+
 input[type="radio"] {
     position: absolute;
     inset: 0;
