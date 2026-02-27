@@ -1,5 +1,5 @@
 import { Header, Cluster, Button } from '~/libs/components/components.js';
-import { RaceProgress, Typing } from './components/components.js';
+import { RaceProgress, Typing, Chat } from './components/components.js';
 import styles from './styles.module.css';
 import {
     ButtonLabels,
@@ -49,9 +49,7 @@ const Race: React.FC = () => {
                     <section className={styles['race-leaderboard']}>
                         LeaderBoard
                     </section>
-                    <section className={styles['section-chat']}>
-                        Chat Section
-                    </section>
+                    <Chat />
                 </Cluster>
             </main>
         </>

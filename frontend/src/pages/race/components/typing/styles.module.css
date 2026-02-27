@@ -91,3 +91,9 @@
     margin: 0.5rem;
     color: var(--data-stat-color);
 }
+
+@media screen and (width <= 700px) {
+    .race-typing {
+        grid-column: span 1;
+    }
+}

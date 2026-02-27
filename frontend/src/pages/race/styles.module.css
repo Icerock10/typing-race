@@ -60,19 +60,17 @@
 }
 
 .race section {
-    padding: 1.5rem;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-m);
 }
 
+.race section:not(:last-child) {
+    padding: 1.5rem;
+}
+
 @media screen and (width <= 700px) {
     .race {
         grid-template-columns: 1fr;
-    }
-
-    .race-progress,
-    .race-typing {
-        grid-column: span 1;
     }
 }
