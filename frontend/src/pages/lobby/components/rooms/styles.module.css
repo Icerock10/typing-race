@@ -22,13 +22,6 @@
     letter-spacing: 2px;
 }
 
-.rooms-title::before {
-    width: 20px;
-    height: 2px;
-    content: "";
-    background: var(--color-accent-yellow);
-}
-
 .room {
     position: relative;
     grid-template-columns: 1fr auto;
@@ -75,19 +68,6 @@
     letter-spacing: 0.5px;
     border: 1px solid var(--color-accent-turquoise);
     border-radius: 4px;
-}
-
-.racer-avatar {
-    width: 24px;
-    height: 24px;
-    margin-left: -4px;
-    font-family: var(--font-family-syne);
-    font-size: 10px;
-    font-weight: var(--font-weight-bold);
-    background-color: var(--color-border);
-    border-radius: var(--radius-m);
-
-    --cluster-horizontal-alignment: center;
 }
 
 .player-count {

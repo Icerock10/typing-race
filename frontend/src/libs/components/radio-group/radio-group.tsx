@@ -21,6 +21,7 @@ type Properties<T extends FieldValues> = {
     label?: string;
     name: FieldPath<T>;
     options: RadioOption[];
+    isIconOnly?: boolean;
 };
 
 const RadioGroup = <T extends FieldValues>({
@@ -29,13 +30,18 @@ const RadioGroup = <T extends FieldValues>({
     label,
     name,
     options,
+    isIconOnly,
 }: Properties<T>): JSX.Element => {
     const { field } = useFormController({ control, name });
     const error = errors[name]?.message;
     const hasError = Boolean(error);
+    const fieldsetClasses = getClassNames(
+        isIconOnly && 'flex-cluster',
+        styles['radio-group-fieldset'],
+    );
 
     return (
-        <fieldset className={styles['radio-group-fieldset']}>
+        <fieldset className={fieldsetClasses}>
             {label && <legend>{label}</legend>}
 
             {options.map((option) => {
@@ -44,6 +50,7 @@ const RadioGroup = <T extends FieldValues>({
                 const optionClasses = getClassNames(
                     styles['option'],
                     isChecked && styles['option-checked'],
+                    isIconOnly && styles['option-avatar'],
                 );
                 return (
                     <div className={optionClasses} key={option.value}>
@@ -58,7 +65,9 @@ const RadioGroup = <T extends FieldValues>({
                             {option.icon || option.value}
                         </span>
 
-                        <label htmlFor={id}>{option.label}</label>
+                        <label htmlFor={id}>
+                            {isIconOnly ? null : option.label}
+                        </label>
                     </div>
                 );
             })}

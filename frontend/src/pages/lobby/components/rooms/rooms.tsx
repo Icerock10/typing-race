@@ -1,4 +1,5 @@
-import { Cluster, Button } from '~/libs/components/components.js';
+import { Cluster, Button, Avatar } from '~/libs/components/components.js';
+import { getClassNames } from '~/libs/helpers/helpers.js';
 import { mockApi } from '~/libs/modules/api/api.js';
 import {
     ButtonVariants,
@@ -9,10 +10,11 @@ import {
 import styles from './styles.module.css';
 
 const Rooms: React.FC = () => {
+    const roomTitleClasses = getClassNames(styles['rooms-title'], 'with-dash');
     return (
         <div className={styles['rooms']}>
             <Cluster className={styles['rooms-header']}>
-                <Cluster className={styles['rooms-title']}>Open rooms</Cluster>
+                <Cluster className={roomTitleClasses}>Open rooms</Cluster>
                 <Button
                     variant={ButtonVariants.SECONDARY}
                     size={ButtonSizes.FIT}
@@ -35,9 +37,8 @@ const Rooms: React.FC = () => {
                             </span>
                         </Cluster>
                         <Cluster className={styles['room-players']}>
-                            <Cluster className={styles['racer-avatar']}>
-                                {racer.avatar}
-                            </Cluster>
+                            <Avatar name={racer.avatar} />
+
                             <span className={styles['player-count']}>4/6</span>
                         </Cluster>
                         <Cluster className={styles['room-meta']}>

@@ -80,3 +80,7 @@
     color: var(--color-text-main);
     background: rgb(255 255 255 / 5%);
 }
+
+.button-icon-only-small {
+    padding: 0.6rem;
+}

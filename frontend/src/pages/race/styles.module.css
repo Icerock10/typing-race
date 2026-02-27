@@ -1,0 +1,76 @@
+.header-room-info {
+    font-size: 0.8rem;
+}
+
+.header-room-info > span {
+    color: var(--color-text-muted);
+}
+
+.room-name {
+    font-weight: var(--font-weight-black);
+}
+
+.room-live {
+    padding: 3px 10px;
+    font-family: var(--font-family-space-mono);
+    font-size: 0.7rem;
+    color: var(--color-accent-turquoise);
+    border: 1px solid var(--color-accent-turquoise);
+    border-radius: var(--radius-m);
+
+    --gutter: var(--space-3xs);
+}
+
+.user-panel {
+    --cluster-wrap: nowrap;
+
+    font-size: 0.8rem;
+}
+
+.timer-display {
+    font-family: var(--font-family-space-mono);
+    font-size: 1.2rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent-yellow);
+}
+
+.user-avatar {
+    padding: 5px 12px;
+    background: var(--surface-inline);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-l);
+}
+
+.leave-button {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+}
+
+.leave-button:hover {
+    color: var(--color-accent-red);
+    border-color: var(--color-accent-red);
+}
+
+.race {
+    position: relative;
+    grid-template-columns: 1fr 280px;
+    padding: var(--space-m) var(--space-2xl);
+
+    --gutter: var(--space-s);
+}
+
+.race section {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-m);
+}
+
+.race section:not(:last-child) {
+    padding: 1.5rem;
+}
+
+@media screen and (width <= 700px) {
+    .race {
+        grid-template-columns: 1fr;
+    }
+}

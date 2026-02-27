@@ -1,0 +1,99 @@
+@import url("~/assets/css/animations.css");
+
+.race-typing {
+    grid-column: span 2;
+    color: var(--color-text-muted);
+}
+
+.typing-label {
+    font-size: 0.65rem;
+}
+
+.text-display {
+    --gutter: 0;
+
+    position: relative;
+    font-family: var(--font-family-space-mono);
+    font-size: 1.2rem;
+    line-height: 1.85;
+    color: var(--color-text-main);
+    letter-spacing: 0.3px;
+    user-select: none;
+}
+
+.correct {
+    color: var(--color-accent-turquoise);
+}
+
+.char {
+    margin: var(--space-3xs);
+}
+
+.cursor {
+    position: relative;
+}
+
+.cursor::before {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 0;
+    width: 2px;
+    content: "";
+    background: var(--color-accent-yellow);
+    animation: blink 0.8s step-end infinite;
+}
+
+.live-stats {
+    margin-top: 1rem;
+    font-family: var(--font-family-space-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+.typing-progress {
+    flex: 1;
+    height: 4px;
+    margin-left: auto;
+    overflow: hidden;
+    background: var(--surface-inline);
+    border-radius: var(--radius-xs);
+}
+
+.typing-progress-fill {
+    width: 58%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        var(--color-accent-turquoise),
+        var(--color-accent-yellow)
+    );
+    border-radius: var(--radius-xs);
+}
+
+.progress-percent {
+    color: var(--color-text-main);
+}
+
+[data-stat="wpm"] {
+    --data-stat-color: var(--color-accent-yellow);
+}
+
+[data-stat="acc"] {
+    --data-stat-color: var(--color-accent-turquoise);
+}
+
+[data-stat="err"] {
+    --data-stat-color: var(--color-accent-red);
+}
+
+[data-stat] {
+    margin: 0.5rem;
+    color: var(--data-stat-color);
+}
+
+@media screen and (width <= 700px) {
+    .race-typing {
+        grid-column: span 1;
+    }
+}

@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 import { mockApi } from '~/libs/modules/api/api.js';
-import { Cluster } from '~/libs/components/components.js';
+import { Cluster, Avatar } from '~/libs/components/components.js';
 
 const LeaderBoardPanel: React.FC = () => {
     return (
@@ -13,7 +13,7 @@ const LeaderBoardPanel: React.FC = () => {
                         className={styles['leaderboard-row']}
                     >
                         <span className={styles['row-rank']}>{++index}</span>
-                        <Cluster className={styles['row-avatar']}>🔥</Cluster>
+                        <Avatar icon="🔥" />
                         <span className={styles['row-name']}>{racer.name}</span>
                         <span className={styles['row-wpm']}>
                             {racer.wpm} wpm
