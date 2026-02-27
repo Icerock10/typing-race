@@ -2,6 +2,10 @@
     grid-column: span 2;
 }
 
+.race-progress :is(.track-header, .player-info, .player-wpm) {
+    font-size: 0.7rem;
+}
+
 .track-header {
     --cluster-horizontal-alignment: space-between;
 
@@ -9,14 +13,15 @@
     color: var(--color-text-muted);
 }
 
-.track-label {
-    font-size: 0.65rem;
+.player-info {
+    font-weight: var(--font-weight-extra-bold);
+
+    --cluster-wrap: nowrap;
 }
 
 .players-count,
 .player-wpm {
     font-family: var(--font-family-space-mono);
-    font-size: 0.7rem;
 }
 
 .tracks {
@@ -57,7 +62,7 @@
     position: absolute;
     top: 50%;
     right: -2px;
-    font-size: 10px;
+    font-size: 0.7rem;
     content: "▶";
     opacity: 0.8;
     transform: translateY(-50%);

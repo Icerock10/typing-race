@@ -1,12 +1,9 @@
 import styles from './styles.module.css';
 import { Cluster, Input, Button } from '~/libs/components/components.js';
-import { SendIcon } from '../../../../assets/image/chat/chat.img.js';
-import { getClassNames } from '~/libs/helpers/helpers.js';
+import { SendIcon } from '~/assets/image/chat/chat.img.js';
+import { SectionHeader } from '../section-header/section-header.js';
 import { useAppForm } from '~/libs/hooks/hooks.js';
-import {
-    ButtonSizes,
-    ButtonVariants,
-} from '../../../../libs/enums/button-properties-enum.js';
+import { ButtonSizes, ButtonVariants } from '~/libs/enums/enums.js';
 
 const Chat: React.FC = () => {
     const { control, errors } = useAppForm<{ chatMessage: string }>({
@@ -16,15 +13,9 @@ const Chat: React.FC = () => {
     });
     return (
         <section className={styles['section-chat']}>
-            <Cluster
-                className={getClassNames(
-                    styles['chat-header'],
-                    'with-dash',
-                    'text-caps',
-                )}
-            >
+            <SectionHeader className={styles['chat-header']}>
                 <span>Room Chat</span>
-            </Cluster>
+            </SectionHeader>
             <div className={styles['chat-messages']}>
                 <span className={styles['chat-message-text']}>
                     Race started! Type as fast as you can 🏁

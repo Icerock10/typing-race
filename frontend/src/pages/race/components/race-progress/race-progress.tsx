@@ -1,5 +1,5 @@
 import { ClusterVariant } from '~/libs/enums/enums.js';
-import { getClassNames } from '~/libs/helpers/helpers.js';
+import { SectionHeader } from '../section-header/section-header.js';
 import { mockApi } from '~/libs/modules/api/api.js';
 import styles from './styles.module.css';
 import { Cluster, Avatar } from '~/libs/components/components.js';
@@ -8,15 +8,9 @@ const RaceProgress: React.FC = () => {
     return (
         <section className={styles['race-progress']}>
             <Cluster className={styles['track-header']}>
-                <Cluster
-                    className={getClassNames(
-                        styles['track-label'],
-                        'with-dash',
-                        'text-caps',
-                    )}
-                >
+                <SectionHeader>
                     <span>Race progress</span>
-                </Cluster>
+                </SectionHeader>
                 <span className={styles['players-count']}>4 / 4 players</span>
             </Cluster>
             <div className={styles['tracks']}>
