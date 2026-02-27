@@ -1,10 +1,12 @@
 import { Header, Cluster, Button } from '~/libs/components/components.js';
+import { RaceProgress } from './components/components.js';
 import styles from './styles.module.css';
 import {
     ButtonLabels,
     ButtonSizes,
     HeaderVariants,
     ButtonVariants,
+    ClusterVariant,
 } from '~/libs/enums/enums.js';
 
 const Race: React.FC = () => {
@@ -37,6 +39,23 @@ const Race: React.FC = () => {
                     />
                 </Cluster>
             </Header>
+            <main className="container">
+                <Cluster
+                    cluster={ClusterVariant.GRID}
+                    className={styles['race']}
+                >
+                    <RaceProgress />
+                    <section className={styles['race-typing']}>
+                        Typing section
+                    </section>
+                    <section className={styles['race-leaderboard']}>
+                        LeaderBoard
+                    </section>
+                    <section className={styles['section-chat']}>
+                        Chat Section
+                    </section>
+                </Cluster>
+            </main>
         </>
     );
 };

@@ -22,13 +22,6 @@
     letter-spacing: 2px;
 }
 
-.rooms-title::before {
-    width: 20px;
-    height: 2px;
-    content: "";
-    background: var(--color-accent-yellow);
-}
-
 .room {
     position: relative;
     grid-template-columns: 1fr auto;

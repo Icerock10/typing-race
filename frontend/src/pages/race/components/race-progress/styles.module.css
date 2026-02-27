@@ -1,0 +1,64 @@
+.race-progress {
+    grid-column: span 2;
+}
+
+.track-header {
+    --cluster-horizontal-alignment: space-between;
+
+    margin-bottom: 1rem;
+    color: var(--color-text-muted);
+}
+
+.track-label {
+    font-size: 0.65rem;
+}
+
+.players-count,
+.player-wpm {
+    font-family: var(--font-family-space-mono);
+    font-size: 0.7rem;
+}
+
+.tracks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+}
+
+.player-wpm {
+    color: var(--color-accent-yellow);
+    text-align: end;
+}
+
+.player-track {
+    grid-template-columns: 1.75rem 8rem 1fr 4.3rem;
+}
+
+.track-bar-wrap,
+.track-bar-fill {
+    border-radius: var(--radius-s);
+}
+
+.track-bar-wrap {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-inline);
+    border: 1px solid var(--color-border);
+}
+
+.track-bar-fill {
+    position: relative;
+    width: 74%;
+    height: 100%;
+    background: var(--color-accent-turquoise);
+}
+
+.track-bar-fill::after {
+    position: absolute;
+    top: 50%;
+    right: -2px;
+    font-size: 10px;
+    content: "▶";
+    opacity: 0.8;
+    transform: translateY(-50%);
+}

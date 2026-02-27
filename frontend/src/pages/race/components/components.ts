@@ -1,3 +1,1 @@
-const a = {};
-
-export { a };
+export { RaceProgress } from './race-progress/race-progress.js';
