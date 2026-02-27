@@ -14,3 +14,4 @@ export { Stats } from './stats/stats.js';
 export { Footer } from './footer/footer.js';
 export { RadioGroup } from './radio-group/radio-group.js';
 export { Select } from './select/select.js';
+export { Avatar } from './avatar/avatar.js';

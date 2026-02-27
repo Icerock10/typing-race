@@ -1,7 +1,7 @@
 import styles from './styles.module.css';
 import { useEffect, useState, useRef } from '~/libs/hooks/hooks.js';
 import { mockApi } from '~/libs/modules/api/api.js';
-import { Cluster } from '~/libs/components/components.js';
+import { Cluster, Avatar } from '~/libs/components/components.js';
 import { ClusterVariant } from '~/libs/enums/enums.js';
 
 const typedText = ['jumps', 'over', 'the'];
@@ -64,12 +64,7 @@ const RacePreview: React.FC = () => {
                             data-rank={index + OFFSET}
                             key={racer.name}
                         >
-                            <Cluster
-                                cluster={ClusterVariant.FLEX}
-                                className={styles['racer-avatar']}
-                            >
-                                {racer.avatar}
-                            </Cluster>
+                            <Avatar name={racer.avatar} />
                             <span className={styles['racer-name']}>
                                 {racer.name}
                             </span>

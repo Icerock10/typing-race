@@ -61,18 +61,6 @@
     --grid-min-item-size: 5rem;
 }
 
-.racer-avatar {
-    width: 24px;
-    height: 24px;
-    font-family: var(--font-family-syne);
-    font-size: 10px;
-    font-weight: var(--font-weight-bold);
-    background-color: var(--color-border);
-    border-radius: var(--radius-m);
-
-    --cluster-horizontal-alignment: center;
-}
-
 .racer-wpm {
     width: 48px;
     font-family: var(--font-family-space-mono);

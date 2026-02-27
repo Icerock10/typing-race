@@ -2,7 +2,7 @@ import { ClusterVariant } from '~/libs/enums/enums.js';
 import { getClassNames } from '~/libs/helpers/helpers.js';
 import { mockApi } from '~/libs/modules/api/api.js';
 import styles from './styles.module.css';
-import { Cluster } from '~/libs/components/components.js';
+import { Cluster, Avatar } from '~/libs/components/components.js';
 
 const RaceProgress: React.FC = () => {
     return (
@@ -31,7 +31,7 @@ const RaceProgress: React.FC = () => {
                                 🥇
                             </span>
                             <Cluster className={styles['player-info']}>
-                                <div className={styles['player-avatar']}>K</div>
+                                <Avatar name="K" />
                                 <span className={styles['player-name']}>
                                     k1netic
                                 </span>
