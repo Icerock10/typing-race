@@ -2,6 +2,7 @@ services:
   app:
     environment:
       - CHOKIDAR_USEPOLLING=true # enabling live updates
+    container_name: fastify-api
     build:
       context: .
       dockerfile: backend/deployment/DockerFile.dev
@@ -16,6 +17,7 @@ services:
 
   mongo:
     image: mongo:7
+    container_name: mongo-db
     ports:
       - "27017:27017"
     volumes:
