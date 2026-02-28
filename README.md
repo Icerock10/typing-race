@@ -1,10 +1,8 @@
-# Repo-starter:
-
-- `fastify-mongo-docker-react`
+# Typing race:
 
 ## ℹ️ General Info
 
-This is the simple repository starter app.
+This is a web application for training typing speed and accuracy in a racing format.
 
 ## 🏭 Applications
 
@@ -25,14 +23,56 @@ This is the simple repository starter app.
 - run **`npx simple-git-hooks`** at the root of the project, before the start (it will set
   the [pre-commit hook](https://www.npmjs.com/package/simple-git-hooks) for any commits).
 
-## How to start:
+## How to run:
 
-- `npm install` at root
-- `netstat -an | findstr 27017` make sure that `mongoDB` does not take the `port` for DB inside `docker`
-- start mongoDB inside `terminal` locally: `net start MongoDB`
-- stop mongoDB locally: `net stop MongoDB`
-- start backend `docker compose up --build` at the root
-- start frontend `cd frontend && npm run dev`
+- `npm install` _at root_
+- `docker compose up --build` _to run backend_
+- `cd frontend && npm run dev` \_to run frontend
+
+## Database Schema:
+
+```mermaid
+erDiagram
+    users ||--o{ user_oauth_accounts : userId
+    games ||--o{ result : contains
+
+    users {
+        id ObjectId
+        email string
+        firstName string
+        lastName string
+        passwordHash string
+        createdAt Date
+        updatedAt Date
+    }
+    user_oauth_accounts {
+        id ObjectId
+        userId ObjectId
+        provider string
+        providerUserId string
+        createdAt Date
+    }
+    games {
+        id ObjectId
+        text string
+        playersCount number
+        status string
+        language string
+        difficulty string
+        startedAt timestamp
+        finishedAt timestamp
+        winnerUserId ObjectId
+    }
+    result {
+        userId ObjectId
+        username string
+        wpm number
+        accuracy number
+        place number
+        finishedAt timestamp
+        isWinner boolean
+    }
+```
 
 ## 📁 Architecture
 
