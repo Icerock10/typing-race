@@ -1,11 +1,16 @@
 services:
   app:
+    environment:
+      - CHOKIDAR_USEPOLLING=true # enabling live updates
     build:
       context: .
-      dockerfile: backend/deployment/DockerFile
+      dockerfile: backend/deployment/DockerFile.dev
     ports:
       - "3001:3001"
     env_file: ./backend/.env
+    volumes:
+      - ./backend:/app/backend
+      - ./shared:/app/shared
     depends_on:
       - mongo
 
