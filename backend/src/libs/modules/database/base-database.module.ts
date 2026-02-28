@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 import { type Config } from '~/libs/modules/config/libs/types/types.js';
-import { addUserSeeds } from './seeds/add-user-seeds.js';
 import { type Logger } from '../logger/libs/types/types.js';
 import { type DataBase } from './libs/types/types.js';
 
@@ -20,7 +19,6 @@ class BaseDatabase implements DataBase {
         this.logger.info(`Connecting to MongoDB... uri- ${uri}`);
 
         await mongoose.connect(uri, {});
-        await addUserSeeds();
         this.logger.info('MongoDB connected with seeds!');
     }
 

@@ -5,18 +5,7 @@ const addUserSeeds = async (): Promise<void> => {
     try {
         await userModel.deleteMany({});
 
-        const userSeeds = [
-            {
-                email: 'admin@example.com',
-                name: 'Maksym',
-                passwordHash: 'myAnotherPassword123',
-            },
-            {
-                email: 'test@example.com',
-                name: 'Maksym',
-                passwordHash: 'myPasswordInHash222',
-            },
-        ];
+        const userSeeds: { passwordHash: string }[] = [];
 
         const seedsWithPasswordHash = [];
 
