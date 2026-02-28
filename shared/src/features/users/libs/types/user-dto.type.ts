@@ -1,7 +1,9 @@
 type UserDto = {
     email: string;
     id: null | string;
-    name: string;
+    firstName: string;
+    lastName: string;
+    userName: string;
 };
 
 export { type UserDto };
