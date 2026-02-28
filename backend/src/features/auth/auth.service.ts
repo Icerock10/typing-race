@@ -44,9 +44,7 @@ class AuthService {
             });
         }
 
-        const { passwordHash } = user as unknown as UserSignInRequestDto & {
-            passwordHash: string;
-        };
+        const { passwordHash } = user.getPasswordData();
 
         const isPasswordValid = await this.encryptor.compare({
             storedHash: passwordHash,
@@ -59,10 +57,10 @@ class AuthService {
                 status: HTTPCode.UNAUTHORIZED,
             });
         }
+        const userDto = user.toObject();
+        const newToken = await this.token.generate(userDto.id as string);
 
-        const newToken = await this.token.generate(user.id as string);
-
-        return { token: newToken, user };
+        return { token: newToken, user: userDto };
     }
 
     public async signUp({

@@ -1,5 +1,6 @@
 import { BaseRepository } from '~/libs/modules/database/database.js';
-import { type UserDto, type ReturnModelType } from './libs/types/types.js';
+import { type ReturnModelType } from './libs/types/types.js';
+import { UserEntity } from './user.entity.js';
 import { type User as UserModel } from './user.model.js';
 
 type Repository<T> = {
@@ -10,24 +11,27 @@ type Repository<T> = {
 
 class UserRepository
     extends BaseRepository<typeof UserModel>
-    implements Repository<UserDto>
+    implements Repository<UserEntity>
 {
     public constructor(userModel: ReturnModelType<typeof UserModel>) {
         super(userModel);
     }
-    public async create(entity: UserDto): Promise<UserDto> {
+
+    public async create(entity: UserEntity): Promise<UserEntity> {
         const userDocument = await super.createDocument(entity);
-        return userDocument;
+        return UserEntity.initialize(userDocument);
     }
-    public async find(id?: string): Promise<null | UserDto> {
+    public async find(id?: string): Promise<null | UserEntity> {
         const foundUser = await super.findDocumentById(id);
 
-        return foundUser ?? null;
+        return foundUser ? UserEntity.initialize(foundUser) : null;
     }
-    public async findByEmail(email: string): Promise<null | UserDto> {
+    public async findByEmail(email: string): Promise<null | UserEntity> {
         const foundUserByEmail = await this.model.findOne({ email });
 
-        return foundUserByEmail?.toObject() ?? null;
+        return foundUserByEmail
+            ? UserEntity.initialize(foundUserByEmail)
+            : null;
     }
 }
 
