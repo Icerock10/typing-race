@@ -4,9 +4,13 @@ export {
     ServerErrorType,
     type ServerValidationErrorResponse,
     type UserDto,
+    type UserResponseDto,
     HTTPCode,
     type HTTPMethod,
     ValidationError,
     type ValidationSchema,
     type ValueOf,
+    type GameResultDto,
+    type GameDto,
+    type RoomStateDto,
 } from 'shared';
