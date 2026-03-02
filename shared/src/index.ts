@@ -45,3 +45,6 @@ export {
     type UserSignUpRequestDto,
     type UserResponseDto,
 } from './features/users/users.js';
+
+export { type GameDto, type GameResultDto } from './features/games/games.js';
+export { type RoomStateDto } from './features/rooms/rooms.js';
