@@ -16,6 +16,9 @@ class User extends BaseModel {
     public userName!: string;
 
     @prop({ type: () => String })
+    public avatarUrl!: string;
+
+    @prop({ type: () => String })
     public passwordHash!: string;
 }
 

@@ -41,6 +41,7 @@ erDiagram
         email string
         firstName string
         lastName string
+        avatarUrl string
         passwordHash string
         createdAt Date
         updatedAt Date

@@ -22,6 +22,7 @@ const userSignUpValidationSchema = z
             .regex(UserValidationRegexRule.USERNAME_VALID_CHARS, {
                 message: UserValidationMessage.USERNAME_INVALID_CHARS,
             }),
+        avatarUrl: z.string(),
         email: z
             .string()
             .min(UserValidationRule.NON_EMPTY_STRING_MIN_LENGTH, {

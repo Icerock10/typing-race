@@ -5,6 +5,7 @@ const DEFAULT_SIGN_UP_PAYLOAD: UserSignUpFormDto = {
     firstName: '',
     userName: '',
     password: '',
+    avatarUrl: '',
     lastName: '',
 };
 

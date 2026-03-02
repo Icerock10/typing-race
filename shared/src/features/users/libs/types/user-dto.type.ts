@@ -4,6 +4,7 @@ type UserDto = {
     firstName: string;
     lastName: string;
     userName: string;
+    avatarUrl: string;
 };
 
 export { type UserDto };

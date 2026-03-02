@@ -8,6 +8,7 @@ class UserEntity {
     private firstName: string;
     private lastName: string;
     private userName: string;
+    private avatarUrl: string;
     private passwordHash: string;
 
     private constructor({
@@ -17,6 +18,7 @@ class UserEntity {
         lastName,
         userName,
         passwordHash,
+        avatarUrl,
     }: UserDtoWithPasswordHash) {
         this.id = id;
         this.email = email;
@@ -24,6 +26,7 @@ class UserEntity {
         this.userName = userName;
         this.lastName = lastName;
         this.passwordHash = passwordHash;
+        this.avatarUrl = avatarUrl;
     }
 
     public static initialize({
@@ -33,6 +36,7 @@ class UserEntity {
         lastName,
         userName,
         passwordHash,
+        avatarUrl,
     }: UserDtoWithPasswordHash): UserEntity {
         return new UserEntity({
             id,
@@ -41,6 +45,7 @@ class UserEntity {
             userName,
             lastName,
             passwordHash,
+            avatarUrl,
         });
     }
 
@@ -50,6 +55,7 @@ class UserEntity {
         passwordHash: string;
         userName: string;
         lastName: string;
+        avatarUrl: string;
     }): UserEntity {
         return new UserEntity({
             id: null,
@@ -58,6 +64,7 @@ class UserEntity {
             firstName: properties.firstName,
             lastName: properties.lastName,
             passwordHash: properties.passwordHash,
+            avatarUrl: properties.avatarUrl,
         });
     }
 
@@ -74,6 +81,7 @@ class UserEntity {
             id: this.id,
             firstName: this.firstName,
             lastName: this.lastName,
+            avatarUrl: this.avatarUrl,
         };
     }
 }

@@ -26,6 +26,7 @@ class UserService implements Service {
                 firstName: payload.firstName,
                 lastName: payload.lastName,
                 userName: payload.userName,
+                avatarUrl: payload.avatarUrl,
                 passwordHash: hash,
             }),
         );
