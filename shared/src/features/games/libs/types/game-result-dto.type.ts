@@ -1,6 +1,6 @@
 type GameResultDto = {
     userId: string;
-    username: string;
+    userName: string;
     wpm: number;
     accuracy: number;
     place: number;

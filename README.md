@@ -41,6 +41,7 @@ erDiagram
         email string
         firstName string
         lastName string
+        userName string
         avatarUrl string
         passwordHash string
         createdAt Date
@@ -57,6 +58,7 @@ erDiagram
         id ObjectId
         text string
         playersCount number
+        title string
         status string
         language string
         difficulty string
