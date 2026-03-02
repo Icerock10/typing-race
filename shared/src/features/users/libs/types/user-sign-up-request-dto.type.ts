@@ -4,6 +4,7 @@ type UserSignUpRequestDto = {
     firstName: string;
     lastName: string;
     userName: string;
+    avatarUrl: string;
 };
 
 export { type UserSignUpRequestDto };

@@ -7,7 +7,16 @@ class User extends BaseModel {
     public email!: string;
 
     @prop({ type: () => String })
-    public name!: string;
+    public firstName!: string;
+
+    @prop({ type: () => String })
+    public lastName!: string;
+
+    @prop({ type: () => String })
+    public userName!: string;
+
+    @prop({ type: () => String })
+    public avatarUrl!: string;
 
     @prop({ type: () => String })
     public passwordHash!: string;

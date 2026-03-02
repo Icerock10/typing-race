@@ -9,3 +9,6 @@ charset = utf-8
 
 [*.yml]
 indent_size = off
+
+[MakeFile]
+indent_style = tabs

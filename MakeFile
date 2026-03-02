@@ -1,0 +1,14 @@
+build:
+	docker compose up --build
+
+down:
+	docker compose down
+
+up:
+	docker compose up -d
+
+logs:
+	docker compose logs -f app
+
+exec:
+	docker exec -it fastify-api sh

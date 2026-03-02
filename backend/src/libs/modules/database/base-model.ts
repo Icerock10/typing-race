@@ -3,8 +3,14 @@ import { modelOptions, type mongoose, prop } from '@typegoose/typegoose';
 @modelOptions({
     schemaOptions: {
         timestamps: true,
-        toJSON: { virtuals: true },
-        toObject: { virtuals: true },
+        toJSON: {
+            virtuals: true,
+            transform: (_, returnValue: Record<string, unknown>) => {
+                delete returnValue['__v'];
+                delete returnValue['_id'];
+                return returnValue;
+            },
+        },
     },
 })
 class BaseModel {
