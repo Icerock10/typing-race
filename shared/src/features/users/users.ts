@@ -10,4 +10,5 @@ export {
     userSignInValidationSchema,
     type UserSignUpFormDto,
     userSignUpValidationSchema,
+    userIdParameterSchema,
 } from './libs/validation-schemas/validation-schemas.js';

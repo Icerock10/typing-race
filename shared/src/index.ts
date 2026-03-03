@@ -36,6 +36,7 @@ export {
     userSignInValidationSchema,
     userSignUpValidationSchema,
     UserValidationMessage,
+    userIdParameterSchema,
 } from './features/users/users.js';
 export {
     type UserDto,

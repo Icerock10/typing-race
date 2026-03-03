@@ -10,6 +10,7 @@ import {
     HTTPCode,
     HTTPRequestMethod,
     UsersApiPath,
+    userIdParameterSchema,
 } from './libs/enums/enums.js';
 import { type UserService } from './user.service.js';
 
@@ -30,6 +31,7 @@ class UserController extends BaseController {
                 ),
             method: HTTPRequestMethod.GET,
             path: UsersApiPath.USER,
+            validation: { params: userIdParameterSchema.shape.params },
         });
     }
     private async findById(

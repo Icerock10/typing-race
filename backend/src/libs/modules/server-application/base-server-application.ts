@@ -74,12 +74,15 @@ class BaseServerApplication implements ServerApplication {
         for (const parameter of parameters) {
             const { handler, method, path, validation } = parameter;
 
+            const schema: Record<string, ValidationSchema> = {
+                ...(validation?.body && { body: validation.body }),
+                ...(validation?.params && { params: validation.params }),
+            };
+
             this.app.route({
                 handler,
                 method,
-                schema: {
-                    body: validation?.body,
-                },
+                schema,
                 url: path,
             });
 
