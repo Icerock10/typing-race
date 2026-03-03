@@ -1,4 +1,5 @@
 import styles from './styles.module.css';
+import { DEFAULT_AVATAR_ICONS } from '~/pages/auth/libs/constants/constants.js';
 import {
     Cluster,
     Input,
@@ -13,20 +14,18 @@ import {
 import { type UserSignUpRequestDto } from '~/libs/types/types.js';
 import { useAppForm } from '~/libs/hooks/hooks.js';
 
-const AVATAR_ICONS = ['🐱', '🦊', '🐺', '🦅', '🤖', '👾', '🔥', '⚡'];
-
-const AVATAR_OPTIONS = AVATAR_ICONS.map((icon, index) => ({
-    label: `a-${String(index)}`,
-    value: String(index),
-    icon,
+const AVATAR_OPTIONS = DEFAULT_AVATAR_ICONS.map(({ name, src }) => ({
+    label: name,
+    value: name,
+    icon: <img className={styles['icon-image']} alt={name} src={src} />,
 }));
 
 const Registration: React.FC = () => {
-    const { control, errors } = useAppForm<
-        UserSignUpRequestDto & { avatar: string }
-    >({
+    const [option] = AVATAR_OPTIONS;
+
+    const { control, errors } = useAppForm<UserSignUpRequestDto>({
         defaultValues: {
-            avatar: '0',
+            avatarUrl: option?.value,
         },
     });
 
@@ -88,7 +87,7 @@ const Registration: React.FC = () => {
                     errors={errors}
                     isIconOnly
                     label="Pick your avatar"
-                    name="avatar"
+                    name="avatarUrl"
                     options={AVATAR_OPTIONS}
                 />
             </Cluster>

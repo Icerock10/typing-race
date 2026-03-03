@@ -35,6 +35,11 @@ legend {
     border-radius: var(--radius-full);
 }
 
+.option-label {
+    display: block;
+    margin-top: 0.5rem;
+}
+
 .option-avatar :is(span, input[type="radio"]) {
     margin: 0;
 }
@@ -47,12 +52,12 @@ input[type="radio"] {
 }
 
 .option-value {
-    display: block;
-    margin-bottom: 0.5rem;
     font-family: var(--font-family-space-mono);
     font-size: var(--step-minus-3);
     font-weight: var(--font-weight-extra-bold);
     color: var(--color-text-main);
+
+    --cluster-horizontal-alignment: center;
 }
 
 .option-checked {
