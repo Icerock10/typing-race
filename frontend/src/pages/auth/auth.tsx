@@ -1,5 +1,5 @@
 import { Header, Button, Link, Cluster } from '~/libs/components/components.js';
-import { LeftPanel, RightPanel } from './components/components.js';
+import { DemoPanel, AuthPanel } from './components/components.js';
 import { type ValueOf } from '~/libs/types/types.js';
 import {
     ButtonVariants,
@@ -48,8 +48,8 @@ const Auth: React.FC = () => {
                 </div>
             </Header>
             <Cluster cluster={ClusterVariant.GRID} className={styles['auth']}>
-                <LeftPanel />
-                <RightPanel
+                <DemoPanel />
+                <AuthPanel
                     handleTabClick={handleTabClick}
                     activeTab={activeTab}
                 />

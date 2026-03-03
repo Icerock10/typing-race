@@ -2,9 +2,9 @@ import { Hero, Stats } from '~/libs/components/components.js';
 import { RacePreview } from './race-preview/race-preview.js';
 import styles from './styles.module.css';
 
-const LeftPanel: React.FC = () => {
+const DemoPanel: React.FC = () => {
     return (
-        <div className={styles['auth-left-panel']}>
+        <div className={styles['auth-demo-panel']}>
             <Hero
                 label="Live right now"
                 title={
@@ -24,4 +24,4 @@ const LeftPanel: React.FC = () => {
     );
 };
 
-export { LeftPanel };
+export { DemoPanel };

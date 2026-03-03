@@ -22,6 +22,10 @@ const Form: React.FC<Properties> = ({
     isSignIn,
     handleTabClick,
 }) => {
+    const isSignInText = isSignIn
+        ? 'Don`t have an account?'
+        : 'Already have an account?';
+
     return (
         <form className={styles['form']}>
             <h2 className={styles['form-title']}>{formTitle}</h2>
@@ -41,18 +45,8 @@ const Form: React.FC<Properties> = ({
                 <div className={styles['divider-line']} />
             </Cluster>
             {isSignIn ? <SignIn /> : <Registration />}
-            <Button
-                label={isSignIn ? ButtonLabels.SIGN_IN : ButtonLabels.CREATE}
-                className={styles['create-btn']}
-                variant={ButtonVariants.PRIMARY}
-            />
             <Cluster className={styles['switch-prompt']}>
-                <span>
-                    {' '}
-                    {isSignIn
-                        ? 'Don`t have an account?'
-                        : 'Already have an account?'}{' '}
-                </span>
+                <span> {isSignInText} </span>
                 <Button
                     onClick={handleTabClick}
                     size={ButtonSizes.FIT}

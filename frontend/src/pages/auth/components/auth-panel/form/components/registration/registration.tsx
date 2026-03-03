@@ -1,6 +1,15 @@
 import styles from './styles.module.css';
-import { Cluster, Input, RadioGroup } from '~/libs/components/components.js';
-import { ClusterVariant } from '~/libs/enums/enums.js';
+import {
+    Cluster,
+    Input,
+    RadioGroup,
+    Button,
+} from '~/libs/components/components.js';
+import {
+    ClusterVariant,
+    ButtonLabels,
+    ButtonVariants,
+} from '~/libs/enums/enums.js';
 import { type UserSignUpRequestDto } from '~/libs/types/types.js';
 import { useAppForm } from '~/libs/hooks/hooks.js';
 
@@ -83,6 +92,10 @@ const Registration: React.FC = () => {
                     options={AVATAR_OPTIONS}
                 />
             </Cluster>
+            <Button
+                label={ButtonLabels.REGISTER}
+                variant={ButtonVariants.PRIMARY}
+            />
         </>
     );
 };

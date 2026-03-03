@@ -40,7 +40,8 @@
     background: var(--color-border);
 }
 
-.create-btn {
+.form > button:not(:first-of-type) {
+    margin-bottom: var(--space-s);
     background: var(--color-accent-yellow);
 }
 

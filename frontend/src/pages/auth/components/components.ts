@@ -1,2 +1,2 @@
-export { LeftPanel } from './left-panel/left-panel.js';
-export { RightPanel } from './right-panel/right-panel.js';
+export { DemoPanel } from './demo-panel/demo-panel.js';
+export { AuthPanel } from './auth-panel/auth-panel.js';

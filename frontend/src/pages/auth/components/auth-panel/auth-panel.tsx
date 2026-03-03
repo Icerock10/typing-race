@@ -11,7 +11,7 @@ type Properties = {
     handleTabClick: (tab: TabValue) => void;
 };
 
-const RightPanel: React.FC<Properties> = ({ activeTab, handleTabClick }) => {
+const AuthPanel: React.FC<Properties> = ({ activeTab, handleTabClick }) => {
     const toRegister = useCallback(() => {
         handleTabClick(ButtonLabels.REGISTER);
     }, [handleTabClick]);
@@ -45,9 +45,7 @@ const RightPanel: React.FC<Properties> = ({ activeTab, handleTabClick }) => {
         return <></>;
     };
 
-    return (
-        <div className={styles['auth-right-panel']}>{getTab(activeTab)}</div>
-    );
+    return <div className={styles['auth-panel']}>{getTab(activeTab)}</div>;
 };
 
-export { RightPanel };
+export { AuthPanel };

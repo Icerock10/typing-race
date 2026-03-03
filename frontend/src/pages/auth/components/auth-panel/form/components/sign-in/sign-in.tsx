@@ -1,6 +1,7 @@
 import { useAppForm } from '~/libs/hooks/hooks.js';
 import { type UserSignInRequestDto } from '~/libs/types/types.js';
-import { Input } from '~/libs/components/components.js';
+import { Input, Button } from '~/libs/components/components.js';
+import { ButtonLabels, ButtonVariants } from '~/libs/enums/enums.js';
 
 const SignIn: React.FC = () => {
     const { control, errors } = useAppForm<UserSignInRequestDto>({
@@ -25,6 +26,10 @@ const SignIn: React.FC = () => {
                 placeholder="*********"
                 errors={errors}
                 control={control}
+            />
+            <Button
+                label={ButtonLabels.SIGN_IN}
+                variant={ButtonVariants.PRIMARY}
             />
         </>
     );
