@@ -15,5 +15,6 @@ export {
     ContentType,
     DataStatus,
     HTTPRequestMethod,
+    HTTPError,
     ServerErrorType,
 } from 'shared';

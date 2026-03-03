@@ -10,5 +10,6 @@ export {
     type UserResponseDto,
     userSignUpValidationSchema,
     type ValidationSchema,
+    type ServerErrorDetail,
     type ValueOf,
 } from 'shared';
