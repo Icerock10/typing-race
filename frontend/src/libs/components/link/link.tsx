@@ -1,13 +1,17 @@
 import { NavLink } from 'react-router-dom';
 
 import buttonStyles from '~/libs/components/button/styles.module.css';
-import { type AppRoute, type ButtonVariants } from '~/libs/enums/enums.js';
+import {
+    type AppRoute,
+    type ButtonVariants,
+    type ButtonSizes,
+} from '~/libs/enums/enums.js';
 import { getClassNames } from '~/libs/helpers/get-class-names.js';
-import { type ButtonSize, type ValueOf } from '~/libs/types/types.js';
+import { type ValueOf } from '~/libs/types/types.js';
 import styles from './styles.module.css';
 
 type Properties = {
-    asButtonSize?: ButtonSize;
+    asButtonSize?: ValueOf<typeof ButtonSizes>;
     asButtonVariant?: ValueOf<typeof ButtonVariants>;
     children: React.ReactNode;
     className?: string;

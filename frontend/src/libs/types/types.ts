@@ -1,5 +1,4 @@
 export { type AsyncThunkConfig } from './async-thunk-config.type.js';
-export { type ButtonSize } from './button-size.type.js';
 export {
     type ServerErrorResponse,
     type UserDto,
