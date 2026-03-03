@@ -1,4 +1,4 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf, type PayloadAction } from '@reduxjs/toolkit';
 
 import { DataStatus } from '~/libs/enums/enums.js';
 import { type UserDto, type ValueOf } from '~/libs/types/types.js';
@@ -17,40 +17,31 @@ const initialState: State = {
 
 const { actions, name, reducer } = createSlice({
     extraReducers(builder) {
-        builder.addCase(signUp.pending, (state) => {
-            state.dataStatus = DataStatus.PENDING;
-        });
-        builder.addCase(signUp.fulfilled, (state, action) => {
-            state.dataStatus = DataStatus.FULFILLED;
-            state.user = action.payload;
-        });
-        builder.addCase(signUp.rejected, (state) => {
-            state.dataStatus = DataStatus.REJECTED;
-            state.user = null;
-        });
+        builder.addMatcher(
+            isAnyOf(
+                signUp.fulfilled,
+                getCurrentUser.fulfilled,
+                signIn.fulfilled,
+            ),
+            (state, action) => {
+                state.dataStatus = DataStatus.FULFILLED;
+                state.user = action.payload;
+            },
+        );
 
-        builder.addCase(signIn.pending, (state) => {
-            state.dataStatus = DataStatus.PENDING;
-        });
-        builder.addCase(signIn.fulfilled, (state, action) => {
-            state.dataStatus = DataStatus.FULFILLED;
-            state.user = action.payload;
-        });
-        builder.addCase(signIn.rejected, (state) => {
-            state.dataStatus = DataStatus.REJECTED;
-            state.user = null;
-        });
-        builder.addCase(getCurrentUser.pending, (state) => {
-            state.dataStatus = DataStatus.PENDING;
-        });
-        builder.addCase(getCurrentUser.fulfilled, (state, action) => {
-            state.dataStatus = DataStatus.FULFILLED;
-            state.user = action.payload;
-        });
-        builder.addCase(getCurrentUser.rejected, (state) => {
-            state.dataStatus = DataStatus.REJECTED;
-            state.user = null;
-        });
+        builder.addMatcher(
+            isAnyOf(signUp.pending, getCurrentUser.pending, signIn.pending),
+            (state) => {
+                state.dataStatus = DataStatus.PENDING;
+            },
+        );
+        builder.addMatcher(
+            isAnyOf(signUp.rejected, getCurrentUser.rejected, signIn.rejected),
+            (state) => {
+                state.dataStatus = DataStatus.REJECTED;
+                state.user = null;
+            },
+        );
     },
     initialState,
     name: 'auth',
