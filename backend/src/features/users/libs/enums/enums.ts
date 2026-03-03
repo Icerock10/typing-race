@@ -5,4 +5,5 @@ export {
     UsersApiPath,
     userSignInValidationSchema,
     userSignUpValidationSchema,
+    userIdParameterSchema,
 } from 'shared';
