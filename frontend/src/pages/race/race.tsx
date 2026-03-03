@@ -1,4 +1,9 @@
-import { Header, Cluster, Button } from '~/libs/components/components.js';
+import {
+    Header,
+    Cluster,
+    Button,
+    Avatar,
+} from '~/libs/components/components.js';
 import {
     RaceProgress,
     Typing,
@@ -12,9 +17,12 @@ import {
     HeaderVariants,
     ButtonVariants,
     ClusterVariant,
+    AvatarVariants,
 } from '~/libs/enums/enums.js';
+import { useAppSelector } from '~/libs/hooks/hooks.js';
 
 const Race: React.FC = () => {
+    const { user } = useAppSelector((state) => state.auth);
     return (
         <>
             <Header variant={HeaderVariants.COMPACT}>
@@ -32,10 +40,10 @@ const Race: React.FC = () => {
                 </Cluster>
                 <Cluster className={styles['user-panel']}>
                     <div className={styles['timer-display']}>0:00</div>
-                    <Cluster className={styles['user-avatar']}>
-                        <div className="me-avatar">⚡</div>
-                        voxel_
-                    </Cluster>
+                    <Avatar
+                        name={user?.userName}
+                        variant={AvatarVariants.FULL}
+                    />
                     <Button
                         size={ButtonSizes.FIT}
                         label={ButtonLabels.LEAVE_ROOM}
