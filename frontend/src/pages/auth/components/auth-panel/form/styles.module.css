@@ -1,15 +1,13 @@
 .form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
     width: 100%;
     max-width: 380px;
     margin: 0 auto;
 }
 
-.form :is(.form-subtitle, .discord-btn, .create-btn, .divider, input) {
-    margin-bottom: 15px;
-}
-
 .form-title {
-    margin-bottom: 6px;
     font-size: 1.7rem;
     font-weight: var(--font-weight-extra-bold);
     letter-spacing: -1px;
@@ -41,7 +39,7 @@
 }
 
 .form > button:not(:first-of-type) {
-    margin-bottom: var(--space-s);
+    margin: var(--space-2xs) 0;
     background: var(--color-accent-yellow);
 }
 

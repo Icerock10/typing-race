@@ -81,7 +81,7 @@ const Registration: React.FC = () => {
                 errors={errors}
                 control={control}
             />
-            <Cluster className={styles['avatar-group']}>
+            <Cluster>
                 <RadioGroup
                     control={control}
                     errors={errors}

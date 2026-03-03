@@ -28,8 +28,10 @@ const Form: React.FC<Properties> = ({
 
     return (
         <form className={styles['form']}>
-            <h2 className={styles['form-title']}>{formTitle}</h2>
-            <div className={styles['form-subtitle']}>{formSubTitle}</div>
+            <Cluster>
+                <h2 className={styles['form-title']}>{formTitle}</h2>
+                <div className={styles['form-subtitle']}>{formSubTitle}</div>
+            </Cluster>
             <Button
                 label={ButtonLabels.SIGN_UP}
                 icon={<DiscordIcon />}
