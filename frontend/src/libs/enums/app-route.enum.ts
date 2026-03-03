@@ -4,6 +4,7 @@ const AppRoute = {
     ROOT: '/',
     RACE: '/race',
     AUTH: '/auth',
+    LOBBY: '/lobby',
 } as const;
 
 export { AppRoute };

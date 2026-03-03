@@ -1,4 +1,5 @@
 import {
+    AppRoute,
     ButtonLabels,
     ButtonSizes,
     ButtonVariants,
@@ -14,11 +15,11 @@ import {
 import { getClassNames } from '~/libs/helpers/helpers.js';
 import {
     Header,
-    Button,
     Cluster,
     Hero,
     Stats,
     Footer,
+    Link,
 } from '~/libs/components/components.js';
 import styles from './styles.module.css';
 
@@ -33,17 +34,21 @@ const Lobby: React.FC = () => {
                         <div className="live-dot" />
                         <span>1,204 online</span>
                     </Cluster>
-                    <Button
-                        variant={ButtonVariants.SECONDARY}
-                        size={ButtonSizes.FIT}
-                        label={ButtonLabels.SIGN_IN}
-                    />
-                    <Button
-                        size={ButtonSizes.FIT}
-                        variant={ButtonVariants.PRIMARY}
-                        className={styles['button-register']}
-                        label={ButtonLabels.REGISTER}
-                    />
+                    <Link
+                        to={AppRoute.AUTH}
+                        asButtonVariant={ButtonVariants.SECONDARY}
+                        asButtonSize={ButtonSizes.FIT}
+                    >
+                        {ButtonLabels.SIGN_IN}
+                    </Link>
+                    <Link
+                        to={AppRoute.AUTH}
+                        asButtonVariant={ButtonVariants.PRIMARY}
+                        className={styles['header-link']}
+                        asButtonSize={ButtonSizes.FIT}
+                    >
+                        {ButtonLabels.REGISTER}
+                    </Link>
                 </Cluster>
             </Header>
             <div className="container">
