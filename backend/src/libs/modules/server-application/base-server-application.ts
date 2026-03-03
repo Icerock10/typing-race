@@ -154,6 +154,7 @@ class BaseServerApplication implements ServerApplication {
                             `[${issue.path.toString()}] — ${issue.message}`,
                         );
                     }
+                    const [issue] = error.issues;
 
                     const response: ServerValidationErrorResponse = {
                         details: error.issues.map((issue) => ({
@@ -161,7 +162,7 @@ class BaseServerApplication implements ServerApplication {
                             path: issue.path,
                         })),
                         errorType: ServerErrorType.VALIDATION,
-                        message: error.message,
+                        message: issue?.message as string,
                     };
 
                     return reply
