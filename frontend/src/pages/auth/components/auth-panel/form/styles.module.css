@@ -1,19 +1,18 @@
-.form {
-    display: flex;
-    flex-direction: column;
+.auth-card {
+    display: grid;
     gap: var(--space-s);
     width: 100%;
     max-width: 380px;
     margin: 0 auto;
 }
 
-.form-title {
+.card-title {
     font-size: 1.7rem;
     font-weight: var(--font-weight-extra-bold);
     letter-spacing: -1px;
 }
 
-.form-subtitle {
+.card-subtitle {
     font-size: 0.9rem;
     line-height: 1.5;
     color: var(--color-text-muted);
@@ -36,11 +35,6 @@
     flex: 1;
     height: 1px;
     background: var(--color-border);
-}
-
-.form > button:not(:first-of-type) {
-    margin: var(--space-2xs) 0;
-    background: var(--color-accent-yellow);
 }
 
 .switch-prompt {

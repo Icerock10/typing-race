@@ -1,5 +1,9 @@
 import styles from './styles.module.css';
-import { DEFAULT_AVATAR_ICONS } from '~/pages/auth/libs/constants/constants.js';
+import {
+    DEFAULT_AVATAR_ICONS,
+    DEFAULT_SIGN_UP_PAYLOAD,
+} from '~/pages/auth/libs/constants/constants.js';
+import { actions as authActions } from '~/features/auth/auth.js';
 import {
     Cluster,
     Input,
@@ -11,8 +15,12 @@ import {
     ButtonLabels,
     ButtonVariants,
 } from '~/libs/enums/enums.js';
-import { type UserSignUpRequestDto } from '~/libs/types/types.js';
-import { useAppForm } from '~/libs/hooks/hooks.js';
+import {
+    userSignUpValidationSchema,
+    type UserSignUpRequestDto,
+} from '~/libs/types/types.js';
+import { useAppForm, useCallback, useAppDispatch } from '~/libs/hooks/hooks.js';
+import { type BaseSyntheticEvent } from 'react';
 
 const AVATAR_OPTIONS = DEFAULT_AVATAR_ICONS.map(({ name, src }) => ({
     label: name,
@@ -22,15 +30,26 @@ const AVATAR_OPTIONS = DEFAULT_AVATAR_ICONS.map(({ name, src }) => ({
 
 const Registration: React.FC = () => {
     const [option] = AVATAR_OPTIONS;
-
-    const { control, errors } = useAppForm<UserSignUpRequestDto>({
+    const dispatch = useAppDispatch();
+    const { control, errors, handleSubmit } = useAppForm<UserSignUpRequestDto>({
         defaultValues: {
+            ...DEFAULT_SIGN_UP_PAYLOAD,
             avatarUrl: option?.value,
         },
+        validationSchema: userSignUpValidationSchema,
     });
 
+    const onSubmit = useCallback(
+        (event: BaseSyntheticEvent) => {
+            void handleSubmit((data) => dispatch(authActions.signUp(data)))(
+                event,
+            );
+        },
+        [handleSubmit, dispatch],
+    );
+
     return (
-        <>
+        <form noValidate onSubmit={onSubmit}>
             <Cluster
                 cluster={ClusterVariant.FLEX}
                 className={styles['input-row']}
@@ -94,8 +113,10 @@ const Registration: React.FC = () => {
             <Button
                 label={ButtonLabels.REGISTER}
                 variant={ButtonVariants.PRIMARY}
+                className={styles['submit-button']}
+                type="submit"
             />
-        </>
+        </form>
     );
 };
 
