@@ -1,1 +1,8 @@
-export { AppEnvironment, HTTPCode, HTTPError, OpenAuthPath } from 'shared';
+export {
+    AppEnvironment,
+    HTTPCode,
+    HTTPError,
+    OpenAuthPath,
+    OpenAuthProvider,
+    DiscordApiPath,
+} from 'shared';

@@ -47,7 +47,7 @@ erDiagram
         createdAt Date
         updatedAt Date
     }
-    user_oauth_accounts {
+    open_oauth_accounts {
         id ObjectId
         userId ObjectId
         provider string
