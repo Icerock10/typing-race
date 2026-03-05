@@ -19,4 +19,5 @@ export {
     HTTPError,
     ServerErrorType,
     OpenAuthPath,
+    OpenAuthProvider,
 } from 'shared';

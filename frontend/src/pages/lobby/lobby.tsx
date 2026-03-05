@@ -43,6 +43,7 @@ const Lobby: React.FC = () => {
                         <Avatar
                             name={user.userName}
                             variant={AvatarVariants.FULL}
+                            avatarUrl={user.avatarUrl}
                         />
                     ) : (
                         <>
