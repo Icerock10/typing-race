@@ -4,4 +4,8 @@ export { ContentType } from './content-type.enum.js';
 export { DataStatus } from './data-status.enum.js';
 export { ErrorMessage } from './error-message.enum.js';
 export { ServerErrorType } from './server-error-type.enum.js';
-export { OpenAuthPath } from './open-auth-path.enum.js';
+export {
+    OpenAuthPath,
+    OpenAuthProvider,
+    DiscordApiPath,
+} from './open-auth.enum.js';
