@@ -13,4 +13,5 @@ export {
     type GameResultDto,
     type GameDto,
     type RoomStateDto,
+    type DiscordUserDto,
 } from 'shared';
