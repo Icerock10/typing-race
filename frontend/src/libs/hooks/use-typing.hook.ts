@@ -37,7 +37,7 @@ const useTyping = ({
         return (): void => {
             clearInterval(interval);
         };
-    }, []);
+    }, [delay, indexReference, initialText, words]);
 
     return { text };
 };

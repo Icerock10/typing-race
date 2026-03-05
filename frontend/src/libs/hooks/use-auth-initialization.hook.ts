@@ -29,7 +29,7 @@ const useAuthInitialization = (): void => {
         }
 
         initializeAuth();
-    }, [initializeAuth]);
+    }, [initializeAuth, location.search]);
 };
 
 export { useAuthInitialization };

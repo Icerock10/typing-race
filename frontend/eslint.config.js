@@ -45,7 +45,7 @@ const reactConfig = {
 };
 
 const reactHooksConfig = {
-    files: ['**/*.tsx'],
+    files: ['**/*.{ts,tsx}'],
     plugins: {
         'react-hooks': reactHooks,
     },
