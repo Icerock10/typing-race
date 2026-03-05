@@ -30,7 +30,6 @@ class AuthController extends BaseController {
                 this.signIn(
                     options as APIHandlerOptions<{
                         body: UserSignInRequestDto;
-                        query?: { planId: string };
                     }>,
                 ),
             isPublic: true,

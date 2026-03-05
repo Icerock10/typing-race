@@ -1,9 +1,12 @@
 import {
+    AppRoute,
     ButtonLabels,
     ButtonSizes,
     ButtonVariants,
     HeaderVariants,
+    AvatarVariants,
 } from '~/libs/enums/enums.js';
+import { useAppSelector } from '~/libs/hooks/hooks.js';
 import {
     Ticker,
     Rooms,
@@ -14,16 +17,19 @@ import {
 import { getClassNames } from '~/libs/helpers/helpers.js';
 import {
     Header,
-    Button,
     Cluster,
     Hero,
     Stats,
     Footer,
+    Avatar,
+    Link,
 } from '~/libs/components/components.js';
 import styles from './styles.module.css';
 
 const Lobby: React.FC = () => {
     const mainContentClasses = getClassNames(styles['main'], 'grid');
+    const { user } = useAppSelector((state) => state.auth);
+
     return (
         <>
             <Ticker />
@@ -33,17 +39,30 @@ const Lobby: React.FC = () => {
                         <div className="live-dot" />
                         <span>1,204 online</span>
                     </Cluster>
-                    <Button
-                        variant={ButtonVariants.SECONDARY}
-                        size={ButtonSizes.FIT}
-                        label={ButtonLabels.SIGN_IN}
-                    />
-                    <Button
-                        size={ButtonSizes.FIT}
-                        variant={ButtonVariants.PRIMARY}
-                        className={styles['button-register']}
-                        label={ButtonLabels.REGISTER}
-                    />
+                    {user ? (
+                        <Avatar
+                            name={user.userName}
+                            variant={AvatarVariants.FULL}
+                        />
+                    ) : (
+                        <>
+                            <Link
+                                to={AppRoute.AUTH}
+                                asButtonVariant={ButtonVariants.SECONDARY}
+                                asButtonSize={ButtonSizes.FIT}
+                            >
+                                {ButtonLabels.SIGN_IN}
+                            </Link>
+                            <Link
+                                to={AppRoute.AUTH}
+                                asButtonVariant={ButtonVariants.PRIMARY}
+                                className={styles['header-link']}
+                                asButtonSize={ButtonSizes.FIT}
+                            >
+                                {ButtonLabels.REGISTER}
+                            </Link>
+                        </>
+                    )}
                 </Cluster>
             </Header>
             <div className="container">

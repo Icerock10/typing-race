@@ -8,6 +8,7 @@ import { type JSX } from 'react';
 import { useFormController } from '~/libs/hooks/hooks.js';
 import { getClassNames } from '~/libs/helpers/helpers.js';
 import styles from './styles.module.css';
+import { Cluster } from '../components.js';
 
 type RadioOption = {
     icon?: React.ReactNode;
@@ -61,11 +62,11 @@ const RadioGroup = <T extends FieldValues>({
                             type="radio"
                             value={option.value}
                         />
-                        <span className={styles['option-value']}>
+                        <Cluster className={styles['option-value']}>
                             {option.icon || option.value}
-                        </span>
+                        </Cluster>
 
-                        <label htmlFor={id}>
+                        <label className={styles['option-label']} htmlFor={id}>
                             {isIconOnly ? null : option.label}
                         </label>
                     </div>

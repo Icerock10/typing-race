@@ -12,9 +12,11 @@ const ProtectedRoute: React.FC = () => {
     const isAuthorized = dataStatus === DataStatus.FULFILLED && user;
 
     const matches = useMatches();
-    const handle = matches.at(HandlerParameterIndexes.LAST_INDEX)
-        ?.handle as RouteHandle;
-    const { access } = handle;
+    const handle = matches.at(HandlerParameterIndexes.LAST_INDEX)?.handle as
+        | RouteHandle
+        | undefined;
+
+    const access = handle?.access ?? RouteAccess.PUBLIC;
 
     const isLoading =
         dataStatus === DataStatus.PENDING || dataStatus === DataStatus.IDLE;
@@ -28,13 +30,13 @@ const ProtectedRoute: React.FC = () => {
             return isAuthorized ? (
                 <Outlet />
             ) : (
-                <Navigate replace to={AppRoute.RACE} />
+                <Navigate replace to={AppRoute.LOBBY} />
             );
         }
 
         case RouteAccess.NOT_AUTHENTICATED: {
             return isAuthorized ? (
-                <Navigate replace to={AppRoute.ROOT} />
+                <Navigate replace to={AppRoute.LOBBY} />
             ) : (
                 <Outlet />
             );

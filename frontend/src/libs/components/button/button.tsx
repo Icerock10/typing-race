@@ -1,5 +1,4 @@
 import { getClassNames } from '~/libs/helpers/helpers.js';
-import { useCallback } from '~/libs/hooks/hooks.js';
 import { type ButtonVariants } from '~/libs/enums/button-properties-enum.js';
 import { type ValueOf } from '~/libs/types/types.js';
 import styles from './styles.module.css';
@@ -14,7 +13,7 @@ type Properties<T extends string> = {
     isIconOnly?: boolean;
     label: string;
     loader?: React.ReactNode;
-    onClick?: (value: T) => void;
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
     size?: 'large' | 'small' | 'fit';
     type?: 'button' | 'submit';
     variant?: ValueOf<typeof ButtonVariants>;
@@ -22,7 +21,6 @@ type Properties<T extends string> = {
 
 const Button = <T extends string>({
     className = '',
-    value,
     icon,
     iconOnlySize = 'large',
     isDisabled = false,
@@ -46,18 +44,12 @@ const Button = <T extends string>({
         className,
     );
 
-    const handleButtonClick = useCallback(() => {
-        if (typeof onClick === 'function') {
-            onClick(value as T);
-        }
-    }, [onClick, value]);
-
     return (
         <button
             aria-label={isIconOnly ? label : undefined}
             className={buttonClasses}
             disabled={isDisabled}
-            onClick={handleButtonClick}
+            onClick={onClick}
             type={type}
         >
             {icon && (

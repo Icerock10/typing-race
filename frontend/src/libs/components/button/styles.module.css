@@ -4,6 +4,10 @@
     --cluster-wrap: nowrap;
 }
 
+.button[disabled] {
+    opacity: 0.6;
+}
+
 .button-icon {
     display: flex;
 }

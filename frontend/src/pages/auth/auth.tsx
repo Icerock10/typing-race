@@ -1,5 +1,5 @@
 import { Header, Button, Link, Cluster } from '~/libs/components/components.js';
-import { LeftPanel, RightPanel } from './components/components.js';
+import { DemoPanel, AuthPanel } from './components/components.js';
 import { type ValueOf } from '~/libs/types/types.js';
 import {
     ButtonVariants,
@@ -15,9 +15,12 @@ const Auth: React.FC = () => {
     const [activeTab, setActiveTab] = useState<ValueOf<typeof ButtonLabels>>(
         ButtonLabels.REGISTER,
     );
+    const handleSignInTabClick = useCallback(() => {
+        setActiveTab(ButtonLabels.SIGN_IN);
+    }, []);
 
-    const handleTabClick = useCallback((tab: ValueOf<typeof ButtonLabels>) => {
-        setActiveTab(tab);
+    const handleRegisterTabClick = useCallback(() => {
+        setActiveTab(ButtonLabels.REGISTER);
     }, []);
 
     return (
@@ -31,13 +34,13 @@ const Auth: React.FC = () => {
                         variant={ButtonVariants.TAB}
                         isActive={activeTab === ButtonLabels.SIGN_IN}
                         value={ButtonLabels.SIGN_IN}
-                        onClick={handleTabClick}
+                        onClick={handleSignInTabClick}
                     />
                     <Button
                         size={ButtonSizes.SMALL}
                         label={ButtonLabels.REGISTER}
                         variant={ButtonVariants.TAB}
-                        onClick={handleTabClick}
+                        onClick={handleRegisterTabClick}
                         isActive={activeTab === ButtonLabels.REGISTER}
                         value={ButtonLabels.REGISTER}
                     />
@@ -48,9 +51,10 @@ const Auth: React.FC = () => {
                 </div>
             </Header>
             <Cluster cluster={ClusterVariant.GRID} className={styles['auth']}>
-                <LeftPanel />
-                <RightPanel
-                    handleTabClick={handleTabClick}
+                <DemoPanel />
+                <AuthPanel
+                    handleSignInTabClick={handleSignInTabClick}
+                    handleRegisterTabClick={handleRegisterTabClick}
                     activeTab={activeTab}
                 />
             </Cluster>

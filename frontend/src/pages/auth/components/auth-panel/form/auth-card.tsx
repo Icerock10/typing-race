@@ -1,5 +1,6 @@
 import styles from './styles.module.css';
 import { DiscordIcon } from '~/assets/image/discord/discord.img.js';
+import { useAppSelector } from '~/libs/hooks/hooks.js';
 import { SignIn, Registration } from './components/components.js';
 import { Button, Cluster } from '~/libs/components/components.js';
 import {
@@ -16,16 +17,22 @@ type Properties = {
     handleTabClick: () => void;
 };
 
-const Form: React.FC<Properties> = ({
+const AuthCard: React.FC<Properties> = ({
     formTitle,
     formSubTitle,
     isSignIn,
     handleTabClick,
 }) => {
+    const isSignInText = isSignIn
+        ? 'Don`t have an account?'
+        : 'Already have an account?';
+
+    const { isLoading } = useAppSelector((state) => state.auth);
+
     return (
-        <form className={styles['form']}>
-            <h2 className={styles['form-title']}>{formTitle}</h2>
-            <div className={styles['form-subtitle']}>{formSubTitle}</div>
+        <div className={styles['auth-card']}>
+            <h2 className={styles['card-title']}>{formTitle}</h2>
+            <div className={styles['card-subtitle']}>{formSubTitle}</div>
             <Button
                 label={ButtonLabels.SIGN_UP}
                 icon={<DiscordIcon />}
@@ -40,19 +47,13 @@ const Form: React.FC<Properties> = ({
                 <span className={styles['divider-text']}>or with email</span>
                 <div className={styles['divider-line']} />
             </Cluster>
-            {isSignIn ? <SignIn /> : <Registration />}
-            <Button
-                label={isSignIn ? ButtonLabels.SIGN_IN : ButtonLabels.CREATE}
-                className={styles['create-btn']}
-                variant={ButtonVariants.PRIMARY}
-            />
+            {isSignIn ? (
+                <SignIn isLoading={isLoading} />
+            ) : (
+                <Registration isLoading={isLoading} />
+            )}
             <Cluster className={styles['switch-prompt']}>
-                <span>
-                    {' '}
-                    {isSignIn
-                        ? 'Don`t have an account?'
-                        : 'Already have an account?'}{' '}
-                </span>
+                <span> {isSignInText} </span>
                 <Button
                     onClick={handleTabClick}
                     size={ButtonSizes.FIT}
@@ -64,8 +65,8 @@ const Form: React.FC<Properties> = ({
                     variant={ButtonVariants.GHOST}
                 />
             </Cluster>
-        </form>
+        </div>
     );
 };
 
-export { Form };
+export { AuthCard };

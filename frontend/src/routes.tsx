@@ -15,12 +15,12 @@ const routes: CustomRouteObject[] = [
         handle: {
             access: RouteAccess.PUBLIC,
         },
-        path: AppRoute.ROOT,
+        path: AppRoute.LOBBY,
     },
     {
         element: <Race />,
         handle: {
-            access: RouteAccess.PUBLIC,
+            access: RouteAccess.AUTHENTICATED,
         },
         path: AppRoute.RACE,
     },

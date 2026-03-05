@@ -1,21 +1,18 @@
-.form {
+.auth-card {
+    display: grid;
+    gap: var(--space-s);
     width: 100%;
     max-width: 380px;
     margin: 0 auto;
 }
 
-.form :is(.form-subtitle, .discord-btn, .create-btn, .divider, input) {
-    margin-bottom: 15px;
-}
-
-.form-title {
-    margin-bottom: 6px;
+.card-title {
     font-size: 1.7rem;
     font-weight: var(--font-weight-extra-bold);
     letter-spacing: -1px;
 }
 
-.form-subtitle {
+.card-subtitle {
     font-size: 0.9rem;
     line-height: 1.5;
     color: var(--color-text-muted);
@@ -40,10 +37,6 @@
     background: var(--color-border);
 }
 
-.create-btn {
-    background: var(--color-accent-yellow);
-}
-
 .switch-prompt {
     --cluster-horizontal-alignment: center;
     --gutter: 0px;
@@ -52,4 +45,10 @@
 .switch-prompt > span {
     font-size: 0.9rem;
     color: var(--color-text-muted);
+}
+
+@media screen and (width <= 900px) {
+    .auth-card {
+        max-width: 100%;
+    }
 }

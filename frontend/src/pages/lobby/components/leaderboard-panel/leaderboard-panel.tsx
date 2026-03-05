@@ -13,7 +13,7 @@ const LeaderBoardPanel: React.FC = () => {
                         className={styles['leaderboard-row']}
                     >
                         <span className={styles['row-rank']}>{++index}</span>
-                        <Avatar icon="🔥" />
+                        <Avatar name={racer.name} />
                         <span className={styles['row-name']}>{racer.name}</span>
                         <span className={styles['row-wpm']}>
                             {racer.wpm} wpm

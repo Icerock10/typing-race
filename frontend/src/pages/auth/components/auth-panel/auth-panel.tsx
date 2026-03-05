@@ -1,53 +1,46 @@
 import styles from './styles.module.css';
 import { ButtonLabels } from '~/libs/enums/enums.js';
 import { type ValueOf } from '~/libs/types/types.js';
-import { useCallback } from '~/libs/hooks/hooks.js';
-import { Form } from './form/form.js';
+import { AuthCard } from './form/auth-card.js';
 
 type TabValue = ValueOf<typeof ButtonLabels>;
 
 type Properties = {
     activeTab: TabValue;
-    handleTabClick: (tab: TabValue) => void;
+    handleSignInTabClick: () => void;
+    handleRegisterTabClick: () => void;
 };
 
-const RightPanel: React.FC<Properties> = ({ activeTab, handleTabClick }) => {
-    const toRegister = useCallback(() => {
-        handleTabClick(ButtonLabels.REGISTER);
-    }, [handleTabClick]);
-
-    const toSignIn = useCallback(() => {
-        handleTabClick(ButtonLabels.SIGN_IN);
-    }, [handleTabClick]);
-
-    const getTab = (tab: string): React.ReactNode => {
-        switch (tab) {
+const AuthPanel: React.FC<Properties> = ({
+    activeTab,
+    handleRegisterTabClick,
+    handleSignInTabClick,
+}) => {
+    const getAuthTab = (): React.ReactNode => {
+        switch (activeTab) {
             case ButtonLabels.SIGN_IN: {
                 return (
-                    <Form
+                    <AuthCard
                         formTitle="Welcome back 👋"
                         formSubTitle="Sign in to your account and get back to racing."
                         isSignIn
-                        handleTabClick={toRegister}
+                        handleTabClick={handleRegisterTabClick}
                     />
                 );
             }
             case ButtonLabels.REGISTER: {
                 return (
-                    <Form
+                    <AuthCard
                         formTitle="Create account ⚡"
                         formSubTitle="Join the race. It takes less than a minute."
-                        handleTabClick={toSignIn}
+                        handleTabClick={handleSignInTabClick}
                     />
                 );
             }
         }
-        return <></>;
     };
 
-    return (
-        <div className={styles['auth-right-panel']}>{getTab(activeTab)}</div>
-    );
+    return <div className={styles['auth-panel']}>{getAuthTab()}</div>;
 };
 
-export { RightPanel };
+export { AuthPanel };

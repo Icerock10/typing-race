@@ -1,6 +1,7 @@
 import { type JSX, StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-
+import { AppRoute } from './libs/enums/app-route.enum.js';
+import { Navigate } from 'react-router-dom';
 import {
     App,
     ProtectedRoute,
@@ -21,13 +22,24 @@ const Root = (): JSX.Element => {
                     <RouterProvider
                         routes={[
                             {
-                                children: routes,
+                                path: AppRoute.ROOT,
                                 element: (
                                     <App>
                                         <ProtectedRoute />
                                     </App>
                                 ),
-                                path: '/',
+                                children: [
+                                    {
+                                        index: true,
+                                        element: (
+                                            <Navigate
+                                                to={AppRoute.LOBBY}
+                                                replace
+                                            />
+                                        ),
+                                    },
+                                    ...routes,
+                                ],
                             },
                         ]}
                     />
