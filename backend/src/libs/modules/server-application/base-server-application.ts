@@ -1,8 +1,9 @@
 import fastifyStatic from '@fastify/static';
 import Fastify, { type FastifyError, type FastifyInstance } from 'fastify';
+import { openAuthConfig } from '~/features/open-auth/open-auth.js';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-
+import fastifyOAuth from '@fastify/oauth2';
 import { HTTPCode, HTTPError } from '~/libs/enums/enums.js';
 import { type SocketService } from '~/libs/modules/socket/libs/types/types.js';
 import { userService } from '~/features/users/users.js';
@@ -10,6 +11,7 @@ import { userService } from '~/features/users/users.js';
 import {
     authorization as authorizationPlugin,
     socket as socketPlugin,
+    oauthCallbackHandler,
 } from '~/plugins/plugins.js';
 
 import {
@@ -198,6 +200,8 @@ class BaseServerApplication implements ServerApplication {
     }
 
     private async initPlugins(): Promise<void> {
+        this.app.register(fastifyOAuth, openAuthConfig.discord);
+        this.app.register(oauthCallbackHandler);
         await this.app.register(authorizationPlugin, {
             userService,
             whiteRoutes: this.getWhiteRoutes(),
