@@ -18,4 +18,5 @@ export {
     HTTPRequestMethod,
     HTTPError,
     ServerErrorType,
+    OpenAuthPath,
 } from 'shared';
