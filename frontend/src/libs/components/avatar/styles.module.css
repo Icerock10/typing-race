@@ -11,8 +11,19 @@
 }
 
 .avatar-full {
+    position: relative;
     padding: 5px 12px;
     background: var(--surface-inline);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-l);
+}
+
+.user-name {
+    margin-left: var(--space-m);
+}
+
+.avatar-image {
+    position: absolute;
+    left: 0;
+    transform: translateX(-20%);
 }

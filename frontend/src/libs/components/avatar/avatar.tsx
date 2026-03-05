@@ -1,4 +1,5 @@
 import styles from './styles.module.css';
+import { getAvatarSource } from '~/libs/helpers/helpers.js';
 import { Cluster } from '../components.js';
 import { AvatarVariants } from '~/libs/enums/enums.js';
 import { type ValueOf } from '~/libs/types/types.js';
@@ -6,26 +7,31 @@ import { HandlerParameterIndexes } from '~/libs/constants/constants.js';
 
 type Properties = {
     name?: string;
-    icon?: React.ReactNode;
     variant?: ValueOf<typeof AvatarVariants>;
+    avatarUrl?: string;
 };
 
 const Avatar: React.FC<Properties> = ({
     name,
-    icon,
     variant = AvatarVariants.ROUNDED,
+    avatarUrl,
 }) => {
-    const END_INDEX = 1;
     const firstLetter =
-        name
-            ?.slice(HandlerParameterIndexes.FIRST_PARAM_INDEX, END_INDEX)
-            .toUpperCase() ?? '?';
+        name?.charAt(HandlerParameterIndexes.FIRST_PARAM_INDEX).toUpperCase() ??
+        '?';
+
+    const avatarImage = (
+        <img alt="avatar" src={getAvatarSource(avatarUrl as string)} />
+    );
 
     switch (variant) {
         case AvatarVariants.FULL: {
             return (
                 <Cluster className={styles['avatar-full']}>
-                    ⚡{name?.toLowerCase() ?? ''}
+                    <div className={styles['avatar-image']}>{avatarImage}</div>
+                    <span className={styles['user-name']}>
+                        {name?.toLowerCase() ?? ''}
+                    </span>
                 </Cluster>
             );
         }
@@ -38,7 +44,9 @@ const Avatar: React.FC<Properties> = ({
         }
         case AvatarVariants.ICON_ONLY: {
             return (
-                <Cluster className={styles['avatar-rounded']}>{icon}</Cluster>
+                <Cluster className={styles['avatar-rounded']}>
+                    {avatarImage}
+                </Cluster>
             );
         }
         default: {

@@ -25,7 +25,7 @@ const RaceProgress: React.FC = () => {
                                 🥇
                             </span>
                             <Cluster className={styles['player-info']}>
-                                <Avatar name="K" />
+                                <Avatar />
                                 <span className={styles['player-name']}>
                                     k1netic
                                 </span>

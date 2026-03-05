@@ -64,7 +64,7 @@ const RacePreview: React.FC = () => {
                             data-rank={index + OFFSET}
                             key={racer.name}
                         >
-                            <Avatar name={racer.avatar} />
+                            <Avatar name={racer.name} />
                             <span className={styles['racer-name']}>
                                 {racer.name}
                             </span>
