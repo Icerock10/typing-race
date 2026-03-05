@@ -37,7 +37,7 @@ const Rooms: React.FC = () => {
                             </span>
                         </Cluster>
                         <Cluster className={styles['room-players']}>
-                            <Avatar name={racer.avatar} />
+                            <Avatar name={racer.name} />
 
                             <span className={styles['player-count']}>4/6</span>
                         </Cluster>
