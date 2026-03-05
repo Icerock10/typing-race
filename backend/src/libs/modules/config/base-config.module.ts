@@ -31,6 +31,12 @@ class BaseConfig implements Config {
                     env: 'PORT',
                     format: Number,
                 },
+                CLIENT_DEVELOPMENT_SERVER_URL: {
+                    default: null,
+                    doc: 'App client dev server',
+                    env: 'CLIENT_DEVELOPMENT_SERVER_URL',
+                    format: String,
+                },
             },
             DB: {
                 CONNECTION_STRING: {
@@ -57,6 +63,28 @@ class BaseConfig implements Config {
                     default: null,
                     doc: 'Secret key for JWTs',
                     env: 'JWT_SECRET_KEY',
+                    format: String,
+                },
+            },
+            OPEN_AUTH: {
+                DISCORD: {
+                    CLIENT_ID: {
+                        default: null,
+                        doc: 'Discord OAuth client ID',
+                        env: 'CLIENT_DISCORD_ID',
+                        format: String,
+                    },
+                    CLIENT_SECRET: {
+                        default: null,
+                        doc: 'Discord OAuth client secret',
+                        env: 'CLIENT_DISCORD_SECRET',
+                        format: String,
+                    },
+                },
+                BASE_CALLBACK_URI: {
+                    default: null,
+                    doc: 'Base OAuth callback URI',
+                    env: 'BASE_OAUTH_CALLBACK_URI',
                     format: String,
                 },
             },
