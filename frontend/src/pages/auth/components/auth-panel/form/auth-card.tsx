@@ -1,5 +1,6 @@
 import styles from './styles.module.css';
 import { DiscordIcon } from '~/assets/image/discord/discord.img.js';
+import { useAppSelector } from '~/libs/hooks/hooks.js';
 import { SignIn, Registration } from './components/components.js';
 import { Button, Cluster } from '~/libs/components/components.js';
 import {
@@ -26,6 +27,8 @@ const AuthCard: React.FC<Properties> = ({
         ? 'Don`t have an account?'
         : 'Already have an account?';
 
+    const { isLoading } = useAppSelector((state) => state.auth);
+
     return (
         <div className={styles['auth-card']}>
             <h2 className={styles['card-title']}>{formTitle}</h2>
@@ -44,7 +47,11 @@ const AuthCard: React.FC<Properties> = ({
                 <span className={styles['divider-text']}>or with email</span>
                 <div className={styles['divider-line']} />
             </Cluster>
-            {isSignIn ? <SignIn /> : <Registration />}
+            {isSignIn ? (
+                <SignIn isLoading={isLoading} />
+            ) : (
+                <Registration isLoading={isLoading} />
+            )}
             <Cluster className={styles['switch-prompt']}>
                 <span> {isSignInText} </span>
                 <Button

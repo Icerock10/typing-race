@@ -4,10 +4,14 @@ import { userSignInValidationSchema } from '~/libs/types/types.js';
 import styles from '../registration/styles.module.css';
 import { DEFAULT_SIGN_IN_PAYLOAD } from '~/pages/auth/libs/constants/constants.js';
 import { actions as authActions } from '~/features/auth/auth.js';
-import { Input, Button } from '~/libs/components/components.js';
+import { Input, Button, Loader } from '~/libs/components/components.js';
 import { ButtonLabels, ButtonVariants } from '~/libs/enums/enums.js';
 
-const SignIn: React.FC = () => {
+type Properties = {
+    isLoading: boolean;
+};
+
+const SignIn: React.FC<Properties> = ({ isLoading }) => {
     const dispatch = useAppDispatch();
     const { control, errors, handleSubmit } = useAppForm<UserSignInRequestDto>({
         defaultValues: DEFAULT_SIGN_IN_PAYLOAD,
@@ -47,6 +51,14 @@ const SignIn: React.FC = () => {
                 label={ButtonLabels.SIGN_IN}
                 variant={ButtonVariants.PRIMARY}
                 className={styles['submit-button']}
+                isDisabled={isLoading}
+                loader={
+                    <Loader
+                        isLoading={isLoading}
+                        size="small"
+                        container="inline"
+                    />
+                }
                 type="submit"
             />
         </form>

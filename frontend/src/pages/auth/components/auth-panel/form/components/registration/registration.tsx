@@ -9,6 +9,7 @@ import {
     Input,
     RadioGroup,
     Button,
+    Loader,
 } from '~/libs/components/components.js';
 import {
     ClusterVariant,
@@ -28,7 +29,11 @@ const AVATAR_OPTIONS = DEFAULT_AVATAR_ICONS.map(({ name, src }) => ({
     icon: <img className={styles['icon-image']} alt={name} src={src} />,
 }));
 
-const Registration: React.FC = () => {
+type Properties = {
+    isLoading: boolean;
+};
+
+const Registration: React.FC<Properties> = ({ isLoading }) => {
     const [option] = AVATAR_OPTIONS;
     const dispatch = useAppDispatch();
     const { control, errors, handleSubmit } = useAppForm<UserSignUpRequestDto>({
@@ -114,6 +119,14 @@ const Registration: React.FC = () => {
                 label={ButtonLabels.REGISTER}
                 variant={ButtonVariants.PRIMARY}
                 className={styles['submit-button']}
+                loader={
+                    <Loader
+                        isLoading={isLoading}
+                        size="small"
+                        container="inline"
+                    />
+                }
+                isDisabled={isLoading}
                 type="submit"
             />
         </form>

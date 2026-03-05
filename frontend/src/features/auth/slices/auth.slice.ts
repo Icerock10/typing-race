@@ -8,37 +8,44 @@ import { getCurrentUser, signIn, signUp } from './actions.js';
 type State = {
     dataStatus: ValueOf<typeof DataStatus>;
     user: null | UserDto;
+    isLoading: boolean;
 };
 
 const initialState: State = {
     dataStatus: DataStatus.IDLE,
     user: null,
+    isLoading: false,
 };
 
 const { actions, name, reducer } = createSlice({
     extraReducers(builder) {
+        builder.addCase(getCurrentUser.fulfilled, (state, action) => {
+            state.dataStatus = DataStatus.FULFILLED;
+            state.user = action.payload;
+        });
+        builder.addCase(getCurrentUser.pending, (state) => {
+            state.dataStatus = DataStatus.PENDING;
+        });
+        builder.addCase(getCurrentUser.rejected, (state) => {
+            state.dataStatus = DataStatus.REJECTED;
+            state.user = null;
+        });
+
         builder.addMatcher(
-            isAnyOf(
-                signUp.fulfilled,
-                getCurrentUser.fulfilled,
-                signIn.fulfilled,
-            ),
+            isAnyOf(signUp.fulfilled, signIn.fulfilled),
             (state, action) => {
-                state.dataStatus = DataStatus.FULFILLED;
+                state.isLoading = false;
                 state.user = action.payload;
             },
         );
 
+        builder.addMatcher(isAnyOf(signUp.pending, signIn.pending), (state) => {
+            state.isLoading = true;
+        });
         builder.addMatcher(
-            isAnyOf(signUp.pending, getCurrentUser.pending, signIn.pending),
+            isAnyOf(signUp.rejected, signIn.rejected),
             (state) => {
-                state.dataStatus = DataStatus.PENDING;
-            },
-        );
-        builder.addMatcher(
-            isAnyOf(signUp.rejected, getCurrentUser.rejected, signIn.rejected),
-            (state) => {
-                state.dataStatus = DataStatus.REJECTED;
+                state.isLoading = false;
                 state.user = null;
             },
         );
