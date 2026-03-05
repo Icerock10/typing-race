@@ -53,4 +53,8 @@
     .header-nav {
         display: none;
     }
+
+    .auth > div {
+        padding: 25px 50px;
+    }
 }

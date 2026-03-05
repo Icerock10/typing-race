@@ -46,3 +46,9 @@
     font-size: 0.9rem;
     color: var(--color-text-muted);
 }
+
+@media screen and (width <= 900px) {
+    .auth-card {
+        max-width: 100%;
+    }
+}
