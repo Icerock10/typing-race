@@ -51,7 +51,13 @@ export {
     type UserResponseDto,
 } from './features/users/users.js';
 
-export { type GameDto, type GameResultDto } from './features/games/games.js';
+export {
+    type GameDto,
+    type GameResultDto,
+    GamesDifficulty,
+    GameLanguage,
+    GameStatus,
+} from './features/games/games.js';
 export {
     type RoomPayload,
     type RoomResponseDto,

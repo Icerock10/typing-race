@@ -8,7 +8,7 @@ type RoomPayload = {
     roomName: string;
     difficulty: ValueOf<typeof GamesDifficulty>;
     language: ValueOf<typeof GameLanguage>;
-    maxPlayers: number;
+    maxPlayers: string;
 };
 
 export { type RoomPayload };
