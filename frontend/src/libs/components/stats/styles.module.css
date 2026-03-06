@@ -10,7 +10,6 @@
     font-family: var(--font-family-space-mono);
     font-size: 2rem;
     font-weight: var(--font-weight-extra-bold);
-    color: var(--stat-color);
 }
 
 .stat-label {
@@ -29,4 +28,8 @@
 
 [data-stat="record"] {
     --stat-color: var(--color-accent-turquoise);
+}
+
+.stat-value[data-stat] {
+    color: var(--stat-color);
 }
