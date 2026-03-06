@@ -97,6 +97,7 @@ const unicornConfig = {
     rules: {
         ...unicorn.configs.recommended.rules,
         'unicorn/no-null': ['off'],
+        'unicorn/prefer-regexp-test': ['off'],
     },
 };
 

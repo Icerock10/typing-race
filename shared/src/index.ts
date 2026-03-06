@@ -56,3 +56,7 @@ export {
     type RoomPayload,
     type RoomResponseDto,
 } from './features/rooms/rooms.js';
+export {
+    SocketNamespace,
+    SocketEvent,
+} from './libs/modules/socket/enums/enums.js';
