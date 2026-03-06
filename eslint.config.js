@@ -138,7 +138,7 @@ const typescriptConfig = {
                 ignoreReadonlyClassProperties: true,
             },
         ],
-        '@typescript-eslint/return-await': ['error', 'always'],
+        '@typescript-eslint/return-await': ['off'],
         '@typescript-eslint/no-misused-spread': ['off'],
     },
 };

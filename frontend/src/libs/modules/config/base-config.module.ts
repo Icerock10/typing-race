@@ -12,6 +12,7 @@ class BaseConfig implements Config {
                 ORIGIN_URL: import.meta.env[
                     'VITE_APP_API_ORIGIN_URL'
                 ] as string,
+                DEV_URL: import.meta.env['VITE_APP_PROXY_SERVER_URL'] as string,
             },
             APP: {
                 ENVIRONMENT: import.meta.env['VITE_APP_NODE_ENV'] as ValueOf<

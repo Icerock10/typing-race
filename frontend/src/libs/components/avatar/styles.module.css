@@ -1,6 +1,4 @@
 .avatar-rounded {
-    width: 24px;
-    height: 24px;
     font-family: var(--font-family-syne);
     font-size: 10px;
     font-weight: var(--font-weight-bold);
@@ -8,6 +6,12 @@
     border-radius: var(--radius-m);
 
     --cluster-horizontal-alignment: center;
+}
+
+.avatar-rounded,
+.avatar-image {
+    width: 24px;
+    height: 24px;
 }
 
 .avatar-full {
@@ -24,6 +28,9 @@
 
 .avatar-image {
     position: absolute;
-    left: 0;
-    transform: translateX(-20%);
+    left: 5%;
+}
+
+.avatar-image img {
+    border-radius: var(--radius-l);
 }

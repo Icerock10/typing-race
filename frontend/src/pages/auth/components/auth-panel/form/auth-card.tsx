@@ -1,12 +1,15 @@
 import styles from './styles.module.css';
 import { DiscordIcon } from '~/assets/image/discord/discord.img.js';
-import { useAppSelector } from '~/libs/hooks/hooks.js';
+import { useAppSelector, useCallback } from '~/libs/hooks/hooks.js';
+import { config } from '~/libs/modules/config/config.js';
+
 import { SignIn, Registration } from './components/components.js';
 import { Button, Cluster } from '~/libs/components/components.js';
 import {
     ButtonLabels,
     ButtonSizes,
     ButtonVariants,
+    OpenAuthPath,
     ClusterVariant,
 } from '~/libs/enums/enums.js';
 
@@ -29,6 +32,12 @@ const AuthCard: React.FC<Properties> = ({
 
     const { isLoading } = useAppSelector((state) => state.auth);
 
+    const onDiscordSignIn = useCallback(() => {
+        globalThis.location.replace(
+            `${config.ENV.API.DEV_URL}${OpenAuthPath.DISCORD}`,
+        );
+    }, []);
+
     return (
         <div className={styles['auth-card']}>
             <h2 className={styles['card-title']}>{formTitle}</h2>
@@ -38,6 +47,7 @@ const AuthCard: React.FC<Properties> = ({
                 icon={<DiscordIcon />}
                 className={styles['discord-btn']}
                 variant={ButtonVariants.PRIMARY}
+                onClick={onDiscordSignIn}
             />
             <Cluster
                 cluster={ClusterVariant.FLEX}

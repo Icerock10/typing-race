@@ -1,40 +1,16 @@
 import styles from './styles.module.css';
-import { useEffect, useState, useRef } from '~/libs/hooks/hooks.js';
+import { useTyping } from '~/libs/hooks/hooks.js';
 import { mockApi } from '~/libs/modules/api/api.js';
-import { Cluster, Avatar } from '~/libs/components/components.js';
+import { Cluster } from '~/libs/components/components.js';
+import { Racer } from '../racer/racer.js';
 import { ClusterVariant } from '~/libs/enums/enums.js';
 
-const typedText = ['jumps', 'over', 'the'];
-const initialText = 'The quick brown fox';
 const OFFSET = 1;
-const INDEX_REFERENCE_VALUE = 0;
+const WORDS = ['jumps', 'over', 'the'];
+const initialText = 'The quick brown fox';
 
 const RacePreview: React.FC = () => {
-    const [text, setText] = useState<string>(initialText);
-    const indexReference = useRef<number>(INDEX_REFERENCE_VALUE);
-
-    useEffect(() => {
-        const delay = 2000;
-
-        const interval = setInterval(() => {
-            if (indexReference.current < typedText.length) {
-                const currentIndex = indexReference.current;
-                setText(
-                    (previous) =>
-                        `${previous} ${typedText[currentIndex] as string}`,
-                );
-
-                indexReference.current = currentIndex + OFFSET;
-            } else {
-                setText(initialText);
-                indexReference.current = 0;
-            }
-        }, delay);
-
-        return (): void => {
-            clearInterval(interval);
-        };
-    }, []);
+    const { text } = useTyping({ words: WORDS, initialText });
 
     return (
         <div className={styles['race-preview']}>
@@ -57,28 +33,13 @@ const RacePreview: React.FC = () => {
                 </span>
             </div>
             <Cluster cluster={ClusterVariant.GRID} className={styles['racers']}>
-                {mockApi.racersPreview.map((racer, index) => {
-                    return (
-                        <div
-                            className="flex-cluster"
-                            data-rank={index + OFFSET}
-                            key={racer.name}
-                        >
-                            <Avatar name={racer.name} />
-                            <span className={styles['racer-name']}>
-                                {racer.name}
-                            </span>
-                            <div className={styles['racer-progress']}>
-                                <div
-                                    className={styles['racer-progress-fill']}
-                                />
-                            </div>
-                            <span
-                                className={styles['racer-wpm']}
-                            >{`${String(racer.wpm)} wpm`}</span>
-                        </div>
-                    );
-                })}
+                {mockApi.racersPreview.map((racer, index) => (
+                    <Racer
+                        key={racer.name}
+                        racer={racer}
+                        rank={index + OFFSET}
+                    />
+                ))}
             </Cluster>
         </div>
     );

@@ -1,7 +1,7 @@
 import styles from './styles.module.css';
 import { getAvatarSource } from '~/libs/helpers/helpers.js';
 import { Cluster } from '../components.js';
-import { AvatarVariants } from '~/libs/enums/enums.js';
+import { AvatarVariants, OpenAuthProvider } from '~/libs/enums/enums.js';
 import { type ValueOf } from '~/libs/types/types.js';
 import { HandlerParameterIndexes } from '~/libs/constants/constants.js';
 
@@ -19,9 +19,15 @@ const Avatar: React.FC<Properties> = ({
     const firstLetter =
         name?.charAt(HandlerParameterIndexes.FIRST_PARAM_INDEX).toUpperCase() ??
         '?';
+    const isDiscordAvatar = avatarUrl?.includes(OpenAuthProvider.DISCORD);
 
     const avatarImage = (
-        <img alt="avatar" src={getAvatarSource(avatarUrl as string)} />
+        <img
+            alt="avatar"
+            src={
+                isDiscordAvatar ? avatarUrl : getAvatarSource(String(avatarUrl))
+            }
+        />
     );
 
     switch (variant) {

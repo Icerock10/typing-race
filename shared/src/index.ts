@@ -6,6 +6,9 @@ export {
     ContentType,
     DataStatus,
     ServerErrorType,
+    OpenAuthPath,
+    OpenAuthProvider,
+    DiscordApiPath,
 } from './libs/enums/enums.js';
 export {
     ApplicationError,
@@ -29,6 +32,7 @@ export {
     type ServerErrorResponse,
     type ServerValidationErrorResponse,
     type ZodType as ValidationSchema,
+    type DiscordUserDto,
     type ValueOf,
 } from './libs/types/types.js';
 export { AuthApiPath } from './features/auth/auth.js';
