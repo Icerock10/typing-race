@@ -4,14 +4,16 @@ import {
     type Tuple,
     type UnknownAction,
 } from '@reduxjs/toolkit';
-import { lobbySocketMiddleware } from './lobby-middleware/lobby-socket-middleware.js';
 import { AppEnvironment } from '~/libs/enums/enums.js';
 import { type Config } from '~/libs/modules/config/config.js';
 import { type BaseStorage, storage } from '~/libs/modules/storage/storage.js';
 import { authApi, reducer as authReducer } from '~/features/auth/auth.js';
 import { reducer as lobbyReducer } from '~/features/lobby/slices/lobby.js';
 
-import { listenerMiddleware } from './listener-middleware/listener-middleware.js';
+import {
+    listenerMiddleware,
+    lobbySocketMiddleware,
+} from './middlewares/middlewares.js';
 
 type ExtraArguments = {
     authApi: typeof authApi;
@@ -47,9 +49,10 @@ class Store {
                     thunk: {
                         extraArgument: this.extraArguments,
                     },
-                })
-                    .prepend(listenerMiddleware.middleware)
-                    .prepend(lobbySocketMiddleware);
+                }).prepend(
+                    listenerMiddleware.middleware,
+                    lobbySocketMiddleware,
+                );
             },
             reducer: {
                 auth: authReducer,
