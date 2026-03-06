@@ -1,8 +1,8 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { type RoomPayload } from 'shared';
+import { type RoomResponseDto } from '~/libs/types/types.js';
 
 type State = {
-    rooms: RoomPayload[];
+    rooms: RoomResponseDto[];
 };
 
 const initialState: State = {
@@ -13,7 +13,7 @@ const { actions, name, reducer } = createSlice({
     initialState,
     name: 'lobby',
     reducers: {
-        roomCreated(state, action: PayloadAction<RoomPayload>) {
+        roomCreated(state, action: PayloadAction<RoomResponseDto>) {
             state.rooms = [...state.rooms, action.payload];
         },
     },

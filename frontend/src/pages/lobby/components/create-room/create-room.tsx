@@ -46,8 +46,8 @@ const Createroom: React.FC = () => {
                 label="Language"
                 name="language"
                 options={[
-                    { label: 'English', value: 'en' },
-                    { label: 'Deutsch', value: 'de' },
+                    { label: 'English', value: 'English' },
+                    { label: 'Deutsch', value: 'Deutsch' },
                 ]}
             />
             <RadioGroup

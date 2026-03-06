@@ -1,7 +1,11 @@
 import { createAction } from '@reduxjs/toolkit';
-import { SocketEvent } from '~/libs/enums/enums.js';
 import { type RoomPayload } from '~/libs/types/types.js';
+import { name as sliceName } from './lobby.slice.js';
 
-const createRoom = createAction<RoomPayload>(SocketEvent.LOBBY_CREATE_ROOM);
+const ActionType = {
+    CREATE_ROOM: `${sliceName}/create-room`,
+};
+
+const createRoom = createAction<RoomPayload>(ActionType.CREATE_ROOM);
 
 export { createRoom };
