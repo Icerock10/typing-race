@@ -20,4 +20,8 @@ export {
     ServerErrorType,
     OpenAuthPath,
     OpenAuthProvider,
+    SocketEvent,
+    SocketNamespace,
+    GamesDifficulty,
+    GameLanguage,
 } from 'shared';

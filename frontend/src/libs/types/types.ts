@@ -11,4 +11,6 @@ export {
     type ValidationSchema,
     type ServerErrorDetail,
     type ValueOf,
+    type RoomPayload,
+    type RoomResponseDto,
 } from 'shared';

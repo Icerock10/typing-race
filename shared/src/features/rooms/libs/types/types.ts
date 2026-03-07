@@ -1,1 +1,2 @@
-export { type RoomStateDto } from './room-state-dto.type.js';
+export { type RoomPayload } from './room-payload-dto.type.js';
+export { type RoomResponseDto } from './room-response-dto.type.js';

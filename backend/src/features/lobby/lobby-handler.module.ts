@@ -1,10 +1,14 @@
 import { type Logger } from '~/libs/modules/logger/libs/types/types.js';
 import { type Server as SocketServer, type Socket as TSocket } from 'socket.io';
+import { GameStatus } from '~/libs/enums/enums.js';
 import { SocketEvent } from '~/libs/modules/socket/libs/enums/enums.js';
-import { type GameStore } from '../game-state/base-game-store.module.js';
-import { type GameResultDto, type RoomStateDto } from '~/libs/types/types.js';
+import { type UserDto, type RoomPayload } from '~/libs/types/types.js';
+import { type GameStore } from '../game-store/base-game-store.module.js';
 
-type PlayerResult = GameResultDto & { roomId: string; token: string };
+type Player = {
+    socketId: string;
+    user: UserDto;
+};
 
 type Constructor = {
     socket: TSocket;
@@ -27,49 +31,30 @@ class LobbyHandler {
     }
 
     private registerEvents(): void {
-        this.socket.on(SocketEvent.CREATE_ROOM, this.createRoom);
-        this.socket.on(SocketEvent.JOIN_ROOM, this.joinRoom);
+        this.socket.on(SocketEvent.LOBBY_CREATE_ROOM, this.createRoom);
     }
 
-    private createRoom = ({
-        roomData,
-        playerData,
-    }: {
-        roomData: RoomStateDto;
-        playerData: PlayerResult;
-    }): void => {
-        const { roomId } = roomData;
+    private createRoom = (roomData: RoomPayload): void => {
+        const roomId = crypto.randomUUID();
+        const { user } = this.socket.data as Record<'user', UserDto>;
 
-        this.store.addUser(this.socket.id, { ...playerData, roomId });
+        const players = new Map<string, Player>();
 
-        this.store.addRoom(roomId, {
-            ...roomData,
-            players: new Set([this.socket.id]),
+        players.set(String(user.id), {
+            user,
+            socketId: this.socket.id,
         });
 
-        void this.socket.join(roomId);
-    };
-
-    private joinRoom = ({ playerData }: { playerData: PlayerResult }): void => {
-        const { roomId } = playerData;
-        const room = this.store.getRoom(roomId);
-
-        if (!room) {
-            return;
-        }
-
-        if (room.players.size >= room.playersCount) {
-            return;
-        }
-
-        this.store.addUser(this.socket.id, {
-            ...playerData,
+        const createdRoom = this.store.addRoom(roomId, {
+            ...roomData,
+            players,
+            status: GameStatus.IN_PROGRESS,
             roomId,
         });
 
         void this.socket.join(roomId);
 
-        this.store.addPlayerToRoom(this.socket.id, room);
+        this.socket.emit(SocketEvent.LOBBY_CREATE_ROOM, createdRoom);
     };
 }
 

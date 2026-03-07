@@ -12,6 +12,7 @@ export {
     type ValueOf,
     type GameResultDto,
     type GameDto,
-    type RoomStateDto,
+    type RoomPayload,
+    type RoomResponseDto,
     type DiscordUserDto,
 } from 'shared';

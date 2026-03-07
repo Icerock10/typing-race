@@ -1,5 +1,8 @@
 import { ButtonLabels } from '~/libs/enums/enums.js';
-import { useAppForm, useCallback } from '~/libs/hooks/hooks.js';
+import { useAppForm, useCallback, useAppDispatch } from '~/libs/hooks/hooks.js';
+import { type RoomPayload } from '~/libs/types/types.js';
+import { DEFAULT_CREATE_ROOM_VALUES } from '../../libs/default-create-room-values.constant.js';
+import { actions as lobbyActions } from '~/features/lobby/slices/lobby.js';
 import { getClassNames } from '~/libs/helpers/helpers.js';
 import styles from './styles.module.css';
 import {
@@ -10,31 +13,19 @@ import {
 } from '~/libs/components/components.js';
 
 const Createroom: React.FC = () => {
-    type RoomCreateDto = {
-        roomName: string;
-        language: 'English' | 'Deutsch';
-        dificulty: 'easy' | 'medium' | 'hard';
-        maxPlayers: string;
-    };
+    const dispatch = useAppDispatch();
 
-    const { control, errors, handleSubmit } = useAppForm<RoomCreateDto>({
-        defaultValues: {
-            roomName: '',
-            dificulty: 'easy',
-            maxPlayers: '4',
-            language: 'English',
-        },
+    const { control, errors, handleSubmit } = useAppForm<RoomPayload>({
+        defaultValues: DEFAULT_CREATE_ROOM_VALUES,
     });
-
-    const onSubmit = useCallback(() => {
-        return {};
-    }, []);
 
     const handleFormSubmit = useCallback(
         (event_: React.BaseSyntheticEvent): void => {
-            void handleSubmit(onSubmit)(event_);
+            void handleSubmit(
+                (formData) => void dispatch(lobbyActions.createRoom(formData)),
+            )(event_);
         },
-        [handleSubmit, onSubmit],
+        [handleSubmit, dispatch],
     );
 
     const formClasses = getClassNames(styles['form'], 'flex-cluster');
@@ -55,15 +46,15 @@ const Createroom: React.FC = () => {
                 label="Language"
                 name="language"
                 options={[
-                    { label: 'English', value: 'en' },
-                    { label: 'Deutsch', value: 'de' },
+                    { label: 'English', value: 'English' },
+                    { label: 'Deutsch', value: 'Deutsch' },
                 ]}
             />
             <RadioGroup
                 control={control}
                 errors={errors}
                 label="Dificulty"
-                name="dificulty"
+                name="difficulty"
                 options={[
                     { label: 'Easy', value: 'easy', icon: '⚡' },
                     { label: 'Medium', value: 'medium', icon: '⚡' },

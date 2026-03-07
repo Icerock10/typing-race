@@ -1,0 +1,54 @@
+.room {
+    position: relative;
+    grid-template-columns: 1fr auto;
+    padding: 15px 24px;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-s);
+}
+
+.room:hover {
+    background: var(--surface-inline);
+}
+
+.room::before {
+    position: absolute;
+    inset: 0;
+    width: 3px;
+    content: "";
+    background: var(--color-accent-yellow);
+}
+
+.room-meta {
+    font-family: var(--font-family-space-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+.room-players {
+    --gutter: 0;
+}
+
+.room-name {
+    font-weight: var(--font-weight-extra-bold);
+}
+
+.status {
+    padding: 2px 8px;
+    font-family: var(--font-family-space-mono);
+    font-size: 0.6rem;
+    color: var(--color-accent-turquoise);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid var(--color-accent-turquoise);
+    border-radius: 4px;
+}
+
+.player-count {
+    margin-left: 8px;
+    font-family: var(--font-family-space-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+}

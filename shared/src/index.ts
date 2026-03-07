@@ -51,5 +51,18 @@ export {
     type UserResponseDto,
 } from './features/users/users.js';
 
-export { type GameDto, type GameResultDto } from './features/games/games.js';
-export { type RoomStateDto } from './features/rooms/rooms.js';
+export {
+    type GameDto,
+    type GameResultDto,
+    GamesDifficulty,
+    GameLanguage,
+    GameStatus,
+} from './features/games/games.js';
+export {
+    type RoomPayload,
+    type RoomResponseDto,
+} from './features/rooms/rooms.js';
+export {
+    SocketNamespace,
+    SocketEvent,
+} from './libs/modules/socket/enums/enums.js';

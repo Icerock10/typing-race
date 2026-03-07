@@ -5,4 +5,6 @@ export {
     OpenAuthPath,
     OpenAuthProvider,
     DiscordApiPath,
+    GameStatus,
+    AuthorizationError,
 } from 'shared';
