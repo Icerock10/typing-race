@@ -5,6 +5,7 @@ const SocketEvent = {
     LOBBY_CREATE_ROOM: 'lobby-create-room',
     LOBBY_JOIN_ROOM: 'lobby-join-room',
     LOBBY_LEAVE_ROOM: 'lobby-leave-room',
+    LOBBY_REFRESH_ROOM: 'lobby-refresh-room',
 } as const;
 
 export { SocketEvent };

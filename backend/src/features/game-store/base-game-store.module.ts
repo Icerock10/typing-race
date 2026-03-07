@@ -3,6 +3,8 @@ import {
     type InternalRoom,
     type Player,
 } from './types/types.js';
+import { type UserDto } from '~/libs/types/types.js';
+import { HandlerParameterIndexes } from 'shared';
 
 type Store = {
     addUser: (socketId: string, userId: string) => void;
@@ -33,14 +35,23 @@ class GameStore implements Store {
         if (!internalRoom) {
             return undefined;
         }
-        const players = internalRoom.players
-            .values()
-            .map((player) => player.user);
 
         return {
             ...internalRoom,
-            players: [...players],
+            players: this.mapPlayers(internalRoom.players),
         };
+    }
+
+    getAllRooms(): RoomResponseDto[] {
+        const rooms = [...this.roomMap.values()];
+        const roomsWithUpdatedPlayers = rooms.map((room) => ({
+            ...room,
+            players: this.mapPlayers(room.players),
+        }));
+        return roomsWithUpdatedPlayers.length >
+            HandlerParameterIndexes.FIRST_PARAM_INDEX
+            ? roomsWithUpdatedPlayers
+            : [];
     }
 
     onJoinRoom(roomId: string, player: Player): RoomResponseDto | undefined {
@@ -54,6 +65,11 @@ class GameStore implements Store {
 
         room?.players.delete(playerId);
         return this.getRoom(roomId);
+    }
+
+    mapPlayers(players: Map<string, Player>): UserDto[] {
+        const updatedPlayers = players.values().map((player) => player.user);
+        return [...updatedPlayers];
     }
 
     clear(): void {

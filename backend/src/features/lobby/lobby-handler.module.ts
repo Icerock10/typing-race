@@ -34,6 +34,7 @@ class LobbyHandler {
         this.socket.on(SocketEvent.LOBBY_CREATE_ROOM, this.createRoom);
         this.socket.on(SocketEvent.LOBBY_JOIN_ROOM, this.joinRoom);
         this.socket.on(SocketEvent.LOBBY_LEAVE_ROOM, this.leaveRoom);
+        this.socket.on(SocketEvent.LOBBY_REFRESH_ROOM, this.getActiveRooms);
     }
 
     private createRoom = (roomData: RoomPayload): void => {
@@ -80,6 +81,11 @@ class LobbyHandler {
 
         this.socket.emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
         this.socket.to(roomId).emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
+    };
+    private getActiveRooms = (): void => {
+        const rooms = this.store.getAllRooms();
+
+        this.socket.emit(SocketEvent.LOBBY_REFRESH_ROOM, rooms);
     };
 }
 

@@ -35,6 +35,12 @@ const lobbySocketMiddleware: Middleware = ({ dispatch }) => {
             dispatch(lobbyActions.playerLeft(roomData));
         },
     );
+    lobbySocket.on(
+        SocketEvent.LOBBY_REFRESH_ROOM,
+        (rooms: RoomResponseDto[]) => {
+            dispatch(lobbyActions.roomsUpdated(rooms));
+        },
+    );
 
     return (next) => (action) => {
         if (lobbyActions.createRoom.match(action)) {
@@ -45,6 +51,9 @@ const lobbySocketMiddleware: Middleware = ({ dispatch }) => {
         }
         if (lobbyActions.leaveRoom.match(action)) {
             lobbySocket.emit(SocketEvent.LOBBY_LEAVE_ROOM, action.payload);
+        }
+        if (lobbyActions.refreshRoom.match(action)) {
+            lobbySocket.emit(SocketEvent.LOBBY_REFRESH_ROOM);
         }
         next(action);
     };

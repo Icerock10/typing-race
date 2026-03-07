@@ -1,4 +1,4 @@
-import { createRoom, joinRoom, leaveRoom } from './actions.js';
+import { createRoom, joinRoom, leaveRoom, refreshRoom } from './actions.js';
 import { actions } from './lobby.slice.js';
 
 const allActions = {
@@ -6,6 +6,7 @@ const allActions = {
     createRoom,
     joinRoom,
     leaveRoom,
+    refreshRoom,
 };
 
 export { allActions as actions };

@@ -31,6 +31,9 @@ const { actions, name, reducer } = createSlice({
         playerLeft(state, action: PayloadAction<RoomResponseDto>) {
             state.rooms = mapRooms(state.rooms, action.payload);
         },
+        roomsUpdated(state, action: PayloadAction<RoomResponseDto[]>) {
+            state.rooms = action.payload;
+        },
     },
 });
 
