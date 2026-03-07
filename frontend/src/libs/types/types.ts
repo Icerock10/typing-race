@@ -13,4 +13,5 @@ export {
     type ValueOf,
     type RoomPayload,
     type RoomResponseDto,
+    type AppStatsDto,
 } from 'shared';

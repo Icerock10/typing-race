@@ -15,4 +15,5 @@ export {
     type RoomPayload,
     type RoomResponseDto,
     type DiscordUserDto,
+    type AppStatsDto,
 } from 'shared';
