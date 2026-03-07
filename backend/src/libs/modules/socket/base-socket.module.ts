@@ -52,12 +52,19 @@ class Socket implements SocketService {
                 this.logger.info(
                     `[Socket connected to]: ${SocketNamespace.LOBBY} ${socket.id}`,
                 );
+
                 void this.handleHandShake(socket);
                 this.initLobbyHandler(socket);
+                socket.on(SocketEvent.DISCONNECT, () => {
+                    this.store.removeUser(socket.id);
+                    this.emitStats();
+                });
+                this.emitStats();
             });
     };
 
     private handleHandShake = async (socket: TSocket): Promise<void> => {
+        this.store.addUser(socket.id, null);
         try {
             const token = socket.handshake.auth['token'] as string;
             const { userId } = await this.tokenService.decode(token);
@@ -80,7 +87,15 @@ class Socket implements SocketService {
             io: this._io,
             store: this.store,
             logger: this.logger,
+            emitStats: this.emitStats,
         });
+    };
+
+    private emitStats = (): void => {
+        const activePlayersAndRooms = this.store.getStats();
+        this.io
+            .of(SocketNamespace.LOBBY)
+            .emit(SocketEvent.LOBBY_STATS_INFO, activePlayersAndRooms);
     };
 
     private notificationHandler = (socket: TSocket): void => {

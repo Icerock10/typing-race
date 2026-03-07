@@ -3,26 +3,39 @@ import {
     type InternalRoom,
     type Player,
 } from './types/types.js';
-import { type UserDto } from '~/libs/types/types.js';
+import { type UserDto, type AppStatsDto } from '~/libs/types/types.js';
 import { HandlerParameterIndexes } from 'shared';
 
 type Store = {
-    addUser: (socketId: string, userId: string) => void;
+    addUser: (socketId: string, userId: string | null) => void;
     getUser: (socketId: string) => string | undefined;
     getRoom: (roomId: string) => RoomResponseDto | undefined;
     addRoom: (roomId: string, roomData: InternalRoom) => void;
 };
 
 class GameStore implements Store {
-    public userMap = new Map<string, string>();
+    public userMap = new Map<string, string | null>();
     public roomMap = new Map<string, InternalRoom>();
 
-    addUser(socketId: string, userId: string): void {
+    addUser(socketId: string, userId: string | null): void {
         this.userMap.set(socketId, userId);
     }
 
     getUser(socketId: string): ReturnType<Store['getUser']> {
-        return this.userMap.get(socketId);
+        const user = this.userMap.get(socketId);
+        return user ?? undefined;
+    }
+    getStats(): AppStatsDto {
+        const onlineUsers = this.userMap.size;
+        const activeRooms = this.roomMap.size;
+        return {
+            onlineUsers,
+            activeRooms,
+            wpm: 130,
+        };
+    }
+    removeUser(socketId: string): boolean {
+        return this.userMap.delete(socketId);
     }
 
     addRoom(roomId: string, roomData: InternalRoom): RoomResponseDto {

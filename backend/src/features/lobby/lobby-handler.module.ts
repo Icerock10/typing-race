@@ -3,18 +3,15 @@ import { type Server as SocketServer, type Socket as TSocket } from 'socket.io';
 import { GameStatus } from '~/libs/enums/enums.js';
 import { SocketEvent } from '~/libs/modules/socket/libs/enums/enums.js';
 import { type UserDto, type RoomPayload } from '~/libs/types/types.js';
+import { type Player } from '../game-store/types/types.js';
 import { type GameStore } from '../game-store/base-game-store.module.js';
-
-type Player = {
-    socketId: string;
-    user: UserDto;
-};
 
 type Constructor = {
     socket: TSocket;
     io: SocketServer;
     store: GameStore;
     logger: Logger;
+    emitStats: () => void;
 };
 
 class LobbyHandler {
@@ -22,11 +19,13 @@ class LobbyHandler {
     private io;
     private store;
     private logger;
-    constructor({ socket, io, store, logger }: Constructor) {
+    private emitStats;
+    constructor({ socket, io, store, logger, emitStats }: Constructor) {
         this.socket = socket;
         this.io = io;
         this.store = store;
         this.logger = logger;
+        this.emitStats = emitStats;
         this.registerEvents();
     }
 
@@ -58,6 +57,7 @@ class LobbyHandler {
         void this.socket.join(roomId);
         this.socket.emit(SocketEvent.LOBBY_CREATE_ROOM, createdRoom);
         this.socket.broadcast.emit(SocketEvent.LOBBY_CREATE_ROOM, createdRoom);
+        this.emitStats();
     };
 
     private joinRoom = ({ roomId }: { roomId: string }): void => {
