@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { type RoomResponseDto } from '~/libs/types/types.js';
+import { type RoomResponseDto, type AppStatsDto } from '~/libs/types/types.js';
 
 const mapRooms = (
     rooms: RoomResponseDto[],
@@ -12,10 +12,12 @@ const mapRooms = (
 
 type State = {
     rooms: RoomResponseDto[];
+    stats: AppStatsDto[];
 };
 
 const initialState: State = {
     rooms: [],
+    stats: [],
 };
 
 const { actions, name, reducer } = createSlice({
@@ -33,6 +35,9 @@ const { actions, name, reducer } = createSlice({
         },
         roomsUpdated(state, action: PayloadAction<RoomResponseDto[]>) {
             state.rooms = action.payload;
+        },
+        updatedStats(state, action: PayloadAction<AppStatsDto[]>) {
+            state.stats = action.payload;
         },
     },
 });

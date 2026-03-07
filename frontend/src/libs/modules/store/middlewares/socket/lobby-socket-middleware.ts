@@ -1,5 +1,5 @@
 import { type Middleware } from '@reduxjs/toolkit';
-import { type RoomResponseDto } from '~/libs/types/types.js';
+import { type RoomResponseDto, type AppStatsDto } from '~/libs/types/types.js';
 import { SocketEvent, SocketNamespace } from '~/libs/enums/enums.js';
 import { storage, StorageKey } from '~/libs/modules/storage/storage.js';
 import { socketManager } from '~/libs/modules/socket/socket-manager.js';
@@ -41,6 +41,10 @@ const lobbySocketMiddleware: Middleware = ({ dispatch }) => {
             dispatch(lobbyActions.roomsUpdated(rooms));
         },
     );
+
+    lobbySocket.on(SocketEvent.LOBBY_STATS_INFO, (stats: AppStatsDto[]) => {
+        dispatch(lobbyActions.updatedStats(stats));
+    });
 
     return (next) => (action) => {
         if (lobbyActions.createRoom.match(action)) {
