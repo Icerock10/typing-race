@@ -1,4 +1,8 @@
-import { type RoomResponseDto, type InternalRoom } from './types/types.js';
+import {
+    type RoomResponseDto,
+    type InternalRoom,
+    type Player,
+} from './types/types.js';
 
 type Store = {
     addUser: (socketId: string, userId: string) => void;
@@ -37,6 +41,15 @@ class GameStore implements Store {
             ...internalRoom,
             players: [...players],
         };
+    }
+
+    onJoinRoom(roomId: string, player: Player): RoomResponseDto | undefined {
+        const room = this.roomMap.get(roomId);
+        if (!room) {
+            return undefined;
+        }
+        room.players.set(String(player.user.id), player);
+        return this.getRoom(roomId);
     }
 
     clear(): void {
