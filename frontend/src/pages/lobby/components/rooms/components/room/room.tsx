@@ -25,6 +25,15 @@ const Room: React.FC<Properties> = ({ room }) => {
         }
         void dispatch(lobbyActions.joinRoom({ roomId }));
     }, [dispatch, room]);
+
+    const handleLeaveRoom = useCallback(() => {
+        const { roomId } = room;
+        if (!roomId) {
+            return;
+        }
+        void dispatch(lobbyActions.leaveRoom({ roomId }));
+    }, [dispatch, room]);
+
     return (
         <>
             <Cluster
@@ -60,6 +69,13 @@ const Room: React.FC<Properties> = ({ room }) => {
                     variant={ButtonVariants.SECONDARY}
                     label={ButtonLabels.JOIN}
                     onClick={handleRoomJoin}
+                    className={styles['room-action']}
+                />
+                <Button
+                    size={ButtonSizes.FIT}
+                    variant={ButtonVariants.SECONDARY}
+                    label={ButtonLabels.LEAVE_ROOM}
+                    onClick={handleLeaveRoom}
                     className={styles['room-action']}
                 />
             </Cluster>

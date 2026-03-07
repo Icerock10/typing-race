@@ -29,6 +29,12 @@ const lobbySocketMiddleware: Middleware = ({ dispatch }) => {
     lobbySocket.on(SocketEvent.LOBBY_JOIN_ROOM, (roomData: RoomResponseDto) => {
         dispatch(lobbyActions.playerJoined(roomData));
     });
+    lobbySocket.on(
+        SocketEvent.LOBBY_LEAVE_ROOM,
+        (roomData: RoomResponseDto) => {
+            dispatch(lobbyActions.playerLeft(roomData));
+        },
+    );
 
     return (next) => (action) => {
         if (lobbyActions.createRoom.match(action)) {
@@ -36,6 +42,9 @@ const lobbySocketMiddleware: Middleware = ({ dispatch }) => {
         }
         if (lobbyActions.joinRoom.match(action)) {
             lobbySocket.emit(SocketEvent.LOBBY_JOIN_ROOM, action.payload);
+        }
+        if (lobbyActions.leaveRoom.match(action)) {
+            lobbySocket.emit(SocketEvent.LOBBY_LEAVE_ROOM, action.payload);
         }
         next(action);
     };

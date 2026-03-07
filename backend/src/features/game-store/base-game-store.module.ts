@@ -45,10 +45,14 @@ class GameStore implements Store {
 
     onJoinRoom(roomId: string, player: Player): RoomResponseDto | undefined {
         const room = this.roomMap.get(roomId);
-        if (!room) {
-            return undefined;
-        }
-        room.players.set(String(player.user.id), player);
+
+        room?.players.set(String(player.user.id), player);
+        return this.getRoom(roomId);
+    }
+    onLeaveRoom(roomId: string, playerId: string): RoomResponseDto | undefined {
+        const room = this.roomMap.get(roomId);
+
+        room?.players.delete(playerId);
         return this.getRoom(roomId);
     }
 

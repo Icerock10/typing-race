@@ -33,6 +33,7 @@ class LobbyHandler {
     private registerEvents(): void {
         this.socket.on(SocketEvent.LOBBY_CREATE_ROOM, this.createRoom);
         this.socket.on(SocketEvent.LOBBY_JOIN_ROOM, this.joinRoom);
+        this.socket.on(SocketEvent.LOBBY_LEAVE_ROOM, this.leaveRoom);
     }
 
     private createRoom = (roomData: RoomPayload): void => {
@@ -67,6 +68,18 @@ class LobbyHandler {
         void this.socket.join(roomId);
         this.socket.emit(SocketEvent.LOBBY_JOIN_ROOM, room);
         this.socket.to(roomId).emit(SocketEvent.LOBBY_JOIN_ROOM, room);
+    };
+    private leaveRoom = ({ roomId }: { roomId: string }): void => {
+        const { user } = this.socket.data as Record<'user', UserDto>;
+
+        const room = this.store.onLeaveRoom(
+            roomId,
+            user.id as NonNullable<string>,
+        );
+        void this.socket.leave(roomId);
+
+        this.socket.emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
+        this.socket.to(roomId).emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
     };
 }
 

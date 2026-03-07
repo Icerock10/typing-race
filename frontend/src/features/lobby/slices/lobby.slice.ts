@@ -1,6 +1,15 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { type RoomResponseDto } from '~/libs/types/types.js';
 
+const mapRooms = (
+    rooms: RoomResponseDto[],
+    roomPayload: RoomResponseDto,
+): RoomResponseDto[] => {
+    return rooms.map((room) =>
+        room.roomId === roomPayload.roomId ? roomPayload : room,
+    );
+};
+
 type State = {
     rooms: RoomResponseDto[];
 };
@@ -17,9 +26,10 @@ const { actions, name, reducer } = createSlice({
             state.rooms = [...state.rooms, action.payload];
         },
         playerJoined(state, action: PayloadAction<RoomResponseDto>) {
-            state.rooms = state.rooms.map((room) =>
-                room.roomId === action.payload.roomId ? action.payload : room,
-            );
+            state.rooms = mapRooms(state.rooms, action.payload);
+        },
+        playerLeft(state, action: PayloadAction<RoomResponseDto>) {
+            state.rooms = mapRooms(state.rooms, action.payload);
         },
     },
 });
