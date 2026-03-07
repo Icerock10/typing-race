@@ -16,6 +16,11 @@ const { actions, name, reducer } = createSlice({
         roomCreated(state, action: PayloadAction<RoomResponseDto>) {
             state.rooms = [...state.rooms, action.payload];
         },
+        playerJoined(state, action: PayloadAction<RoomResponseDto>) {
+            state.rooms = state.rooms.map((room) =>
+                room.roomId === action.payload.roomId ? action.payload : room,
+            );
+        },
     },
 });
 

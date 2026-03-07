@@ -26,10 +26,16 @@ const lobbySocketMiddleware: Middleware = ({ dispatch }) => {
             dispatch(lobbyActions.roomCreated(roomData));
         },
     );
+    lobbySocket.on(SocketEvent.LOBBY_JOIN_ROOM, (roomData: RoomResponseDto) => {
+        dispatch(lobbyActions.playerJoined(roomData));
+    });
 
     return (next) => (action) => {
         if (lobbyActions.createRoom.match(action)) {
             lobbySocket.emit(SocketEvent.LOBBY_CREATE_ROOM, action.payload);
+        }
+        if (lobbyActions.joinRoom.match(action)) {
+            lobbySocket.emit(SocketEvent.LOBBY_JOIN_ROOM, action.payload);
         }
         next(action);
     };
