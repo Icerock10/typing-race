@@ -42,7 +42,7 @@ const lobbySocketMiddleware: Middleware = ({ dispatch }) => {
         },
     );
 
-    lobbySocket.on(SocketEvent.LOBBY_STATS_INFO, (stats: AppStatsDto[]) => {
+    lobbySocket.on(SocketEvent.LOBBY_STATS_INFO, (stats: AppStatsDto) => {
         dispatch(lobbyActions.updatedStats(stats));
     });
 

@@ -12,12 +12,12 @@ const mapRooms = (
 
 type State = {
     rooms: RoomResponseDto[];
-    stats: AppStatsDto[];
+    stats: AppStatsDto | null;
 };
 
 const initialState: State = {
     rooms: [],
-    stats: [],
+    stats: null,
 };
 
 const { actions, name, reducer } = createSlice({
@@ -36,7 +36,7 @@ const { actions, name, reducer } = createSlice({
         roomsUpdated(state, action: PayloadAction<RoomResponseDto[]>) {
             state.rooms = action.payload;
         },
-        updatedStats(state, action: PayloadAction<AppStatsDto[]>) {
+        updatedStats(state, action: PayloadAction<AppStatsDto>) {
             state.stats = action.payload;
         },
     },
