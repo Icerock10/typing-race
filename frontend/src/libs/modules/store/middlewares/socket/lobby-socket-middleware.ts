@@ -14,7 +14,9 @@ const connectLobby = async (): Promise<void> => {
     const token = await storage.get(StorageKey.TOKEN);
 
     lobbySocket.auth = { token };
-    lobbySocket.connect();
+    if (!lobbySocket.connected) {
+        lobbySocket.connect();
+    }
 };
 
 void connectLobby();

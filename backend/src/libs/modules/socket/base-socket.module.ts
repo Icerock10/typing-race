@@ -43,18 +43,15 @@ class Socket implements SocketService {
         this._io
             .of(SocketNamespace.NOTIFICATION)
             .on(SocketEvent.CONNECTION, (socket) => {
-                this.logger.info(`Socket client connected: ${socket.id}`);
                 this.notificationHandler(socket);
             });
         this._io
             .of(SocketNamespace.LOBBY)
             .on(SocketEvent.CONNECTION, (socket) => {
-                this.logger.info(
-                    `[Socket connected to]: ${SocketNamespace.LOBBY} ${socket.id}`,
-                );
-
                 void this.handleHandShake(socket);
+
                 this.initLobbyHandler(socket);
+
                 socket.on(SocketEvent.DISCONNECT, () => {
                     this.store.removeUser(socket.id);
                     this.emitStats();
@@ -65,19 +62,23 @@ class Socket implements SocketService {
 
     private handleHandShake = async (socket: TSocket): Promise<void> => {
         this.store.addUser(socket.id, null);
-        try {
-            const token = socket.handshake.auth['token'] as string;
-            const { userId } = await this.tokenService.decode(token);
+        const token = socket.handshake.auth['token'] as string;
+        if (token) {
+            try {
+                const { userId } = await this.tokenService.decode(token);
 
-            const userData = await this.userService.find(userId);
-            if (!userData || !socket.connected) {
-                throw new AuthorizationError();
+                const userData = await this.userService.find(userId);
+
+                if (!userData || !socket.connected) {
+                    throw new AuthorizationError();
+                }
+                (socket.data as Record<'user', UserDto>).user = userData;
+                this.store.addUser(socket.id, userId);
+            } catch {
+                this.logger.warn(
+                    `Invalid token for socket: ${socket.id}, treating as guest`,
+                );
             }
-
-            (socket.data as Record<'user', UserDto>).user = userData;
-            this.store.addUser(socket.id, userId);
-        } catch {
-            socket.disconnect();
         }
     };
 
@@ -92,10 +93,10 @@ class Socket implements SocketService {
     };
 
     private emitStats = (): void => {
-        const activePlayersAndRooms = this.store.getStats();
+        const getOnlinePlayersAndRooms = this.store.getStats();
         this.io
             .of(SocketNamespace.LOBBY)
-            .emit(SocketEvent.LOBBY_STATS_INFO, activePlayersAndRooms);
+            .emit(SocketEvent.LOBBY_STATS_INFO, getOnlinePlayersAndRooms);
     };
 
     private notificationHandler = (socket: TSocket): void => {
