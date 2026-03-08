@@ -50,7 +50,7 @@ class LobbyHandler {
         const createdRoom = this.store.addRoom(roomId, {
             ...roomData,
             players,
-            status: GameStatus.IN_PROGRESS,
+            status: GameStatus.WAITING,
             roomId,
         });
 

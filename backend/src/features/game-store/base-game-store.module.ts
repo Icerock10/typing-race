@@ -3,8 +3,8 @@ import {
     type InternalRoom,
     type Player,
 } from './types/types.js';
+import { GameStatus, HandlerParameterIndexes } from '~/libs/enums/enums.js';
 import { type UserDto, type AppStatsDto } from '~/libs/types/types.js';
-import { HandlerParameterIndexes } from 'shared';
 
 type Store = {
     addUser: (socketId: string, userId: string | null) => void;
@@ -71,13 +71,27 @@ class GameStore implements Store {
         const room = this.roomMap.get(roomId);
 
         room?.players.set(String(player.user.id), player);
+
+        this.updateRoomStatus(room);
         return this.getRoom(roomId);
     }
     onLeaveRoom(roomId: string, playerId: string): RoomResponseDto | undefined {
         const room = this.roomMap.get(roomId);
 
         room?.players.delete(playerId);
+        this.updateRoomStatus(room);
         return this.getRoom(roomId);
+    }
+
+    updateRoomStatus(room: InternalRoom | undefined): void {
+        if (!room) {
+            return;
+        }
+
+        room.status =
+            Number(room.maxPlayers) === room.players.size
+                ? GameStatus.FULL
+                : GameStatus.WAITING;
     }
 
     mapPlayers(players: Map<string, Player>): UserDto[] {
