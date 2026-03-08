@@ -1,5 +1,10 @@
-import { ButtonLabels } from '~/libs/enums/enums.js';
-import { useAppForm, useCallback, useAppDispatch } from '~/libs/hooks/hooks.js';
+import { AppRoute, ButtonLabels } from '~/libs/enums/enums.js';
+import {
+    useAppForm,
+    useCallback,
+    useAppDispatch,
+    useNavigate,
+} from '~/libs/hooks/hooks.js';
 import { type RoomPayload } from '~/libs/types/types.js';
 import { DEFAULT_CREATE_ROOM_VALUES } from '../../libs/default-create-room-values.constant.js';
 import { actions as lobbyActions } from '~/features/lobby/slices/lobby.js';
@@ -14,7 +19,7 @@ import {
 
 const Createroom: React.FC = () => {
     const dispatch = useAppDispatch();
-
+    const navigate = useNavigate();
     const { control, errors, handleSubmit } = useAppForm<RoomPayload>({
         defaultValues: DEFAULT_CREATE_ROOM_VALUES,
     });
@@ -24,8 +29,9 @@ const Createroom: React.FC = () => {
             void handleSubmit(
                 (formData) => void dispatch(lobbyActions.createRoom(formData)),
             )(event_);
+            void navigate(AppRoute.RACE);
         },
-        [handleSubmit, dispatch],
+        [handleSubmit, dispatch, navigate],
     );
 
     const formClasses = getClassNames(styles['form'], 'flex-cluster');

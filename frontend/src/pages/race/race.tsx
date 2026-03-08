@@ -11,6 +11,7 @@ import {
     Leaderboard,
 } from './components/components.js';
 import styles from './styles.module.css';
+import { actions as lobbyActions } from '../../features/lobby/slices/lobby.js';
 import {
     ButtonLabels,
     ButtonSizes,
@@ -18,11 +19,32 @@ import {
     ButtonVariants,
     ClusterVariant,
     AvatarVariants,
+    AppRoute,
 } from '~/libs/enums/enums.js';
-import { useAppSelector } from '~/libs/hooks/hooks.js';
+import {
+    useAppDispatch,
+    useAppSelector,
+    useCallback,
+    useParams,
+    useNavigate,
+} from '~/libs/hooks/hooks.js';
 
 const Race: React.FC = () => {
-    const { user } = useAppSelector((state) => state.auth);
+    const {
+        auth: { user },
+    } = useAppSelector((state) => state);
+    const { roomId } = useParams();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
+    const handleLeaveRoom = useCallback(() => {
+        if (!roomId) {
+            return;
+        }
+        void dispatch(lobbyActions.leaveRoom({ roomId }));
+        void navigate(AppRoute.LOBBY);
+    }, [dispatch, navigate, roomId]);
+
     return (
         <>
             <Header variant={HeaderVariants.COMPACT}>
@@ -49,6 +71,7 @@ const Race: React.FC = () => {
                         label={ButtonLabels.LEAVE_ROOM}
                         variant={ButtonVariants.SECONDARY}
                         className={styles['leave-button']}
+                        onClick={handleLeaveRoom}
                     />
                 </Cluster>
             </Header>

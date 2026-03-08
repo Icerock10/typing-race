@@ -1,15 +1,19 @@
 import { type RoomResponseDto } from '~/libs/types/types.js';
 import { Cluster, Button, Avatar } from '~/libs/components/components.js';
-import { useAppDispatch } from '~/libs/hooks/hooks.js';
+import {
+    useAppDispatch,
+    useCallback,
+    useNavigate,
+} from '~/libs/hooks/hooks.js';
 import { actions as lobbyActions } from '~/features/lobby/slices/lobby.js';
 import {
     ButtonVariants,
     ButtonLabels,
     ClusterVariant,
     ButtonSizes,
+    AppRoute,
 } from '~/libs/enums/enums.js';
 import styles from './styles.module.css';
-import { useCallback } from 'react';
 
 type Properties = {
     room: RoomResponseDto;
@@ -17,6 +21,7 @@ type Properties = {
 
 const Room: React.FC<Properties> = ({ room }) => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const handleRoomJoin = useCallback(() => {
         const { roomId } = room;
@@ -24,15 +29,8 @@ const Room: React.FC<Properties> = ({ room }) => {
             return;
         }
         void dispatch(lobbyActions.joinRoom({ roomId }));
-    }, [dispatch, room]);
-
-    const handleLeaveRoom = useCallback(() => {
-        const { roomId } = room;
-        if (!roomId) {
-            return;
-        }
-        void dispatch(lobbyActions.leaveRoom({ roomId }));
-    }, [dispatch, room]);
+        void navigate(`${AppRoute.RACE_BASE}${roomId}`);
+    }, [dispatch, room, navigate]);
 
     return (
         <>
@@ -69,13 +67,6 @@ const Room: React.FC<Properties> = ({ room }) => {
                     variant={ButtonVariants.SECONDARY}
                     label={ButtonLabels.JOIN}
                     onClick={handleRoomJoin}
-                    className={styles['room-action']}
-                />
-                <Button
-                    size={ButtonSizes.FIT}
-                    variant={ButtonVariants.SECONDARY}
-                    label={ButtonLabels.LEAVE_ROOM}
-                    onClick={handleLeaveRoom}
                     className={styles['room-action']}
                 />
             </Cluster>
