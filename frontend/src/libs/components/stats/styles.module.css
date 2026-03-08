@@ -3,7 +3,7 @@
     margin-top: var(--space-xl);
     border-top: 1px solid var(--color-border);
 
-    --gutter: var(--space-l);
+    --gutter: var(--space-xs);
 }
 
 .stat-value {

@@ -1,10 +1,17 @@
 import { type RoomResponseDto } from '~/libs/types/types.js';
 import { Cluster, Button, Avatar } from '~/libs/components/components.js';
 import {
+    useAppDispatch,
+    useCallback,
+    useNavigate,
+} from '~/libs/hooks/hooks.js';
+import { actions as lobbyActions } from '~/features/lobby/slices/lobby.js';
+import {
     ButtonVariants,
     ButtonLabels,
     ClusterVariant,
     ButtonSizes,
+    AppRoute,
 } from '~/libs/enums/enums.js';
 import styles from './styles.module.css';
 
@@ -13,6 +20,18 @@ type Properties = {
 };
 
 const Room: React.FC<Properties> = ({ room }) => {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
+    const handleRoomJoin = useCallback(() => {
+        const { roomId } = room;
+        if (!roomId) {
+            return;
+        }
+        void dispatch(lobbyActions.joinRoom({ roomId }));
+        void navigate(`${AppRoute.RACE_BASE}${roomId}`);
+    }, [dispatch, room, navigate]);
+
     return (
         <>
             <Cluster
@@ -46,7 +65,8 @@ const Room: React.FC<Properties> = ({ room }) => {
                 <Button
                     size={ButtonSizes.FIT}
                     variant={ButtonVariants.SECONDARY}
-                    label={ButtonLabels.SPECTATE}
+                    label={ButtonLabels.JOIN}
+                    onClick={handleRoomJoin}
                     className={styles['room-action']}
                 />
             </Cluster>

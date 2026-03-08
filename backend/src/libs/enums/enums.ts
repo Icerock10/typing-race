@@ -7,4 +7,5 @@ export {
     DiscordApiPath,
     GameStatus,
     AuthorizationError,
+    HandlerParameterIndexes,
 } from 'shared';

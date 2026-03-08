@@ -1,22 +1,41 @@
-import { type RoomResponseDto, type InternalRoom } from './types/types.js';
+import {
+    type RoomResponseDto,
+    type InternalRoom,
+    type Player,
+} from './types/types.js';
+import { GameStatus, HandlerParameterIndexes } from '~/libs/enums/enums.js';
+import { type UserDto, type AppStatsDto } from '~/libs/types/types.js';
 
 type Store = {
-    addUser: (socketId: string, userId: string) => void;
+    addUser: (socketId: string, userId: string | null) => void;
     getUser: (socketId: string) => string | undefined;
     getRoom: (roomId: string) => RoomResponseDto | undefined;
     addRoom: (roomId: string, roomData: InternalRoom) => void;
 };
 
 class GameStore implements Store {
-    public userMap = new Map<string, string>();
+    public userMap = new Map<string, string | null>();
     public roomMap = new Map<string, InternalRoom>();
 
-    addUser(socketId: string, userId: string): void {
+    addUser(socketId: string, userId: string | null): void {
         this.userMap.set(socketId, userId);
     }
 
     getUser(socketId: string): ReturnType<Store['getUser']> {
-        return this.userMap.get(socketId);
+        const user = this.userMap.get(socketId);
+        return user ?? undefined;
+    }
+    getStats(): AppStatsDto {
+        const onlineUsers = this.userMap.size;
+        const activeRooms = this.roomMap.size;
+        return {
+            onlineUsers,
+            activeRooms,
+            wpm: 130,
+        };
+    }
+    removeUser(socketId: string): boolean {
+        return this.userMap.delete(socketId);
     }
 
     addRoom(roomId: string, roomData: InternalRoom): RoomResponseDto {
@@ -29,14 +48,55 @@ class GameStore implements Store {
         if (!internalRoom) {
             return undefined;
         }
-        const players = internalRoom.players
-            .values()
-            .map((player) => player.user);
 
         return {
             ...internalRoom,
-            players: [...players],
+            players: this.mapPlayers(internalRoom.players),
         };
+    }
+
+    getAllRooms(): RoomResponseDto[] {
+        const rooms = [...this.roomMap.values()];
+        const roomsWithUpdatedPlayers = rooms.map((room) => ({
+            ...room,
+            players: this.mapPlayers(room.players),
+        }));
+        return roomsWithUpdatedPlayers.length >
+            HandlerParameterIndexes.FIRST_PARAM_INDEX
+            ? roomsWithUpdatedPlayers
+            : [];
+    }
+
+    onJoinRoom(roomId: string, player: Player): RoomResponseDto | undefined {
+        const room = this.roomMap.get(roomId);
+
+        room?.players.set(String(player.user.id), player);
+
+        this.updateRoomStatus(room);
+        return this.getRoom(roomId);
+    }
+    onLeaveRoom(roomId: string, playerId: string): RoomResponseDto | undefined {
+        const room = this.roomMap.get(roomId);
+
+        room?.players.delete(playerId);
+        this.updateRoomStatus(room);
+        return this.getRoom(roomId);
+    }
+
+    updateRoomStatus(room: InternalRoom | undefined): void {
+        if (!room) {
+            return;
+        }
+
+        room.status =
+            Number(room.maxPlayers) === room.players.size
+                ? GameStatus.FULL
+                : GameStatus.WAITING;
+    }
+
+    mapPlayers(players: Map<string, Player>): UserDto[] {
+        const updatedPlayers = players.values().map((player) => player.user);
+        return [...updatedPlayers];
     }
 
     clear(): void {

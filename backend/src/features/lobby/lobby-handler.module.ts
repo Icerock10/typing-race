@@ -3,18 +3,15 @@ import { type Server as SocketServer, type Socket as TSocket } from 'socket.io';
 import { GameStatus } from '~/libs/enums/enums.js';
 import { SocketEvent } from '~/libs/modules/socket/libs/enums/enums.js';
 import { type UserDto, type RoomPayload } from '~/libs/types/types.js';
+import { type Player } from '../game-store/types/types.js';
 import { type GameStore } from '../game-store/base-game-store.module.js';
-
-type Player = {
-    socketId: string;
-    user: UserDto;
-};
 
 type Constructor = {
     socket: TSocket;
     io: SocketServer;
     store: GameStore;
     logger: Logger;
+    emitStats: () => void;
 };
 
 class LobbyHandler {
@@ -22,16 +19,21 @@ class LobbyHandler {
     private io;
     private store;
     private logger;
-    constructor({ socket, io, store, logger }: Constructor) {
+    private emitStats;
+    constructor({ socket, io, store, logger, emitStats }: Constructor) {
         this.socket = socket;
         this.io = io;
         this.store = store;
         this.logger = logger;
+        this.emitStats = emitStats;
         this.registerEvents();
     }
 
     private registerEvents(): void {
         this.socket.on(SocketEvent.LOBBY_CREATE_ROOM, this.createRoom);
+        this.socket.on(SocketEvent.LOBBY_JOIN_ROOM, this.joinRoom);
+        this.socket.on(SocketEvent.LOBBY_LEAVE_ROOM, this.leaveRoom);
+        this.socket.on(SocketEvent.LOBBY_REFRESH_ROOM, this.getActiveRooms);
     }
 
     private createRoom = (roomData: RoomPayload): void => {
@@ -48,13 +50,42 @@ class LobbyHandler {
         const createdRoom = this.store.addRoom(roomId, {
             ...roomData,
             players,
-            status: GameStatus.IN_PROGRESS,
+            status: GameStatus.WAITING,
             roomId,
         });
 
         void this.socket.join(roomId);
-
         this.socket.emit(SocketEvent.LOBBY_CREATE_ROOM, createdRoom);
+        this.socket.broadcast.emit(SocketEvent.LOBBY_CREATE_ROOM, createdRoom);
+        this.emitStats();
+    };
+
+    private joinRoom = ({ roomId }: { roomId: string }): void => {
+        const { user } = this.socket.data as Record<'user', UserDto>;
+        const room = this.store.onJoinRoom(roomId, {
+            socketId: this.socket.id,
+            user,
+        });
+        void this.socket.join(roomId);
+        this.socket.emit(SocketEvent.LOBBY_JOIN_ROOM, room);
+        this.socket.to(roomId).emit(SocketEvent.LOBBY_JOIN_ROOM, room);
+    };
+    private leaveRoom = ({ roomId }: { roomId: string }): void => {
+        const { user } = this.socket.data as Record<'user', UserDto>;
+
+        const room = this.store.onLeaveRoom(
+            roomId,
+            user.id as NonNullable<string>,
+        );
+        void this.socket.leave(roomId);
+
+        this.socket.emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
+        this.socket.to(roomId).emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
+    };
+    private getActiveRooms = (): void => {
+        const rooms = this.store.getAllRooms();
+
+        this.socket.emit(SocketEvent.LOBBY_REFRESH_ROOM, rooms);
     };
 }
 

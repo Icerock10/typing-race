@@ -33,6 +33,7 @@ export {
     type ServerValidationErrorResponse,
     type ZodType as ValidationSchema,
     type DiscordUserDto,
+    type AppStatsDto,
     type ValueOf,
 } from './libs/types/types.js';
 export { AuthApiPath } from './features/auth/auth.js';

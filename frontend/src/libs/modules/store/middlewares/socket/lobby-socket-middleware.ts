@@ -1,5 +1,5 @@
 import { type Middleware } from '@reduxjs/toolkit';
-import { type RoomResponseDto } from '~/libs/types/types.js';
+import { type RoomResponseDto, type AppStatsDto } from '~/libs/types/types.js';
 import { SocketEvent, SocketNamespace } from '~/libs/enums/enums.js';
 import { storage, StorageKey } from '~/libs/modules/storage/storage.js';
 import { socketManager } from '~/libs/modules/socket/socket-manager.js';
@@ -14,7 +14,9 @@ const connectLobby = async (): Promise<void> => {
     const token = await storage.get(StorageKey.TOKEN);
 
     lobbySocket.auth = { token };
-    lobbySocket.connect();
+    if (!lobbySocket.connected) {
+        lobbySocket.connect();
+    }
 };
 
 void connectLobby();
@@ -26,10 +28,38 @@ const lobbySocketMiddleware: Middleware = ({ dispatch }) => {
             dispatch(lobbyActions.roomCreated(roomData));
         },
     );
+    lobbySocket.on(SocketEvent.LOBBY_JOIN_ROOM, (roomData: RoomResponseDto) => {
+        dispatch(lobbyActions.playerJoined(roomData));
+    });
+    lobbySocket.on(
+        SocketEvent.LOBBY_LEAVE_ROOM,
+        (roomData: RoomResponseDto) => {
+            dispatch(lobbyActions.playerLeft(roomData));
+        },
+    );
+    lobbySocket.on(
+        SocketEvent.LOBBY_REFRESH_ROOM,
+        (rooms: RoomResponseDto[]) => {
+            dispatch(lobbyActions.roomsUpdated(rooms));
+        },
+    );
+
+    lobbySocket.on(SocketEvent.LOBBY_STATS_INFO, (stats: AppStatsDto) => {
+        dispatch(lobbyActions.updatedStats(stats));
+    });
 
     return (next) => (action) => {
         if (lobbyActions.createRoom.match(action)) {
             lobbySocket.emit(SocketEvent.LOBBY_CREATE_ROOM, action.payload);
+        }
+        if (lobbyActions.joinRoom.match(action)) {
+            lobbySocket.emit(SocketEvent.LOBBY_JOIN_ROOM, action.payload);
+        }
+        if (lobbyActions.leaveRoom.match(action)) {
+            lobbySocket.emit(SocketEvent.LOBBY_LEAVE_ROOM, action.payload);
+        }
+        if (lobbyActions.refreshRoom.match(action)) {
+            lobbySocket.emit(SocketEvent.LOBBY_REFRESH_ROOM);
         }
         next(action);
     };

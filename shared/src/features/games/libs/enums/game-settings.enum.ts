@@ -13,6 +13,7 @@ const GameStatus = {
     FULL: 'full',
     IN_GAME: 'In game',
     FINISHED: 'finished',
+    WAITING: 'waiting',
 } as const;
 
 export { GameLanguage, GamesDifficulty, GameStatus };
