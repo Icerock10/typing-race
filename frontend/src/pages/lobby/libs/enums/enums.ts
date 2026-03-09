@@ -1,0 +1,1 @@
+export { roomCreateValidationSchema } from 'shared';

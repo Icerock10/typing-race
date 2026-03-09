@@ -62,6 +62,7 @@ export {
 export {
     type RoomPayload,
     type RoomResponseDto,
+    roomCreateValidationSchema,
 } from './features/rooms/rooms.js';
 export {
     SocketNamespace,

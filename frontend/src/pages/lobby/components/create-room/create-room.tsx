@@ -1,4 +1,5 @@
 import { AppRoute, ButtonLabels } from '~/libs/enums/enums.js';
+import { roomCreateValidationSchema } from '../../libs/enums/enums.js';
 import {
     useAppForm,
     useCallback,
@@ -6,7 +7,7 @@ import {
     useNavigate,
 } from '~/libs/hooks/hooks.js';
 import { type RoomPayload } from '~/libs/types/types.js';
-import { DEFAULT_CREATE_ROOM_VALUES } from '../../libs/default-create-room-values.constant.js';
+import { DEFAULT_CREATE_ROOM_VALUES } from '../../libs/constants/constants.js';
 import { actions as lobbyActions } from '~/features/lobby/slices/lobby.js';
 import { getClassNames } from '~/libs/helpers/helpers.js';
 import styles from './styles.module.css';
@@ -22,14 +23,15 @@ const Createroom: React.FC = () => {
     const navigate = useNavigate();
     const { control, errors, handleSubmit } = useAppForm<RoomPayload>({
         defaultValues: DEFAULT_CREATE_ROOM_VALUES,
+        validationSchema: roomCreateValidationSchema,
     });
 
     const handleFormSubmit = useCallback(
         (event_: React.BaseSyntheticEvent): void => {
-            void handleSubmit(
-                (formData) => void dispatch(lobbyActions.createRoom(formData)),
-            )(event_);
-            void navigate(AppRoute.RACE);
+            void handleSubmit((formData) => {
+                void dispatch(lobbyActions.createRoom(formData));
+                void navigate(AppRoute.RACE);
+            })(event_);
         },
         [handleSubmit, dispatch, navigate],
     );
