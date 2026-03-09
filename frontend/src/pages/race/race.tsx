@@ -31,10 +31,8 @@ import {
 } from '~/libs/hooks/hooks.js';
 
 const Race: React.FC = () => {
-    const {
-        auth: { user },
-        lobby: { rooms },
-    } = useAppSelector((state) => state);
+    const { user } = useAppSelector((state) => state.auth);
+    const { rooms } = useAppSelector((state) => state.lobby);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { roomId } = useParams() as { roomId: string };
@@ -77,6 +75,7 @@ const Race: React.FC = () => {
                     <Avatar
                         name={user?.userName}
                         variant={AvatarVariants.FULL}
+                        avatarUrl={user?.avatarUrl}
                     />
                     <Button
                         size={ButtonSizes.FIT}
