@@ -41,6 +41,7 @@ const { actions, name, reducer } = createSlice({
         },
         updatedStats(state, action: PayloadAction<AppStatsDto>) {
             state.stats = action.payload;
+            state.rooms = action.payload.activeRooms;
         },
         resetCurrentRoom(state) {
             state.currentRoom = null;

@@ -23,10 +23,10 @@ import {
 const Createroom: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const {
-        lobby: { currentRoom },
-        auth: { user },
-    } = useAppSelector((state) => state);
+
+    const { user } = useAppSelector((state) => state.auth);
+    const { currentRoom } = useAppSelector((state) => state.lobby);
+
     const { control, errors, handleSubmit } = useAppForm<RoomPayload>({
         defaultValues: DEFAULT_CREATE_ROOM_VALUES,
         validationSchema: roomCreateValidationSchema,
@@ -97,6 +97,7 @@ const Createroom: React.FC = () => {
                 type="submit"
                 className={styles['form-button']}
                 label={ButtonLabels.CREATE_ROOM}
+                isDisabled={!user?.id}
             />
         </form>
     );

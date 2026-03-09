@@ -27,11 +27,12 @@ class GameStore implements Store {
     }
     getStats(): AppStatsDto {
         const onlineUsers = this.userMap.size;
-        const activeRooms = this.roomMap.size;
+        const activeRooms = this.getAllRooms();
+        const MOCK_WPM_VALUE = 130;
         return {
             onlineUsers,
             activeRooms,
-            wpm: 130,
+            wpm: MOCK_WPM_VALUE,
         };
     }
     removeUser(socketId: string): boolean {
