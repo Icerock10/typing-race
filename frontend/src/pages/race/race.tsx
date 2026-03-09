@@ -27,37 +27,49 @@ import {
     useCallback,
     useParams,
     useNavigate,
+    useEffect,
 } from '~/libs/hooks/hooks.js';
 
 const Race: React.FC = () => {
     const {
         auth: { user },
+        lobby: { rooms },
     } = useAppSelector((state) => state);
-    const { roomId } = useParams();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { roomId } = useParams() as { roomId: string };
+
+    const currentRoom = rooms.find((room) => room.roomId === roomId);
 
     const handleLeaveRoom = useCallback(() => {
-        if (!roomId) {
-            return;
-        }
-        void dispatch(lobbyActions.leaveRoom({ roomId }));
         void navigate(AppRoute.LOBBY);
-    }, [dispatch, navigate, roomId]);
+    }, [navigate]);
+
+    useEffect(() => {
+        return (): void => {
+            void dispatch(lobbyActions.leaveRoom({ roomId }));
+        };
+    }, [dispatch, roomId]);
 
     return (
         <>
             <Header variant={HeaderVariants.COMPACT}>
                 <Cluster className={styles['header-room-info']}>
                     <strong className={styles['room-name']}>
-                        Speed Demons 🔥
+                        {currentRoom?.roomName} 🔥
                     </strong>
-                    <span className={styles['room-lang']}>English · </span>
-                    <span className={styles['room-dificulty']}>Medium · </span>
-                    <span className={styles['room-players']}>4 players</span>
+                    <span className={styles['room-lang']}>
+                        {currentRoom?.language} ·{' '}
+                    </span>
+                    <span className={styles['room-dificulty']}>
+                        {currentRoom?.difficulty} ·{' '}
+                    </span>
+                    <span className={styles['room-players']}>
+                        {currentRoom?.players.length} players
+                    </span>
                     <Cluster className={styles['room-live']}>
                         <div className="live-dot" />
-                        <span>Live</span>
+                        <span>{currentRoom?.status}</span>
                     </Cluster>
                 </Cluster>
                 <Cluster className={styles['user-panel']}>

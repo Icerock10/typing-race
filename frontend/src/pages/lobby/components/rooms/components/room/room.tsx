@@ -28,7 +28,7 @@ const Room: React.FC<Properties> = ({ room }) => {
         if (!roomId) {
             return;
         }
-        void dispatch(lobbyActions.joinRoom({ roomId }));
+        dispatch(lobbyActions.joinRoom({ roomId }));
         void navigate(`${AppRoute.RACE_BASE}${roomId}`);
     }, [dispatch, room, navigate]);
 

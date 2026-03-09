@@ -4,7 +4,9 @@ import {
     useAppForm,
     useCallback,
     useAppDispatch,
+    useAppSelector,
     useNavigate,
+    useEffect,
 } from '~/libs/hooks/hooks.js';
 import { type RoomPayload } from '~/libs/types/types.js';
 import { DEFAULT_CREATE_ROOM_VALUES } from '../../libs/constants/constants.js';
@@ -21,6 +23,7 @@ import {
 const Createroom: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { currentRoom } = useAppSelector((state) => state.lobby);
     const { control, errors, handleSubmit } = useAppForm<RoomPayload>({
         defaultValues: DEFAULT_CREATE_ROOM_VALUES,
         validationSchema: roomCreateValidationSchema,
@@ -28,13 +31,19 @@ const Createroom: React.FC = () => {
 
     const handleFormSubmit = useCallback(
         (event_: React.BaseSyntheticEvent): void => {
-            void handleSubmit((formData) => {
-                void dispatch(lobbyActions.createRoom(formData));
-                void navigate(AppRoute.RACE);
-            })(event_);
+            void handleSubmit((formData) =>
+                dispatch(lobbyActions.createRoom(formData)),
+            )(event_);
         },
-        [handleSubmit, dispatch, navigate],
+        [handleSubmit, dispatch],
     );
+
+    useEffect(() => {
+        if (currentRoom) {
+            void navigate(`${AppRoute.RACE_BASE}${String(currentRoom.roomId)}`);
+            void dispatch(lobbyActions.resetCurrentRoom());
+        }
+    }, [navigate, currentRoom, dispatch]);
 
     const formClasses = getClassNames(styles['form'], 'flex-cluster');
     return (
