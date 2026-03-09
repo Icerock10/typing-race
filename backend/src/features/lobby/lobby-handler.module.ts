@@ -62,26 +62,35 @@ class LobbyHandler {
     };
 
     private joinRoom = ({ roomId }: { roomId: string }): void => {
-        const { user } = this.socket.data as Record<'user', UserDto>;
-        const room = this.store.onJoinRoom(roomId, {
-            socketId: this.socket.id,
-            user,
-        });
+        const { user } = this.socket.data as Record<'user', UserDto | null>;
+        const player = user
+            ? {
+                  socketId: this.socket.id,
+                  user,
+              }
+            : null;
+
+        const room = this.store.onJoinRoom(roomId, player);
+
         void this.socket.join(roomId);
         this.socket.emit(SocketEvent.LOBBY_JOIN_ROOM, room);
-        this.socket.broadcast.emit(SocketEvent.LOBBY_JOIN_ROOM, room);
+
+        if (user) {
+            this.socket.broadcast.emit(SocketEvent.LOBBY_JOIN_ROOM, room);
+        }
     };
     private leaveRoom = ({ roomId }: { roomId: string }): void => {
-        const { user } = this.socket.data as Record<'user', UserDto>;
+        const { user } = this.socket.data as Record<'user', UserDto | null>;
+        const playerId = user ? user.id : null;
 
-        const room = this.store.onLeaveRoom(
-            roomId,
-            user.id as NonNullable<string>,
-        );
+        const room = this.store.onLeaveRoom(roomId, playerId);
+
         void this.socket.leave(roomId);
-
         this.socket.emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
-        this.socket.broadcast.emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
+
+        if (user) {
+            this.socket.broadcast.emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
+        }
     };
     private getActiveRooms = (): void => {
         const rooms = this.store.getAllRooms();

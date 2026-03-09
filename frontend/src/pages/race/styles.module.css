@@ -10,6 +10,11 @@
     font-weight: var(--font-weight-black);
 }
 
+.sign-in-link {
+    font-size: 0.7rem;
+    border-color: var(--color-accent-yellow);
+}
+
 .room-live {
     padding: 3px 10px;
     font-family: var(--font-family-space-mono);

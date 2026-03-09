@@ -16,6 +16,7 @@ import {
 
 const Rooms: React.FC = () => {
     const { rooms } = useAppSelector((state) => state.lobby);
+    const { user } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
 
     const handleRefreshRoom = useCallback(() => {
@@ -35,7 +36,7 @@ const Rooms: React.FC = () => {
                 />
             </Cluster>
             {rooms.map((room) => (
-                <Room key={room.roomId} room={room} />
+                <Room key={room.roomId} user={user} room={room} />
             ))}
         </div>
     );

@@ -29,6 +29,7 @@
 
 .room-players {
     --gutter: 0;
+    --cluster-horizontal-alignment: flex-end;
 }
 
 .room-name {

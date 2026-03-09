@@ -68,19 +68,33 @@ class GameStore implements Store {
             : [];
     }
 
-    onJoinRoom(roomId: string, player: Player): RoomResponseDto | undefined {
+    onJoinRoom(
+        roomId: string,
+        player: Player | null,
+    ): RoomResponseDto | undefined {
         const room = this.roomMap.get(roomId);
+        if (!room) {
+            return undefined;
+        }
+        if (player) {
+            room.players.set(String(player.user.id), player);
+            this.updateRoomStatus(room);
+        }
 
-        room?.players.set(String(player.user.id), player);
-
-        this.updateRoomStatus(room);
         return this.getRoom(roomId);
     }
-    onLeaveRoom(roomId: string, playerId: string): RoomResponseDto | undefined {
+    onLeaveRoom(
+        roomId: string,
+        playerId: string | null,
+    ): RoomResponseDto | undefined {
         const room = this.roomMap.get(roomId);
-
-        room?.players.delete(playerId);
-        this.updateRoomStatus(room);
+        if (!room) {
+            return undefined;
+        }
+        if (playerId) {
+            room.players.delete(playerId);
+            this.updateRoomStatus(room);
+        }
         return this.getRoom(roomId);
     }
 

@@ -3,8 +3,10 @@ import {
     Cluster,
     Button,
     Avatar,
+    Link,
 } from '~/libs/components/components.js';
 import { LinkIcon } from '~/assets/image/image.js';
+
 import {
     RaceProgress,
     Typing,
@@ -36,10 +38,11 @@ import {
 const Race: React.FC = () => {
     const { user } = useAppSelector((state) => state.auth);
     const { rooms } = useAppSelector((state) => state.lobby);
+    const { roomId } = useParams() as { roomId: string };
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { roomId } = useParams() as { roomId: string };
 
+    const guest = !user;
     const currentRoom = rooms.find((room) => room.roomId === roomId);
 
     const handleLeaveRoom = useCallback(() => {
@@ -77,22 +80,35 @@ const Race: React.FC = () => {
                         <div className="live-dot" />
                         <span>{currentRoom?.status}</span>
                     </Cluster>
-                    <Button
-                        size={ButtonSizes.FIT}
-                        variant={ButtonVariants.SECONDARY}
-                        label={ButtonLabels.INVITE}
-                        className={styles['invite-button']}
-                        icon={<LinkIcon />}
-                        onClick={handleInviteClick}
-                    />
+                    {!guest && (
+                        <Button
+                            size={ButtonSizes.FIT}
+                            variant={ButtonVariants.SECONDARY}
+                            label={ButtonLabels.INVITE}
+                            className={styles['invite-button']}
+                            icon={<LinkIcon />}
+                            onClick={handleInviteClick}
+                        />
+                    )}
                 </Cluster>
                 <Cluster className={styles['user-panel']}>
                     <div className={styles['timer-display']}>0:00</div>
-                    <Avatar
-                        name={user?.userName}
-                        variant={AvatarVariants.FULL}
-                        avatarUrl={user?.avatarUrl}
-                    />
+                    {guest ? (
+                        <Link
+                            to={AppRoute.AUTH}
+                            asButtonVariant={ButtonVariants.SECONDARY}
+                            className={styles['sign-in-link']}
+                            asButtonSize={ButtonSizes.FIT}
+                        >
+                            {ButtonLabels.SIGN_IN}
+                        </Link>
+                    ) : (
+                        <Avatar
+                            name={user.userName}
+                            variant={AvatarVariants.FULL}
+                            avatarUrl={user.avatarUrl}
+                        />
+                    )}
                     <Button
                         size={ButtonSizes.FIT}
                         label={ButtonLabels.LEAVE_ROOM}
