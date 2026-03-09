@@ -46,6 +46,15 @@
     color: var(--color-text-muted);
 }
 
+.invite-button {
+    padding-inline: 10px;
+    font-family: var(--font-family-space-mono);
+    color: var(--color-accent-yellow);
+    text-transform: uppercase;
+
+    --cluster-vertical-alignment: end;
+}
+
 .leave-button:hover {
     color: var(--color-accent-red);
     border-color: var(--color-accent-red);

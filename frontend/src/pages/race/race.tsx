@@ -4,6 +4,7 @@ import {
     Button,
     Avatar,
 } from '~/libs/components/components.js';
+import { LinkIcon } from '~/assets/image/image.js';
 import {
     RaceProgress,
     Typing,
@@ -12,6 +13,7 @@ import {
 } from './components/components.js';
 import styles from './styles.module.css';
 import { actions as lobbyActions } from '../../features/lobby/slices/lobby.js';
+import { notifications } from '../../features/notifications/notificationts.js';
 import {
     ButtonLabels,
     ButtonSizes,
@@ -20,6 +22,7 @@ import {
     ClusterVariant,
     AvatarVariants,
     AppRoute,
+    SuccessMessage,
 } from '~/libs/enums/enums.js';
 import {
     useAppDispatch,
@@ -42,6 +45,11 @@ const Race: React.FC = () => {
     const handleLeaveRoom = useCallback(() => {
         void navigate(AppRoute.LOBBY);
     }, [navigate]);
+
+    const handleInviteClick = useCallback(() => {
+        void navigator.clipboard.writeText(roomId);
+        void notifications.info(SuccessMessage.CODE_COPIED);
+    }, [roomId]);
 
     useEffect(() => {
         return (): void => {
@@ -69,6 +77,14 @@ const Race: React.FC = () => {
                         <div className="live-dot" />
                         <span>{currentRoom?.status}</span>
                     </Cluster>
+                    <Button
+                        size={ButtonSizes.FIT}
+                        variant={ButtonVariants.SECONDARY}
+                        label={ButtonLabels.INVITE}
+                        className={styles['invite-button']}
+                        icon={<LinkIcon />}
+                        onClick={handleInviteClick}
+                    />
                 </Cluster>
                 <Cluster className={styles['user-panel']}>
                     <div className={styles['timer-display']}>0:00</div>
