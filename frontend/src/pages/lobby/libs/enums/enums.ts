@@ -1,1 +1,4 @@
-export { roomCreateValidationSchema } from 'shared';
+export {
+    roomCreateValidationSchema,
+    joinRoomByCodeValidationSchema,
+} from 'shared';
