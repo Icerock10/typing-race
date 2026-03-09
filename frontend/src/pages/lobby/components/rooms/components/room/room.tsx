@@ -46,7 +46,9 @@ const Room: React.FC<Properties> = ({ room }) => {
                     <span className={styles['status']}>{room.status}</span>
                 </Cluster>
                 <Cluster className={styles['room-players']}>
-                    <Avatar name="G" />
+                    {room.players.map((player) => (
+                        <Avatar key={player.id} name={player.userName} />
+                    ))}
 
                     <span className={styles['player-count']}>
                         {room.players.length}

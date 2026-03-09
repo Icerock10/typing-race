@@ -52,6 +52,7 @@ class LobbyHandler {
             players,
             status: GameStatus.WAITING,
             roomId,
+            hostId: String(user.id),
         });
 
         void this.socket.join(roomId);
@@ -68,7 +69,7 @@ class LobbyHandler {
         });
         void this.socket.join(roomId);
         this.socket.emit(SocketEvent.LOBBY_JOIN_ROOM, room);
-        this.socket.to(roomId).emit(SocketEvent.LOBBY_JOIN_ROOM, room);
+        this.socket.broadcast.emit(SocketEvent.LOBBY_JOIN_ROOM, room);
     };
     private leaveRoom = ({ roomId }: { roomId: string }): void => {
         const { user } = this.socket.data as Record<'user', UserDto>;
@@ -80,7 +81,7 @@ class LobbyHandler {
         void this.socket.leave(roomId);
 
         this.socket.emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
-        this.socket.to(roomId).emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
+        this.socket.broadcast.emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
     };
     private getActiveRooms = (): void => {
         const rooms = this.store.getAllRooms();

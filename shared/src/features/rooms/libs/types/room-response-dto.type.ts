@@ -8,6 +8,7 @@ type RoomResponseDto = RoomPayload & {
     players: UserDto[];
     status: ValueOf<typeof GameStatus>;
     countdown?: number;
+    hostId: string;
 };
 
 export { type RoomResponseDto };

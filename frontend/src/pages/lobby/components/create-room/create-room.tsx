@@ -23,7 +23,10 @@ import {
 const Createroom: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { currentRoom } = useAppSelector((state) => state.lobby);
+    const {
+        lobby: { currentRoom },
+        auth: { user },
+    } = useAppSelector((state) => state);
     const { control, errors, handleSubmit } = useAppForm<RoomPayload>({
         defaultValues: DEFAULT_CREATE_ROOM_VALUES,
         validationSchema: roomCreateValidationSchema,
@@ -39,11 +42,11 @@ const Createroom: React.FC = () => {
     );
 
     useEffect(() => {
-        if (currentRoom) {
+        if (currentRoom && currentRoom.hostId === user?.id) {
             void navigate(`${AppRoute.RACE_BASE}${String(currentRoom.roomId)}`);
             void dispatch(lobbyActions.resetCurrentRoom());
         }
-    }, [navigate, currentRoom, dispatch]);
+    }, [navigate, currentRoom, dispatch, user?.id]);
 
     const formClasses = getClassNames(styles['form'], 'flex-cluster');
     return (
