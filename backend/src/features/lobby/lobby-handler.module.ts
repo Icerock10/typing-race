@@ -1,5 +1,5 @@
-import { type Logger } from '~/libs/modules/logger/libs/types/types.js';
 import { type Server as SocketServer, type Socket as TSocket } from 'socket.io';
+import { type UserService } from '../users/user.service.js';
 import { GameStatus } from '~/libs/enums/enums.js';
 import {
     SocketEvent,
@@ -13,7 +13,7 @@ type Constructor = {
     socket: TSocket;
     io: SocketServer;
     store: GameStore;
-    logger: Logger;
+    userService: UserService;
     emitStats: () => void;
 };
 
@@ -22,13 +22,14 @@ class LobbyHandler {
     private socket;
     private io;
     private store;
-    private logger;
     private emitStats;
-    constructor({ socket, io, store, logger, emitStats }: Constructor) {
+    private userService;
+
+    constructor({ socket, io, store, emitStats, userService }: Constructor) {
         this.socket = socket;
         this.io = io;
         this.store = store;
-        this.logger = logger;
+        this.userService = userService;
         this.emitStats = emitStats;
         this.registerEvents();
     }
@@ -38,6 +39,7 @@ class LobbyHandler {
         this.socket.on(SocketEvent.LOBBY_JOIN_ROOM, this.joinRoom);
         this.socket.on(SocketEvent.LOBBY_LEAVE_ROOM, this.leaveRoom);
         this.socket.on(SocketEvent.LOBBY_REFRESH_ROOM, this.getActiveRooms);
+        this.socket.on(SocketEvent.LOBBY_AUTH_UPDATE, this.updateUserAuth);
     }
 
     private createRoom = (roomData: RoomPayload): void => {
@@ -63,6 +65,20 @@ class LobbyHandler {
         this.socket.emit(SocketEvent.LOBBY_CREATE_ROOM, createdRoom);
         this.socket.broadcast.emit(SocketEvent.LOBBY_CREATE_ROOM, createdRoom);
         this.emitStats();
+    };
+
+    private updateUserAuth = async ({
+        userId,
+    }: {
+        userId: string;
+    }): Promise<void> => {
+        try {
+            const user = await this.userService.find(userId);
+            (this.socket.data as Record<'user', UserDto | null>).user = user;
+            this.store.addUser(this.socket.id, userId);
+        } catch {
+            this.store.addUser(this.socket.id, null);
+        }
     };
 
     private joinRoom = ({ roomId }: { roomId: string }): void => {

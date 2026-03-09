@@ -9,6 +9,7 @@ const SocketEvent = {
     LOBBY_LEAVE_ROOM: 'lobby-leave-room',
     LOBBY_REFRESH_ROOM: 'lobby-refresh-room',
     LOBBY_STATS_INFO: 'lobby-stats-info',
+    LOBBY_AUTH_UPDATE: 'lobby-auth-update',
 } as const;
 
 export { SocketEvent };

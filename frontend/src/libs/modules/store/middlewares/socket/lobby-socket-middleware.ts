@@ -4,6 +4,7 @@ import { SocketEvent, SocketNamespace } from '~/libs/enums/enums.js';
 import { storage, StorageKey } from '~/libs/modules/storage/storage.js';
 import { socketManager } from '~/libs/modules/socket/socket-manager.js';
 import { actions as lobbyActions } from '~/features/lobby/slices/lobby.js';
+import { actions as authActions } from '~/features/auth/auth.js';
 import { config } from '~/libs/modules/config/config.js';
 
 const lobbySocket = socketManager.getSocket(
@@ -66,6 +67,9 @@ const lobbySocketMiddleware: Middleware = ({ dispatch }) => {
         }
         if (lobbyActions.refreshRoom.match(action)) {
             lobbySocket.emit(SocketEvent.LOBBY_REFRESH_ROOM);
+        }
+        if (authActions.updateSocketAuth.match(action)) {
+            lobbySocket.emit(SocketEvent.LOBBY_AUTH_UPDATE, action.payload);
         }
         next(action);
     };

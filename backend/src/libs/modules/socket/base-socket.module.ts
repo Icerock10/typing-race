@@ -87,8 +87,8 @@ class Socket implements SocketService {
             socket,
             io: this._io,
             store: this.store,
-            logger: this.logger,
             emitStats: this.emitStats,
+            userService: this.userService,
         });
     };
 
