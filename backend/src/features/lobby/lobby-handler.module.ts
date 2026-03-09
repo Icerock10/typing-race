@@ -1,7 +1,10 @@
 import { type Logger } from '~/libs/modules/logger/libs/types/types.js';
 import { type Server as SocketServer, type Socket as TSocket } from 'socket.io';
 import { GameStatus } from '~/libs/enums/enums.js';
-import { SocketEvent } from '~/libs/modules/socket/libs/enums/enums.js';
+import {
+    SocketEvent,
+    SocketNamespace,
+} from '~/libs/modules/socket/libs/enums/enums.js';
 import { type UserDto, type RoomPayload } from '~/libs/types/types.js';
 import { type Player } from '../game-store/types/types.js';
 import { type GameStore } from '../game-store/base-game-store.module.js';
@@ -15,6 +18,7 @@ type Constructor = {
 };
 
 class LobbyHandler {
+    private deletionTimers = new Map<string, ReturnType<typeof setTimeout>>();
     private socket;
     private io;
     private store;
@@ -78,6 +82,9 @@ class LobbyHandler {
         if (user) {
             this.socket.broadcast.emit(SocketEvent.LOBBY_JOIN_ROOM, room);
         }
+        if (user && room?.hostId === user.id) {
+            this.cancelRoomDeletion(roomId);
+        }
     };
     private leaveRoom = ({ roomId }: { roomId: string }): void => {
         const { user } = this.socket.data as Record<'user', UserDto | null>;
@@ -91,7 +98,32 @@ class LobbyHandler {
         if (user) {
             this.socket.broadcast.emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
         }
+        if (user && room?.hostId === user.id) {
+            this.scheduleRoomDeletion(roomId);
+        }
     };
+
+    private scheduleRoomDeletion(roomId: string): void {
+        const DELAY = 5000;
+        const timer = setTimeout(() => {
+            this.store.deleteRoom(roomId);
+            this.io
+                .of(SocketNamespace.LOBBY)
+                .emit(SocketEvent.LOBBY_ROOM_DELETED, { roomId });
+            this.deletionTimers.delete(roomId);
+        }, DELAY);
+
+        this.deletionTimers.set(roomId, timer);
+    }
+
+    private cancelRoomDeletion(roomId: string): void {
+        const timer = this.deletionTimers.get(roomId);
+        if (timer) {
+            clearTimeout(timer);
+            this.deletionTimers.delete(roomId);
+        }
+    }
+
     private getActiveRooms = (): void => {
         const rooms = this.store.getAllRooms();
 

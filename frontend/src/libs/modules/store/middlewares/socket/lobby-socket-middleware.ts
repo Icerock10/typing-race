@@ -32,6 +32,12 @@ const lobbySocketMiddleware: Middleware = ({ dispatch }) => {
         dispatch(lobbyActions.playerJoined(roomData));
     });
     lobbySocket.on(
+        SocketEvent.LOBBY_ROOM_DELETED,
+        ({ roomId }: { roomId: string }) => {
+            dispatch(lobbyActions.roomDeleted(roomId));
+        },
+    );
+    lobbySocket.on(
         SocketEvent.LOBBY_LEAVE_ROOM,
         (roomData: RoomResponseDto) => {
             dispatch(lobbyActions.playerLeft(roomData));

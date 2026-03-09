@@ -114,6 +114,10 @@ class GameStore implements Store {
         return [...updatedPlayers];
     }
 
+    deleteRoom(roomId: string): void {
+        this.roomMap.delete(roomId);
+    }
+
     clear(): void {
         this.roomMap.clear();
         this.userMap.clear();

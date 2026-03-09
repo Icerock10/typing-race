@@ -37,7 +37,7 @@ import {
 
 const Race: React.FC = () => {
     const { user } = useAppSelector((state) => state.auth);
-    const { rooms } = useAppSelector((state) => state.lobby);
+    const { rooms, isRoomsLoaded } = useAppSelector((state) => state.lobby);
     const { roomId } = useParams() as { roomId: string };
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -59,6 +59,12 @@ const Race: React.FC = () => {
             void dispatch(lobbyActions.leaveRoom({ roomId }));
         };
     }, [dispatch, roomId]);
+
+    useEffect(() => {
+        if (isRoomsLoaded && !currentRoom) {
+            void navigate(AppRoute.LOBBY);
+        }
+    }, [currentRoom, navigate, isRoomsLoaded]);
 
     return (
         <>
