@@ -1,5 +1,8 @@
 .join-panel {
+    display: flex;
+    flex-direction: column;
     grid-column: 2 / 2;
+    gap: var(--space-m);
     padding: 20px 24px;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -7,7 +10,6 @@
 }
 
 .join-panel-title {
-    grid-column: span 2;
     font-size: 0.9rem;
     font-weight: var(--font-weight-extra-bold);
     color: var(--color-text-muted);
@@ -18,8 +20,11 @@
 .button-group {
     --cluster-wrap: nowrap;
 
-    grid-column: 1 / span 2;
     align-items: stretch;
+}
+
+.button-group * input {
+    margin: 0;
 }
 
 .button-group * input:focus {
@@ -37,13 +42,14 @@
 }
 
 .join-button {
+    height: 45px;
     font-weight: var(--font-weight-black);
     background: var(--color-accent-turquoise);
 }
 
 @media screen and (width <= 900px) {
-    .button-group {
-        align-self: end;
+    .join-panel-title {
+        flex: 1;
     }
 
     .join-panel {

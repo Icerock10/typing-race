@@ -13,11 +13,15 @@ const mapRooms = (
 type State = {
     rooms: RoomResponseDto[];
     stats: AppStatsDto | null;
+    currentRoom: RoomResponseDto | null;
+    isRoomsLoaded: boolean;
 };
 
 const initialState: State = {
     rooms: [],
     stats: null,
+    currentRoom: null,
+    isRoomsLoaded: false,
 };
 
 const { actions, name, reducer } = createSlice({
@@ -26,6 +30,7 @@ const { actions, name, reducer } = createSlice({
     reducers: {
         roomCreated(state, action: PayloadAction<RoomResponseDto>) {
             state.rooms = [...state.rooms, action.payload];
+            state.currentRoom = action.payload;
         },
         playerJoined(state, action: PayloadAction<RoomResponseDto>) {
             state.rooms = mapRooms(state.rooms, action.payload);
@@ -36,8 +41,23 @@ const { actions, name, reducer } = createSlice({
         roomsUpdated(state, action: PayloadAction<RoomResponseDto[]>) {
             state.rooms = action.payload;
         },
+        roomDeleted(state, action: PayloadAction<string>) {
+            const updatedRooms = state.rooms.filter(
+                (room) => room.roomId !== action.payload,
+            );
+            state.rooms = updatedRooms;
+
+            if (state.stats) {
+                state.stats.activeRooms = state.rooms;
+            }
+        },
         updatedStats(state, action: PayloadAction<AppStatsDto>) {
             state.stats = action.payload;
+            state.rooms = action.payload.activeRooms;
+            state.isRoomsLoaded = true;
+        },
+        resetCurrentRoom(state) {
+            state.currentRoom = null;
         },
     },
 });

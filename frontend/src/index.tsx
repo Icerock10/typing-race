@@ -1,4 +1,4 @@
-import { type JSX, StrictMode } from 'react';
+import { type JSX } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AppRoute } from './libs/enums/app-route.enum.js';
 import { Navigate } from 'react-router-dom';
@@ -16,36 +16,31 @@ import { routes } from './routes.js';
 
 const Root = (): JSX.Element => {
     return (
-        <StrictMode>
-            <StoreProvider store={store.instance}>
-                <ErrorBoundary>
-                    <RouterProvider
-                        routes={[
-                            {
-                                path: AppRoute.ROOT,
-                                element: (
-                                    <App>
-                                        <ProtectedRoute />
-                                    </App>
-                                ),
-                                children: [
-                                    {
-                                        index: true,
-                                        element: (
-                                            <Navigate
-                                                to={AppRoute.LOBBY}
-                                                replace
-                                            />
-                                        ),
-                                    },
-                                    ...routes,
-                                ],
-                            },
-                        ]}
-                    />
-                </ErrorBoundary>
-            </StoreProvider>
-        </StrictMode>
+        <StoreProvider store={store.instance}>
+            <ErrorBoundary>
+                <RouterProvider
+                    routes={[
+                        {
+                            path: AppRoute.ROOT,
+                            element: (
+                                <App>
+                                    <ProtectedRoute />
+                                </App>
+                            ),
+                            children: [
+                                {
+                                    index: true,
+                                    element: (
+                                        <Navigate to={AppRoute.LOBBY} replace />
+                                    ),
+                                },
+                                ...routes,
+                            ],
+                        },
+                    ]}
+                />
+            </ErrorBoundary>
+        </StoreProvider>
     );
 };
 

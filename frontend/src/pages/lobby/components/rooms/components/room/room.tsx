@@ -1,4 +1,4 @@
-import { type RoomResponseDto } from '~/libs/types/types.js';
+import { type UserDto, type RoomResponseDto } from '~/libs/types/types.js';
 import { Cluster, Button, Avatar } from '~/libs/components/components.js';
 import {
     useAppDispatch,
@@ -17,9 +17,10 @@ import styles from './styles.module.css';
 
 type Properties = {
     room: RoomResponseDto;
+    user: UserDto | null;
 };
 
-const Room: React.FC<Properties> = ({ room }) => {
+const Room: React.FC<Properties> = ({ room, user }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -28,7 +29,7 @@ const Room: React.FC<Properties> = ({ room }) => {
         if (!roomId) {
             return;
         }
-        void dispatch(lobbyActions.joinRoom({ roomId }));
+        dispatch(lobbyActions.joinRoom({ roomId }));
         void navigate(`${AppRoute.RACE_BASE}${roomId}`);
     }, [dispatch, room, navigate]);
 
@@ -46,7 +47,9 @@ const Room: React.FC<Properties> = ({ room }) => {
                     <span className={styles['status']}>{room.status}</span>
                 </Cluster>
                 <Cluster className={styles['room-players']}>
-                    <Avatar name="G" />
+                    {room.players.map((player) => (
+                        <Avatar key={player.id} name={player.userName} />
+                    ))}
 
                     <span className={styles['player-count']}>
                         {room.players.length}
@@ -65,7 +68,7 @@ const Room: React.FC<Properties> = ({ room }) => {
                 <Button
                     size={ButtonSizes.FIT}
                     variant={ButtonVariants.SECONDARY}
-                    label={ButtonLabels.JOIN}
+                    label={user ? ButtonLabels.JOIN : ButtonLabels.SPECTATE}
                     onClick={handleRoomJoin}
                     className={styles['room-action']}
                 />

@@ -1,12 +1,15 @@
 import { AppRoute, ButtonLabels } from '~/libs/enums/enums.js';
+import { roomCreateValidationSchema } from '../../libs/enums/enums.js';
 import {
     useAppForm,
     useCallback,
     useAppDispatch,
+    useAppSelector,
     useNavigate,
+    useEffect,
 } from '~/libs/hooks/hooks.js';
 import { type RoomPayload } from '~/libs/types/types.js';
-import { DEFAULT_CREATE_ROOM_VALUES } from '../../libs/default-create-room-values.constant.js';
+import { DEFAULT_CREATE_ROOM_VALUES } from '../../libs/constants/constants.js';
 import { actions as lobbyActions } from '~/features/lobby/slices/lobby.js';
 import { getClassNames } from '~/libs/helpers/helpers.js';
 import styles from './styles.module.css';
@@ -20,19 +23,30 @@ import {
 const Createroom: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+
+    const { user } = useAppSelector((state) => state.auth);
+    const { currentRoom } = useAppSelector((state) => state.lobby);
+
     const { control, errors, handleSubmit } = useAppForm<RoomPayload>({
         defaultValues: DEFAULT_CREATE_ROOM_VALUES,
+        validationSchema: roomCreateValidationSchema,
     });
 
     const handleFormSubmit = useCallback(
         (event_: React.BaseSyntheticEvent): void => {
-            void handleSubmit(
-                (formData) => void dispatch(lobbyActions.createRoom(formData)),
+            void handleSubmit((formData) =>
+                dispatch(lobbyActions.createRoom(formData)),
             )(event_);
-            void navigate(AppRoute.RACE);
         },
-        [handleSubmit, dispatch, navigate],
+        [handleSubmit, dispatch],
     );
+
+    useEffect(() => {
+        if (currentRoom && currentRoom.hostId === user?.id) {
+            void navigate(`${AppRoute.RACE_BASE}${String(currentRoom.roomId)}`);
+            void dispatch(lobbyActions.resetCurrentRoom());
+        }
+    }, [navigate, currentRoom, dispatch, user?.id]);
 
     const formClasses = getClassNames(styles['form'], 'flex-cluster');
     return (
@@ -83,6 +97,7 @@ const Createroom: React.FC = () => {
                 type="submit"
                 className={styles['form-button']}
                 label={ButtonLabels.CREATE_ROOM}
+                isDisabled={!user?.id}
             />
         </form>
     );

@@ -24,4 +24,5 @@ export {
     SocketNamespace,
     GamesDifficulty,
     GameLanguage,
+    RoomValidationMessage,
 } from 'shared';

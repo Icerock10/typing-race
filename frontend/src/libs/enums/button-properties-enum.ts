@@ -8,6 +8,7 @@ const ButtonLabels = {
     REFRESH: 'Refresh ↻',
     SPECTATE: 'Spectate',
     LEAVE_ROOM: 'Leave room',
+    INVITE: 'Invite',
     JOIN: 'Join',
 } as const;
 

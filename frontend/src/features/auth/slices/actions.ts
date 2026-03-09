@@ -1,4 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { ErrorMessage, HTTPError } from '~/libs/enums/enums.js';
 import { StorageKey } from '~/libs/modules/storage/storage.js';
 import {
@@ -25,19 +25,23 @@ const displayErrorMessage = (error: unknown): ErrorPayload => {
         : { details: [], message: ErrorMessage.DEFAULT_ERROR_MESSAGE };
 };
 
+const updateSocketAuth = createAction<{ userId: string }>(
+    `${sliceName}/update-auth`,
+);
+
 const signIn = createAsyncThunk<
     UserDto,
     UserSignInRequestDto,
     AsyncThunkConfig
 >(
     `${sliceName}/sign-in`,
-    async (registerPayload, { extra, rejectWithValue }) => {
+    async (registerPayload, { extra, rejectWithValue, dispatch }) => {
         const { authApi, storage } = extra;
 
         try {
             const { token, user } = await authApi.signIn(registerPayload);
             await storage.set(StorageKey.TOKEN, token);
-
+            dispatch(updateSocketAuth({ userId: String(user.id) }));
             return user;
         } catch (error) {
             const { message } = displayErrorMessage(error);
@@ -53,13 +57,13 @@ const signUp = createAsyncThunk<
     AsyncThunkConfig
 >(
     `${sliceName}/sign-up`,
-    async (registerPayload, { extra, rejectWithValue }) => {
+    async (registerPayload, { extra, rejectWithValue, dispatch }) => {
         const { authApi, storage } = extra;
 
         try {
             const { token, user } = await authApi.signUp(registerPayload);
             await storage.set(StorageKey.TOKEN, token);
-
+            dispatch(updateSocketAuth({ userId: String(user.id) }));
             return user;
         } catch (error) {
             const { message } = displayErrorMessage(error);
@@ -106,4 +110,4 @@ const logout = createAsyncThunk<null, undefined, AsyncThunkConfig>(
     },
 );
 
-export { getCurrentUser, logout, signIn, signUp };
+export { getCurrentUser, logout, signIn, signUp, updateSocketAuth };

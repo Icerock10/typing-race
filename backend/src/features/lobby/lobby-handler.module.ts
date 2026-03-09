@@ -1,7 +1,10 @@
-import { type Logger } from '~/libs/modules/logger/libs/types/types.js';
 import { type Server as SocketServer, type Socket as TSocket } from 'socket.io';
+import { type UserService } from '../users/user.service.js';
 import { GameStatus } from '~/libs/enums/enums.js';
-import { SocketEvent } from '~/libs/modules/socket/libs/enums/enums.js';
+import {
+    SocketEvent,
+    SocketNamespace,
+} from '~/libs/modules/socket/libs/enums/enums.js';
 import { type UserDto, type RoomPayload } from '~/libs/types/types.js';
 import { type Player } from '../game-store/types/types.js';
 import { type GameStore } from '../game-store/base-game-store.module.js';
@@ -10,21 +13,23 @@ type Constructor = {
     socket: TSocket;
     io: SocketServer;
     store: GameStore;
-    logger: Logger;
+    userService: UserService;
     emitStats: () => void;
 };
 
 class LobbyHandler {
+    private deletionTimers = new Map<string, ReturnType<typeof setTimeout>>();
     private socket;
     private io;
     private store;
-    private logger;
     private emitStats;
-    constructor({ socket, io, store, logger, emitStats }: Constructor) {
+    private userService;
+
+    constructor({ socket, io, store, emitStats, userService }: Constructor) {
         this.socket = socket;
         this.io = io;
         this.store = store;
-        this.logger = logger;
+        this.userService = userService;
         this.emitStats = emitStats;
         this.registerEvents();
     }
@@ -34,6 +39,7 @@ class LobbyHandler {
         this.socket.on(SocketEvent.LOBBY_JOIN_ROOM, this.joinRoom);
         this.socket.on(SocketEvent.LOBBY_LEAVE_ROOM, this.leaveRoom);
         this.socket.on(SocketEvent.LOBBY_REFRESH_ROOM, this.getActiveRooms);
+        this.socket.on(SocketEvent.LOBBY_AUTH_UPDATE, this.updateUserAuth);
     }
 
     private createRoom = (roomData: RoomPayload): void => {
@@ -52,6 +58,7 @@ class LobbyHandler {
             players,
             status: GameStatus.WAITING,
             roomId,
+            hostId: String(user.id),
         });
 
         void this.socket.join(roomId);
@@ -60,28 +67,79 @@ class LobbyHandler {
         this.emitStats();
     };
 
+    private updateUserAuth = async ({
+        userId,
+    }: {
+        userId: string;
+    }): Promise<void> => {
+        try {
+            const user = await this.userService.find(userId);
+            (this.socket.data as Record<'user', UserDto | null>).user = user;
+            this.store.addUser(this.socket.id, userId);
+        } catch {
+            this.store.addUser(this.socket.id, null);
+        }
+    };
+
     private joinRoom = ({ roomId }: { roomId: string }): void => {
-        const { user } = this.socket.data as Record<'user', UserDto>;
-        const room = this.store.onJoinRoom(roomId, {
-            socketId: this.socket.id,
-            user,
-        });
+        const { user } = this.socket.data as Record<'user', UserDto | null>;
+        const player = user
+            ? {
+                  socketId: this.socket.id,
+                  user,
+              }
+            : null;
+
+        const room = this.store.onJoinRoom(roomId, player);
+
         void this.socket.join(roomId);
         this.socket.emit(SocketEvent.LOBBY_JOIN_ROOM, room);
-        this.socket.to(roomId).emit(SocketEvent.LOBBY_JOIN_ROOM, room);
+
+        if (user) {
+            this.socket.broadcast.emit(SocketEvent.LOBBY_JOIN_ROOM, room);
+        }
+        if (user && room?.hostId === user.id) {
+            this.cancelRoomDeletion(roomId);
+        }
     };
     private leaveRoom = ({ roomId }: { roomId: string }): void => {
-        const { user } = this.socket.data as Record<'user', UserDto>;
+        const { user } = this.socket.data as Record<'user', UserDto | null>;
+        const playerId = user ? user.id : null;
 
-        const room = this.store.onLeaveRoom(
-            roomId,
-            user.id as NonNullable<string>,
-        );
+        const room = this.store.onLeaveRoom(roomId, playerId);
+
         void this.socket.leave(roomId);
-
         this.socket.emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
-        this.socket.to(roomId).emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
+
+        if (user) {
+            this.socket.broadcast.emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
+        }
+        if (user && room?.hostId === user.id) {
+            this.scheduleRoomDeletion(roomId);
+        }
     };
+
+    private scheduleRoomDeletion(roomId: string): void {
+        const DELAY = 5000;
+        const timer = setTimeout(() => {
+            this.store.deleteRoom(roomId);
+            this.io
+                .of(SocketNamespace.LOBBY)
+                .emit(SocketEvent.LOBBY_ROOM_DELETED, { roomId });
+            this.deletionTimers.delete(roomId);
+        }, DELAY);
+
+        this.deletionTimers.set(roomId, timer);
+    }
+
+    private cancelRoomDeletion(roomId: string): void {
+        const timer = this.deletionTimers.get(roomId);
+        if (timer) {
+            clearTimeout(timer);
+            this.deletionTimers.delete(roomId);
+        }
+    }
+
     private getActiveRooms = (): void => {
         const rooms = this.store.getAllRooms();
 

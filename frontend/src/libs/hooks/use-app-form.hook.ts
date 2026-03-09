@@ -34,7 +34,7 @@ type ReturnValue<T extends FieldValues = FieldValues> = {
     isDirty: boolean;
     isSubmitting: boolean;
     reset: UseFormReset<T>;
-    setError?: UseFormSetError<T>;
+    setError: UseFormSetError<T>;
     setValue: UseFormSetValue<T>;
     watch: UseFormWatch<T>;
 };

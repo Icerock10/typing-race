@@ -1,4 +1,4 @@
-import { getCurrentUser, signIn, signUp } from './actions.js';
+import { getCurrentUser, signIn, signUp, updateSocketAuth } from './actions.js';
 import { actions } from './auth.slice.js';
 
 const allActions = {
@@ -6,6 +6,7 @@ const allActions = {
     getCurrentUser,
     signIn,
     signUp,
+    updateSocketAuth,
 };
 
 export { allActions as actions };

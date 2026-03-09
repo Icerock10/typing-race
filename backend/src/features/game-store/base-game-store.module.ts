@@ -27,11 +27,12 @@ class GameStore implements Store {
     }
     getStats(): AppStatsDto {
         const onlineUsers = this.userMap.size;
-        const activeRooms = this.roomMap.size;
+        const activeRooms = this.getAllRooms();
+        const MOCK_WPM_VALUE = 130;
         return {
             onlineUsers,
             activeRooms,
-            wpm: 130,
+            wpm: MOCK_WPM_VALUE,
         };
     }
     removeUser(socketId: string): boolean {
@@ -67,19 +68,33 @@ class GameStore implements Store {
             : [];
     }
 
-    onJoinRoom(roomId: string, player: Player): RoomResponseDto | undefined {
+    onJoinRoom(
+        roomId: string,
+        player: Player | null,
+    ): RoomResponseDto | undefined {
         const room = this.roomMap.get(roomId);
+        if (!room) {
+            return undefined;
+        }
+        if (player) {
+            room.players.set(String(player.user.id), player);
+            this.updateRoomStatus(room);
+        }
 
-        room?.players.set(String(player.user.id), player);
-
-        this.updateRoomStatus(room);
         return this.getRoom(roomId);
     }
-    onLeaveRoom(roomId: string, playerId: string): RoomResponseDto | undefined {
+    onLeaveRoom(
+        roomId: string,
+        playerId: string | null,
+    ): RoomResponseDto | undefined {
         const room = this.roomMap.get(roomId);
-
-        room?.players.delete(playerId);
-        this.updateRoomStatus(room);
+        if (!room) {
+            return undefined;
+        }
+        if (playerId) {
+            room.players.delete(playerId);
+            this.updateRoomStatus(room);
+        }
         return this.getRoom(roomId);
     }
 
@@ -97,6 +112,10 @@ class GameStore implements Store {
     mapPlayers(players: Map<string, Player>): UserDto[] {
         const updatedPlayers = players.values().map((player) => player.user);
         return [...updatedPlayers];
+    }
+
+    deleteRoom(roomId: string): void {
+        this.roomMap.delete(roomId);
     }
 
     clear(): void {

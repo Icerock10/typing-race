@@ -20,7 +20,7 @@ const Stats: React.FC = () => {
                     data-stat={dataStat}
                     className={styles['stat-value']}
                 >
-                    {stats?.[key]}
+                    {key === 'activeRooms' ? stats?.[key].length : stats?.[key]}
                     <p className={styles['stat-label']}>{label}</p>
                 </span>
             ))}
