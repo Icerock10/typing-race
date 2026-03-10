@@ -8,7 +8,7 @@ import { actions as authActions } from '~/features/auth/auth.js';
 import { config } from '~/libs/modules/config/config.js';
 
 const lobbySocket = socketManager.getSocket(
-    `${config.ENV.API.DEV_URL}${SocketNamespace.LOBBY}`,
+    `${config.ENV.API.DEV_URL}${SocketNamespace.GAME}`,
 );
 
 const connectLobby = async (): Promise<void> => {

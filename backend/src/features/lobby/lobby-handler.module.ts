@@ -124,7 +124,7 @@ class LobbyHandler {
         const timer = setTimeout(() => {
             this.store.deleteRoom(roomId);
             this.io
-                .of(SocketNamespace.LOBBY)
+                .of(SocketNamespace.GAME)
                 .emit(SocketEvent.LOBBY_ROOM_DELETED, { roomId });
             this.deletionTimers.delete(roomId);
         }, DELAY);

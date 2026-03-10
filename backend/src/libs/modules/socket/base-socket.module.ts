@@ -46,7 +46,7 @@ class Socket implements SocketService {
                 this.notificationHandler(socket);
             });
         this._io
-            .of(SocketNamespace.LOBBY)
+            .of(SocketNamespace.GAME)
             .on(SocketEvent.CONNECTION, (socket) => {
                 void this.handleHandShake(socket);
 
@@ -95,7 +95,7 @@ class Socket implements SocketService {
     private emitStats = (): void => {
         const getOnlinePlayersAndRooms = this.store.getStats();
         this.io
-            .of(SocketNamespace.LOBBY)
+            .of(SocketNamespace.GAME)
             .emit(SocketEvent.LOBBY_STATS_INFO, getOnlinePlayersAndRooms);
     };
 
