@@ -26,7 +26,7 @@ const initialState: State = {
 
 const { actions, name, reducer } = createSlice({
     initialState,
-    name: 'lobby',
+    name: 'game',
     reducers: {
         roomCreated(state, action: PayloadAction<RoomResponseDto>) {
             state.rooms = [...state.rooms, action.payload];
@@ -58,6 +58,9 @@ const { actions, name, reducer } = createSlice({
         },
         resetCurrentRoom(state) {
             state.currentRoom = null;
+        },
+        updateCurrentRoom(state, action: PayloadAction<RoomResponseDto>) {
+            state.currentRoom = action.payload;
         },
     },
 });

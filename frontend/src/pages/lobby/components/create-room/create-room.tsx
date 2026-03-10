@@ -10,7 +10,7 @@ import {
 } from '~/libs/hooks/hooks.js';
 import { type RoomPayload } from '~/libs/types/types.js';
 import { DEFAULT_CREATE_ROOM_VALUES } from '../../libs/constants/constants.js';
-import { actions as lobbyActions } from '~/features/lobby/slices/lobby.js';
+import { actions as lobbyActions } from '~/features/game/slices/game.js';
 import { getClassNames } from '~/libs/helpers/helpers.js';
 import styles from './styles.module.css';
 import {

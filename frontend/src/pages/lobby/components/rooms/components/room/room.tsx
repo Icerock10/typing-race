@@ -5,7 +5,7 @@ import {
     useCallback,
     useNavigate,
 } from '~/libs/hooks/hooks.js';
-import { actions as lobbyActions } from '~/features/lobby/slices/lobby.js';
+import { actions as lobbyActions } from '~/features/game/slices/game.js';
 import {
     ButtonVariants,
     ButtonLabels,

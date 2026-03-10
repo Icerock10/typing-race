@@ -1,7 +1,7 @@
 import { type Middleware } from '@reduxjs/toolkit';
 import { type RoomResponseDto, type AppStatsDto } from '~/libs/types/types.js';
 import { LobbySocketEvent } from '~/libs/enums/enums.js';
-import { actions as lobbyActions } from '~/features/lobby/slices/lobby.js';
+import { actions as lobbyActions } from '~/features/game/slices/game.js';
 import { socket } from './socket.js';
 import { actions as authActions } from '~/features/auth/auth.js';
 

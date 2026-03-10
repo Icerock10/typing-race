@@ -14,7 +14,7 @@ import {
     Leaderboard,
 } from './components/components.js';
 import styles from './styles.module.css';
-import { actions as lobbyActions } from '../../features/lobby/slices/lobby.js';
+import { actions as lobbyActions } from '../../features/game/slices/game.js';
 import { notifications } from '../../features/notifications/notificationts.js';
 import {
     ButtonLabels,
@@ -129,7 +129,7 @@ const Race: React.FC = () => {
                     cluster={ClusterVariant.GRID}
                     className={styles['race']}
                 >
-                    <RaceProgress currentRoom={currentRoom} />
+                    <RaceProgress user={user} currentRoom={currentRoom} />
                     <Typing />
                     <Leaderboard />
                     <Chat />
