@@ -129,7 +129,7 @@ const Race: React.FC = () => {
                     cluster={ClusterVariant.GRID}
                     className={styles['race']}
                 >
-                    <RaceProgress />
+                    <RaceProgress currentRoom={currentRoom} />
                     <Typing />
                     <Leaderboard />
                     <Chat />
