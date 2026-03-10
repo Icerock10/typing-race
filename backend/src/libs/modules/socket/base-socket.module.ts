@@ -1,6 +1,6 @@
 import { type Server } from 'node:http';
-import { type GameStore } from '~/features/game-store/base-game-store.module.js';
-import { LobbyHandler } from '~/features/lobby/lobby-handler.module.js';
+import { type GameStore } from '~/features/game/store/base-game-store.module.js';
+import { LobbyHandler, RaceHandler } from '~/features/game/game.js';
 import { config } from '../config/config.js';
 import { type UserDto } from '~/libs/types/types.js';
 import { type SocketService } from './libs/types/types.js';
@@ -54,7 +54,7 @@ class Socket implements SocketService {
             .on(SocketEvent.CONNECTION, (socket) => {
                 void this.handleHandShake(socket);
 
-                this.initLobbyHandler(socket);
+                this.initHandlers(socket);
 
                 socket.on(SocketEvent.DISCONNECT, () => {
                     this.store.removeUser(socket.id);
@@ -86,13 +86,18 @@ class Socket implements SocketService {
         }
     };
 
-    private initLobbyHandler = (socket: TSocket): void => {
+    private initHandlers = (socket: TSocket): void => {
         new LobbyHandler({
             socket,
             io: this._io,
             store: this.store,
             emitStats: this.emitStats,
             userService: this.userService,
+        });
+        new RaceHandler({
+            socket,
+            io: this._io,
+            store: this.store,
         });
     };
 

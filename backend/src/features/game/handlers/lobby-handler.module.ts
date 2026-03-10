@@ -1,13 +1,13 @@
 import { type Server as SocketServer, type Socket as TSocket } from 'socket.io';
-import { type UserService } from '../users/user.service.js';
+import { type UserService } from '../../users/user.service.js';
 import { GameStatus } from '~/libs/enums/enums.js';
 import {
     SocketNamespace,
     LobbySocketEvent,
 } from '~/libs/modules/socket/libs/enums/enums.js';
 import { type UserDto, type RoomPayload } from '~/libs/types/types.js';
-import { type Player } from '../game-store/types/types.js';
-import { type GameStore } from '../game-store/base-game-store.module.js';
+import { type Player } from '../store/types/types.js';
+import { type GameStore } from '../store/base-game-store.module.js';
 
 type Constructor = {
     socket: TSocket;
