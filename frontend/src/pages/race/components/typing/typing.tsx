@@ -1,18 +1,31 @@
 import { Cluster, Input } from '~/libs/components/components.js';
-import { mockApi } from '~/libs/modules/api/api.js';
-import { getClassNames } from '~/libs/helpers/helpers.js';
-import { useAppForm } from '~/libs/hooks/hooks.js';
+import { getClassNames, getPlayerStats } from '~/libs/helpers/helpers.js';
+import { useAppForm, useTypingStats } from '~/libs/hooks/hooks.js';
+import { RaceTextDisplay } from './components/components.js';
 import styles from './styles.module.css';
 
-const text =
-    'The quick brown fox jumps over the lazy dog near the riverbank at dawn';
+const text = 'The quick brown fox.';
+const MAX_PROGRESS_VALUE = 100;
 
 const Typing: React.FC = () => {
-    const { control, errors } = useAppForm<{ typedText: string }>({
+    const { control, errors, watch } = useAppForm<{ typedText: string }>({
         defaultValues: {
             typedText: '',
         },
     });
+    const typedText = watch('typedText');
+
+    const { wordPerMinute, accuracy, errorsCount, progress } = useTypingStats({
+        typedText,
+        targetText: text,
+    });
+
+    const playerStats = getPlayerStats({
+        wordPerMinute,
+        accuracy,
+        errorsCount,
+    });
+
     return (
         <section className={styles['race-typing']}>
             <Cluster
@@ -24,23 +37,7 @@ const Typing: React.FC = () => {
             >
                 <span>Your turn — type the text below</span>
             </Cluster>
-            <Cluster className={styles['text-display']}>
-                {[...text].map((char, index) => {
-                    const INDEX_MAX_OFFSET = 20;
-                    const correctChar = index < INDEX_MAX_OFFSET;
-                    const currentChar = index === INDEX_MAX_OFFSET;
-                    const charClasses = getClassNames(
-                        char.trim() === '' && styles['char'],
-                        correctChar && styles['correct'],
-                        currentChar && styles['cursor'],
-                    );
-                    return (
-                        <span className={charClasses} key={index}>
-                            {char}
-                        </span>
-                    );
-                })}
-            </Cluster>
+            <RaceTextDisplay text={text} typedText={typedText} />
             <Input
                 type="text"
                 label=""
@@ -48,21 +45,23 @@ const Typing: React.FC = () => {
                 name="typedText"
                 control={control}
                 errors={errors}
+                maxLength={Infinity}
+                disabled={progress === MAX_PROGRESS_VALUE}
             />
             <Cluster className={styles['live-stats']}>
-                {mockApi.liveStats.map((stat) => (
-                    <div key={stat.id}>
-                        <span>{stat.id}</span>
-                        <span data-stat={stat.id}>
-                            {stat.value}
-                            {stat.id === 'acc' && '%'}
-                        </span>
+                {playerStats.map((stat) => (
+                    <div key={stat.label}>
+                        <span data-stat={stat.label}>{stat.value}</span>
+                        <span>{stat.label}</span>
                     </div>
                 ))}
                 <div className={styles['typing-progress']}>
-                    <div className={styles['typing-progress-fill']} />
+                    <div
+                        style={{ width: `${String(progress)}%` }}
+                        className={styles['typing-progress-fill']}
+                    />
                 </div>
-                <span className={styles['progress-percent']}>58%</span>
+                <span className={styles['progress-percent']}>{progress}%</span>
             </Cluster>
         </section>
     );

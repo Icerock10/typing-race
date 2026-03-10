@@ -9,41 +9,6 @@
     font-size: 0.65rem;
 }
 
-.text-display {
-    --gutter: 0;
-
-    position: relative;
-    font-family: var(--font-family-space-mono);
-    font-size: 1.2rem;
-    line-height: 1.85;
-    color: var(--color-text-main);
-    letter-spacing: 0.3px;
-    user-select: none;
-}
-
-.correct {
-    color: var(--color-accent-turquoise);
-}
-
-.char {
-    margin: var(--space-3xs);
-}
-
-.cursor {
-    position: relative;
-}
-
-.cursor::before {
-    position: absolute;
-    top: 4px;
-    bottom: 4px;
-    left: 0;
-    width: 2px;
-    content: "";
-    background: var(--color-accent-yellow);
-    animation: blink 0.8s step-end infinite;
-}
-
 .live-stats {
     margin-top: 1rem;
     font-family: var(--font-family-space-mono);
@@ -61,7 +26,7 @@
 }
 
 .typing-progress-fill {
-    width: 58%;
+    width: 0%;
     height: 100%;
     background: linear-gradient(
         90deg,
@@ -79,11 +44,11 @@
     --data-stat-color: var(--color-accent-yellow);
 }
 
-[data-stat="acc"] {
+[data-stat="accuracy"] {
     --data-stat-color: var(--color-accent-turquoise);
 }
 
-[data-stat="err"] {
+[data-stat="error"] {
     --data-stat-color: var(--color-accent-red);
 }
 
