@@ -13,6 +13,7 @@ import { reducer as lobbyReducer } from '~/features/lobby/slices/lobby.js';
 import {
     listenerMiddleware,
     lobbySocketMiddleware,
+    gameSocketMiddleware,
 } from './middlewares/middlewares.js';
 
 type ExtraArguments = {
@@ -52,6 +53,7 @@ class Store {
                 }).prepend(
                     listenerMiddleware.middleware,
                     lobbySocketMiddleware,
+                    gameSocketMiddleware,
                 );
             },
             reducer: {
