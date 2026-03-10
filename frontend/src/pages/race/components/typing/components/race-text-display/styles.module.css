@@ -1,0 +1,44 @@
+.text-display {
+    --gutter: 0;
+
+    position: relative;
+    font-family: var(--font-family-space-mono);
+    font-size: 1.2rem;
+    line-height: 1.85;
+    color: var(--color-text-main);
+    letter-spacing: 0.3px;
+    user-select: none;
+}
+
+.correct {
+    color: var(--color-accent-turquoise);
+}
+
+.char {
+    margin: var(--space-3xs);
+}
+
+.cursor {
+    position: relative;
+}
+
+.wrong {
+    color: var(--color-accent-red);
+}
+
+.wrong-space {
+    width: 10px;
+    height: 2px;
+    background-color: var(--color-accent-red);
+}
+
+.cursor::before {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 0;
+    width: 2px;
+    content: "";
+    background: var(--color-accent-yellow);
+    animation: blink 0.8s step-end infinite;
+}
