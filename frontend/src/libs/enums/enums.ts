@@ -27,4 +27,5 @@ export {
     GamesDifficulty,
     GameLanguage,
     RoomValidationMessage,
+    HandlerParameterIndexes,
 } from 'shared';
