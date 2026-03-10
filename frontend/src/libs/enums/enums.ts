@@ -22,6 +22,7 @@ export {
     OpenAuthProvider,
     SocketEvent,
     SocketNamespace,
+    LobbySocketEvent,
     GamesDifficulty,
     GameLanguage,
     RoomValidationMessage,

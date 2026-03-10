@@ -4,7 +4,11 @@ import { LobbyHandler } from '~/features/lobby/lobby-handler.module.js';
 import { config } from '../config/config.js';
 import { type UserDto } from '~/libs/types/types.js';
 import { type SocketService } from './libs/types/types.js';
-import { SocketEvent, SocketNamespace } from './libs/enums/enums.js';
+import {
+    SocketEvent,
+    SocketNamespace,
+    LobbySocketEvent,
+} from './libs/enums/enums.js';
 import { type BaseToken } from '../token/base-token.module.js';
 import { type UserService } from '~/features/users/user.service.js';
 import { type Logger } from '../logger/libs/types/logger.type.js';
@@ -96,7 +100,7 @@ class Socket implements SocketService {
         const getOnlinePlayersAndRooms = this.store.getStats();
         this.io
             .of(SocketNamespace.GAME)
-            .emit(SocketEvent.LOBBY_STATS_INFO, getOnlinePlayersAndRooms);
+            .emit(LobbySocketEvent.STATS_INFO, getOnlinePlayersAndRooms);
     };
 
     private notificationHandler = (socket: TSocket): void => {

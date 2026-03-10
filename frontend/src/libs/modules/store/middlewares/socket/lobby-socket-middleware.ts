@@ -1,6 +1,6 @@
 import { type Middleware } from '@reduxjs/toolkit';
 import { type RoomResponseDto, type AppStatsDto } from '~/libs/types/types.js';
-import { SocketEvent, SocketNamespace } from '~/libs/enums/enums.js';
+import { SocketNamespace, LobbySocketEvent } from '~/libs/enums/enums.js';
 import { storage, StorageKey } from '~/libs/modules/storage/storage.js';
 import { socketManager } from '~/libs/modules/socket/socket-manager.js';
 import { actions as lobbyActions } from '~/features/lobby/slices/lobby.js';
@@ -24,52 +24,49 @@ void connectLobby();
 
 const lobbySocketMiddleware: Middleware = ({ dispatch }) => {
     lobbySocket.on(
-        SocketEvent.LOBBY_CREATE_ROOM,
+        LobbySocketEvent.CREATE_ROOM,
         (roomData: RoomResponseDto) => {
             dispatch(lobbyActions.roomCreated(roomData));
         },
     );
-    lobbySocket.on(SocketEvent.LOBBY_JOIN_ROOM, (roomData: RoomResponseDto) => {
+    lobbySocket.on(LobbySocketEvent.JOIN_ROOM, (roomData: RoomResponseDto) => {
         dispatch(lobbyActions.playerJoined(roomData));
     });
     lobbySocket.on(
-        SocketEvent.LOBBY_ROOM_DELETED,
+        LobbySocketEvent.ROOM_DELETED,
         ({ roomId }: { roomId: string }) => {
             dispatch(lobbyActions.roomDeleted(roomId));
         },
     );
+    lobbySocket.on(LobbySocketEvent.LEAVE_ROOM, (roomData: RoomResponseDto) => {
+        dispatch(lobbyActions.playerLeft(roomData));
+    });
     lobbySocket.on(
-        SocketEvent.LOBBY_LEAVE_ROOM,
-        (roomData: RoomResponseDto) => {
-            dispatch(lobbyActions.playerLeft(roomData));
-        },
-    );
-    lobbySocket.on(
-        SocketEvent.LOBBY_REFRESH_ROOM,
+        LobbySocketEvent.REFRESH_ROOM,
         (rooms: RoomResponseDto[]) => {
             dispatch(lobbyActions.roomsUpdated(rooms));
         },
     );
 
-    lobbySocket.on(SocketEvent.LOBBY_STATS_INFO, (stats: AppStatsDto) => {
+    lobbySocket.on(LobbySocketEvent.STATS_INFO, (stats: AppStatsDto) => {
         dispatch(lobbyActions.updatedStats(stats));
     });
 
     return (next) => (action) => {
         if (lobbyActions.createRoom.match(action)) {
-            lobbySocket.emit(SocketEvent.LOBBY_CREATE_ROOM, action.payload);
+            lobbySocket.emit(LobbySocketEvent.CREATE_ROOM, action.payload);
         }
         if (lobbyActions.joinRoom.match(action)) {
-            lobbySocket.emit(SocketEvent.LOBBY_JOIN_ROOM, action.payload);
+            lobbySocket.emit(LobbySocketEvent.JOIN_ROOM, action.payload);
         }
         if (lobbyActions.leaveRoom.match(action)) {
-            lobbySocket.emit(SocketEvent.LOBBY_LEAVE_ROOM, action.payload);
+            lobbySocket.emit(LobbySocketEvent.LEAVE_ROOM, action.payload);
         }
         if (lobbyActions.refreshRoom.match(action)) {
-            lobbySocket.emit(SocketEvent.LOBBY_REFRESH_ROOM);
+            lobbySocket.emit(LobbySocketEvent.REFRESH_ROOM);
         }
         if (authActions.updateSocketAuth.match(action)) {
-            lobbySocket.emit(SocketEvent.LOBBY_AUTH_UPDATE, action.payload);
+            lobbySocket.emit(LobbySocketEvent.AUTH_UPDATE, action.payload);
         }
         next(action);
     };

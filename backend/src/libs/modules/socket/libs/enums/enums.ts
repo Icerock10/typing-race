@@ -1,1 +1,1 @@
-export { SocketEvent, SocketNamespace } from 'shared';
+export { SocketEvent, SocketNamespace, LobbySocketEvent } from 'shared';
