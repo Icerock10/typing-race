@@ -28,6 +28,10 @@
     transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.input-field[disabled] {
+    opacity: 0.5;
+}
+
 .input-field::placeholder {
     font-size: 0.8rem;
     font-weight: var(--font-weight-semi-bold);
