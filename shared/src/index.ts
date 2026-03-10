@@ -69,4 +69,6 @@ export {
 export {
     SocketNamespace,
     SocketEvent,
+    RaceSocketEvent,
+    LobbySocketEvent,
 } from './libs/modules/socket/enums/enums.js';

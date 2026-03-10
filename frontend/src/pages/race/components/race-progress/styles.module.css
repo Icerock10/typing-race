@@ -30,13 +30,20 @@
     gap: var(--space-s);
 }
 
+.player-name {
+    width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .player-wpm {
     color: var(--color-accent-yellow);
     text-align: end;
 }
 
 .player-track {
-    grid-template-columns: 1.75rem 8rem 1fr 4.3rem;
+    grid-template-columns: auto auto 1fr auto;
 }
 
 .track-bar-wrap,
@@ -53,19 +60,7 @@
 
 .track-bar-fill {
     position: relative;
-    width: 74%;
     height: 100%;
-    background: var(--color-accent-turquoise);
-}
-
-.track-bar-fill::after {
-    position: absolute;
-    top: 50%;
-    right: -2px;
-    font-size: 0.7rem;
-    content: "▶";
-    opacity: 0.8;
-    transform: translateY(-50%);
 }
 
 @media screen and (width <= 700px) {

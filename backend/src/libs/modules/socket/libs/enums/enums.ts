@@ -1,1 +1,6 @@
-export { SocketEvent, SocketNamespace } from 'shared';
+export {
+    SocketEvent,
+    SocketNamespace,
+    LobbySocketEvent,
+    RaceSocketEvent,
+} from 'shared';

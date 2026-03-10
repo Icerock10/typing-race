@@ -4,7 +4,7 @@ import {
     type Player,
 } from './types/types.js';
 import { GameStatus, HandlerParameterIndexes } from '~/libs/enums/enums.js';
-import { type UserDto, type AppStatsDto } from '~/libs/types/types.js';
+import { type AppStatsDto } from '~/libs/types/types.js';
 
 type Store = {
     addUser: (socketId: string, userId: string | null) => void;
@@ -37,6 +37,20 @@ class GameStore implements Store {
     }
     removeUser(socketId: string): boolean {
         return this.userMap.delete(socketId);
+    }
+
+    setPlayerReadyStatus(
+        roomId: string,
+        userId: string,
+        isReady: boolean,
+    ): RoomResponseDto | undefined {
+        const room = this.roomMap.get(roomId);
+        const player = room?.players.get(userId);
+
+        if (player) {
+            player.isReady = isReady;
+        }
+        return this.getRoom(roomId);
     }
 
     addRoom(roomId: string, roomData: InternalRoom): RoomResponseDto {
@@ -109,8 +123,11 @@ class GameStore implements Store {
                 : GameStatus.WAITING;
     }
 
-    mapPlayers(players: Map<string, Player>): UserDto[] {
-        const updatedPlayers = players.values().map((player) => player.user);
+    mapPlayers(players: Map<string, Player>): RoomResponseDto['players'] {
+        const updatedPlayers = players.values().map((player) => ({
+            ...player.user,
+            isReady: player.isReady ?? false,
+        }));
         return [...updatedPlayers];
     }
 

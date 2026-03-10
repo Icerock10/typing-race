@@ -22,7 +22,10 @@ export {
     OpenAuthProvider,
     SocketEvent,
     SocketNamespace,
+    LobbySocketEvent,
+    RaceSocketEvent,
     GamesDifficulty,
     GameLanguage,
     RoomValidationMessage,
+    HandlerParameterIndexes,
 } from 'shared';

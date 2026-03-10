@@ -1,13 +1,13 @@
 import { type Server as SocketServer, type Socket as TSocket } from 'socket.io';
-import { type UserService } from '../users/user.service.js';
+import { type UserService } from '../../users/user.service.js';
 import { GameStatus } from '~/libs/enums/enums.js';
 import {
-    SocketEvent,
     SocketNamespace,
+    LobbySocketEvent,
 } from '~/libs/modules/socket/libs/enums/enums.js';
 import { type UserDto, type RoomPayload } from '~/libs/types/types.js';
-import { type Player } from '../game-store/types/types.js';
-import { type GameStore } from '../game-store/base-game-store.module.js';
+import { type Player } from '../store/types/types.js';
+import { type GameStore } from '../store/base-game-store.module.js';
 
 type Constructor = {
     socket: TSocket;
@@ -35,11 +35,11 @@ class LobbyHandler {
     }
 
     private registerEvents(): void {
-        this.socket.on(SocketEvent.LOBBY_CREATE_ROOM, this.createRoom);
-        this.socket.on(SocketEvent.LOBBY_JOIN_ROOM, this.joinRoom);
-        this.socket.on(SocketEvent.LOBBY_LEAVE_ROOM, this.leaveRoom);
-        this.socket.on(SocketEvent.LOBBY_REFRESH_ROOM, this.getActiveRooms);
-        this.socket.on(SocketEvent.LOBBY_AUTH_UPDATE, this.updateUserAuth);
+        this.socket.on(LobbySocketEvent.CREATE_ROOM, this.createRoom);
+        this.socket.on(LobbySocketEvent.JOIN_ROOM, this.joinRoom);
+        this.socket.on(LobbySocketEvent.LEAVE_ROOM, this.leaveRoom);
+        this.socket.on(LobbySocketEvent.REFRESH_ROOM, this.getActiveRooms);
+        this.socket.on(LobbySocketEvent.AUTH_UPDATE, this.updateUserAuth);
     }
 
     private createRoom = (roomData: RoomPayload): void => {
@@ -62,8 +62,8 @@ class LobbyHandler {
         });
 
         void this.socket.join(roomId);
-        this.socket.emit(SocketEvent.LOBBY_CREATE_ROOM, createdRoom);
-        this.socket.broadcast.emit(SocketEvent.LOBBY_CREATE_ROOM, createdRoom);
+        this.socket.emit(LobbySocketEvent.CREATE_ROOM, createdRoom);
+        this.socket.broadcast.emit(LobbySocketEvent.CREATE_ROOM, createdRoom);
         this.emitStats();
     };
 
@@ -93,10 +93,10 @@ class LobbyHandler {
         const room = this.store.onJoinRoom(roomId, player);
 
         void this.socket.join(roomId);
-        this.socket.emit(SocketEvent.LOBBY_JOIN_ROOM, room);
+        this.socket.emit(LobbySocketEvent.JOIN_ROOM, room);
 
         if (user) {
-            this.socket.broadcast.emit(SocketEvent.LOBBY_JOIN_ROOM, room);
+            this.socket.broadcast.emit(LobbySocketEvent.JOIN_ROOM, room);
         }
         if (user && room?.hostId === user.id) {
             this.cancelRoomDeletion(roomId);
@@ -109,10 +109,10 @@ class LobbyHandler {
         const room = this.store.onLeaveRoom(roomId, playerId);
 
         void this.socket.leave(roomId);
-        this.socket.emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
+        this.socket.emit(LobbySocketEvent.LEAVE_ROOM, room);
 
         if (user) {
-            this.socket.broadcast.emit(SocketEvent.LOBBY_LEAVE_ROOM, room);
+            this.socket.broadcast.emit(LobbySocketEvent.LEAVE_ROOM, room);
         }
         if (user && room?.hostId === user.id) {
             this.scheduleRoomDeletion(roomId);
@@ -124,8 +124,8 @@ class LobbyHandler {
         const timer = setTimeout(() => {
             this.store.deleteRoom(roomId);
             this.io
-                .of(SocketNamespace.LOBBY)
-                .emit(SocketEvent.LOBBY_ROOM_DELETED, { roomId });
+                .of(SocketNamespace.GAME)
+                .emit(LobbySocketEvent.ROOM_DELETED, { roomId });
             this.deletionTimers.delete(roomId);
         }, DELAY);
 
@@ -143,7 +143,7 @@ class LobbyHandler {
     private getActiveRooms = (): void => {
         const rooms = this.store.getAllRooms();
 
-        this.socket.emit(SocketEvent.LOBBY_REFRESH_ROOM, rooms);
+        this.socket.emit(LobbySocketEvent.REFRESH_ROOM, rooms);
     };
 }
 

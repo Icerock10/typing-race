@@ -1,7 +1,7 @@
 import { Cluster, Button } from '~/libs/components/components.js';
 import { Room } from './components/components.js';
 import { getClassNames } from '~/libs/helpers/helpers.js';
-import { actions as lobbyActions } from '~/features/lobby/slices/lobby.js';
+import { actions as lobbyActions } from '~/features/game/slices/game.js';
 import {
     ButtonVariants,
     ButtonLabels,

@@ -6,3 +6,4 @@ export { useCallback, useEffect, useId, useState, useRef } from 'react';
 export { useController as useFormController } from 'react-hook-form';
 export { useLocation, useNavigate, useParams } from 'react-router-dom';
 export { useTyping } from './use-typing.hook.js';
+export { useTypingStats } from './use-typing-stats.hook.js';

@@ -8,11 +8,12 @@ import { AppEnvironment } from '~/libs/enums/enums.js';
 import { type Config } from '~/libs/modules/config/config.js';
 import { type BaseStorage, storage } from '~/libs/modules/storage/storage.js';
 import { authApi, reducer as authReducer } from '~/features/auth/auth.js';
-import { reducer as lobbyReducer } from '~/features/lobby/slices/lobby.js';
+import { reducer as lobbyReducer } from '~/features/game/slices/game.js';
 
 import {
     listenerMiddleware,
     lobbySocketMiddleware,
+    gameSocketMiddleware,
 } from './middlewares/middlewares.js';
 
 type ExtraArguments = {
@@ -52,6 +53,7 @@ class Store {
                 }).prepend(
                     listenerMiddleware.middleware,
                     lobbySocketMiddleware,
+                    gameSocketMiddleware,
                 );
             },
             reducer: {

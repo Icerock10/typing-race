@@ -15,6 +15,7 @@ type State = {
     stats: AppStatsDto | null;
     currentRoom: RoomResponseDto | null;
     isRoomsLoaded: boolean;
+    isRaceStarted: boolean;
 };
 
 const initialState: State = {
@@ -22,11 +23,12 @@ const initialState: State = {
     stats: null,
     currentRoom: null,
     isRoomsLoaded: false,
+    isRaceStarted: false,
 };
 
 const { actions, name, reducer } = createSlice({
     initialState,
-    name: 'lobby',
+    name: 'game',
     reducers: {
         roomCreated(state, action: PayloadAction<RoomResponseDto>) {
             state.rooms = [...state.rooms, action.payload];
@@ -58,6 +60,13 @@ const { actions, name, reducer } = createSlice({
         },
         resetCurrentRoom(state) {
             state.currentRoom = null;
+        },
+        updateCurrentRoom(state, action: PayloadAction<RoomResponseDto>) {
+            state.rooms = mapRooms(state.rooms, action.payload);
+        },
+        raceStarted(state, action: PayloadAction<RoomResponseDto>) {
+            state.isRaceStarted = true;
+            state.rooms = mapRooms(state.rooms, action.payload);
         },
     },
 });

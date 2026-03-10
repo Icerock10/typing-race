@@ -8,7 +8,7 @@ import {
 import { joinRoomByCodeValidationSchema } from '../../libs/enums/enums.js';
 import { type RoomResponseDto } from '~/libs/types/types.js';
 import { Input, Button, Cluster } from '~/libs/components/components.js';
-import { actions as lobbyActions } from '~/features/lobby/slices/lobby.js';
+import { actions as lobbyActions } from '~/features/game/slices/game.js';
 import styles from './styles.module.css';
 import {
     AppRoute,

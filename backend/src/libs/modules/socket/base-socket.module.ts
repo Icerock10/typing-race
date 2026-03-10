@@ -1,10 +1,14 @@
 import { type Server } from 'node:http';
-import { type GameStore } from '~/features/game-store/base-game-store.module.js';
-import { LobbyHandler } from '~/features/lobby/lobby-handler.module.js';
+import { type GameStore } from '~/features/game/store/base-game-store.module.js';
+import { LobbyHandler, RaceHandler } from '~/features/game/game.js';
 import { config } from '../config/config.js';
 import { type UserDto } from '~/libs/types/types.js';
 import { type SocketService } from './libs/types/types.js';
-import { SocketEvent, SocketNamespace } from './libs/enums/enums.js';
+import {
+    SocketEvent,
+    SocketNamespace,
+    LobbySocketEvent,
+} from './libs/enums/enums.js';
 import { type BaseToken } from '../token/base-token.module.js';
 import { type UserService } from '~/features/users/user.service.js';
 import { type Logger } from '../logger/libs/types/logger.type.js';
@@ -46,11 +50,11 @@ class Socket implements SocketService {
                 this.notificationHandler(socket);
             });
         this._io
-            .of(SocketNamespace.LOBBY)
+            .of(SocketNamespace.GAME)
             .on(SocketEvent.CONNECTION, (socket) => {
                 void this.handleHandShake(socket);
 
-                this.initLobbyHandler(socket);
+                this.initHandlers(socket);
 
                 socket.on(SocketEvent.DISCONNECT, () => {
                     this.store.removeUser(socket.id);
@@ -82,7 +86,7 @@ class Socket implements SocketService {
         }
     };
 
-    private initLobbyHandler = (socket: TSocket): void => {
+    private initHandlers = (socket: TSocket): void => {
         new LobbyHandler({
             socket,
             io: this._io,
@@ -90,13 +94,18 @@ class Socket implements SocketService {
             emitStats: this.emitStats,
             userService: this.userService,
         });
+        new RaceHandler({
+            socket,
+            io: this._io,
+            store: this.store,
+        });
     };
 
     private emitStats = (): void => {
         const getOnlinePlayersAndRooms = this.store.getStats();
         this.io
-            .of(SocketNamespace.LOBBY)
-            .emit(SocketEvent.LOBBY_STATS_INFO, getOnlinePlayersAndRooms);
+            .of(SocketNamespace.GAME)
+            .emit(LobbySocketEvent.STATS_INFO, getOnlinePlayersAndRooms);
     };
 
     private notificationHandler = (socket: TSocket): void => {
