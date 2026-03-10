@@ -5,14 +5,27 @@ import {
 } from '~/libs/enums/enums.js';
 import { SectionHeader } from '../section-header/section-header.js';
 import styles from './styles.module.css';
+import { useAppDispatch, useCallback } from '~/libs/hooks/hooks.js';
 import { Cluster, Avatar, Button } from '~/libs/components/components.js';
 import { type RoomResponseDto } from '~/libs/types/types.js';
+import { actions as raceActions } from '~/features/race/actions.js';
 
 type Properties = {
     currentRoom?: RoomResponseDto;
 };
 
 const RaceProgress: React.FC<Properties> = ({ currentRoom }) => {
+    const dispatch = useAppDispatch();
+
+    const handleReadyClick = useCallback(() => {
+        dispatch(
+            raceActions.setReadyStatus({
+                roomId: String(currentRoom?.roomId),
+                isReady: true,
+            }),
+        );
+    }, [currentRoom?.roomId, dispatch]);
+
     return (
         <section className={styles['race-progress']}>
             <Cluster className={styles['track-header']}>
@@ -48,6 +61,7 @@ const RaceProgress: React.FC<Properties> = ({ currentRoom }) => {
                             <Button
                                 label={ButtonLabels.READY}
                                 variant={ButtonVariants.SECONDARY}
+                                onClick={handleReadyClick}
                             />
                         </Cluster>
                     );

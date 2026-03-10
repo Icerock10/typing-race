@@ -23,6 +23,7 @@ export {
     SocketEvent,
     SocketNamespace,
     LobbySocketEvent,
+    RaceSocketEvent,
     GamesDifficulty,
     GameLanguage,
     RoomValidationMessage,
