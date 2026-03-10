@@ -1,7 +1,7 @@
 import { type Server as SocketServer, type Socket as TSocket } from 'socket.io';
 import { RaceSocketEvent } from '~/libs/modules/socket/libs/enums/enums.js';
 import { type GameStore } from '../store/base-game-store.module.js';
-import { SocketNamespace, type UserDto } from 'shared';
+import { GameStatus, SocketNamespace, type UserDto } from 'shared';
 
 type Constructor = {
     socket: TSocket;
@@ -45,6 +45,26 @@ class RaceHandler {
                 RaceSocketEvent.SET_READY_STATUS,
                 roomWithUpdatedPlayerStatus,
             );
+
+        if (roomWithUpdatedPlayerStatus?.status === GameStatus.FULL) {
+            const areAllPlayersReady =
+                roomWithUpdatedPlayerStatus.players.every(
+                    (player) => player.isReady,
+                );
+            if (areAllPlayersReady) {
+                const DELAY = 3000;
+                roomWithUpdatedPlayerStatus.status = GameStatus.IN_GAME;
+                setTimeout(() => {
+                    this.io
+                        .of(SocketNamespace.GAME)
+                        .to(roomId)
+                        .emit(
+                            RaceSocketEvent.START_RACE,
+                            roomWithUpdatedPlayerStatus,
+                        );
+                }, DELAY);
+            }
+        }
     };
 }
 

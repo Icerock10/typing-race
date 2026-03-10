@@ -37,7 +37,9 @@ import {
 
 const Race: React.FC = () => {
     const { user } = useAppSelector((state) => state.auth);
-    const { rooms, isRoomsLoaded } = useAppSelector((state) => state.lobby);
+    const { rooms, isRoomsLoaded, isRaceStarted } = useAppSelector(
+        (state) => state.lobby,
+    );
     const { roomId } = useParams() as { roomId: string };
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -129,7 +131,11 @@ const Race: React.FC = () => {
                     cluster={ClusterVariant.GRID}
                     className={styles['race']}
                 >
-                    <RaceProgress user={user} currentRoom={currentRoom} />
+                    <RaceProgress
+                        isRaceStarted={isRaceStarted}
+                        user={user}
+                        currentRoom={currentRoom}
+                    />
                     <Typing />
                     <Leaderboard />
                     <Chat />

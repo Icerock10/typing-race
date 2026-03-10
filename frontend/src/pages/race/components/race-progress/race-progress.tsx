@@ -5,25 +5,38 @@ import {
 } from '~/libs/enums/enums.js';
 import { SectionHeader } from '../section-header/section-header.js';
 import styles from './styles.module.css';
-import { useAppDispatch, useCallback } from '~/libs/hooks/hooks.js';
+import { useAppDispatch, useCallback, useState } from '~/libs/hooks/hooks.js';
 import { Cluster, Avatar, Button } from '~/libs/components/components.js';
-import { type RoomResponseDto } from '~/libs/types/types.js';
-import { actions as raceActions } from '~/features/race/actions.js';
+import { type UserDto, type RoomResponseDto } from '~/libs/types/types.js';
+import { actions as raceActions } from '~/features/game/slices/game.js';
 
 type Properties = {
     currentRoom?: RoomResponseDto;
+    user: UserDto | null;
+    isRaceStarted: boolean;
 };
 
-const RaceProgress: React.FC<Properties> = ({ currentRoom }) => {
+const RaceProgress: React.FC<Properties> = ({
+    currentRoom,
+    user,
+    isRaceStarted,
+}) => {
     const dispatch = useAppDispatch();
+    const [isReady, setIsReady] = useState(false);
+    const userId = user?.id;
 
     const handleReadyClick = useCallback(() => {
-        dispatch(
-            raceActions.setReadyStatus({
-                roomId: String(currentRoom?.roomId),
-                isReady: true,
-            }),
-        );
+        setIsReady((previous) => {
+            const updatedReadyState = !previous;
+
+            dispatch(
+                raceActions.setReadyStatus({
+                    roomId: String(currentRoom?.roomId),
+                    isReady: updatedReadyState,
+                }),
+            );
+            return updatedReadyState;
+        });
     }, [currentRoom?.roomId, dispatch]);
 
     return (
@@ -42,6 +55,7 @@ const RaceProgress: React.FC<Properties> = ({ currentRoom }) => {
             </Cluster>
             <div className={styles['tracks']}>
                 {currentRoom?.players.map((player) => {
+                    const me = userId === player.id;
                     return (
                         <Cluster
                             key={player.id}
@@ -52,17 +66,35 @@ const RaceProgress: React.FC<Properties> = ({ currentRoom }) => {
                             <Cluster className={styles['player-info']}>
                                 <Avatar name={player.userName} />
                                 <span className={styles['player-name']}>
+                                    {me && <span>(you) </span>}
                                     {player.userName}
                                 </span>
                             </Cluster>
                             <div className={styles['track-bar-wrap']}>
                                 <div className={styles['track-bar-fill']} />
                             </div>
-                            <Button
-                                label={ButtonLabels.READY}
-                                variant={ButtonVariants.SECONDARY}
-                                onClick={handleReadyClick}
-                            />
+
+                            {!isRaceStarted && (
+                                <>
+                                    {me ? (
+                                        <Button
+                                            label={
+                                                isReady
+                                                    ? ButtonLabels.READY
+                                                    : ButtonLabels.NOT_READY
+                                            }
+                                            variant={ButtonVariants.SECONDARY}
+                                            onClick={handleReadyClick}
+                                        />
+                                    ) : (
+                                        <span>
+                                            {player.isReady
+                                                ? ButtonLabels.READY
+                                                : ButtonLabels.NOT_READY}
+                                        </span>
+                                    )}
+                                </>
+                            )}
                         </Cluster>
                     );
                 })}

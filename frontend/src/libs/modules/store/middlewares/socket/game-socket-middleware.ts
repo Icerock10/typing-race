@@ -9,6 +9,9 @@ const gameSocketMiddleware: Middleware = ({ dispatch }) => {
         dispatch(gameActions.updateCurrentRoom(room));
     });
 
+    socket.on(RaceSocketEvent.START_RACE, (room: RoomResponseDto) => {
+        dispatch(gameActions.raceStarted(room));
+    });
     return (next) => (action) => {
         if (gameActions.setReadyStatus.match(action)) {
             socket.emit(RaceSocketEvent.SET_READY_STATUS, action.payload);
