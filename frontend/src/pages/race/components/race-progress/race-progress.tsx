@@ -12,7 +12,6 @@ type Properties = {
 
 const RaceProgress: React.FC<Properties> = ({ currentRoom, user }) => {
     const userId = user?.id;
-
     return (
         <section className={styles['race-progress']}>
             <Cluster className={styles['track-header']}>
@@ -45,8 +44,16 @@ const RaceProgress: React.FC<Properties> = ({ currentRoom, user }) => {
                                 </span>
                             </Cluster>
                             <div className={styles['track-bar-wrap']}>
-                                <div className={styles['track-bar-fill']} />
+                                <div
+                                    style={{
+                                        width: `${String(player.progress)}%`,
+                                    }}
+                                    className={styles['track-bar-fill']}
+                                />
                             </div>
+                            <span className={styles['track-wpm']}>
+                                {player.wpm} wpm
+                            </span>
                         </Cluster>
                     );
                 })}
