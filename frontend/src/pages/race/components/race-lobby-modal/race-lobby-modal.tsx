@@ -11,6 +11,7 @@ import {
     useState,
     useCallback,
     useAppDispatch,
+    useCountDown,
 } from '~/libs/hooks/hooks.js';
 import { actions as raceActions } from '~/features/game/slices/game.js';
 import { type RoomResponseDto } from '~/libs/types/types.js';
@@ -19,17 +20,23 @@ import { ButtonLabels, ButtonVariants } from '~/libs/enums/enums.js';
 
 type Properties = {
     currentRoom?: RoomResponseDto;
+    isCountDownStarted: boolean;
+    isRaceStarted: boolean;
 };
 
-const RaceLobbyModal: React.FC<Properties> = ({ currentRoom }) => {
+const RaceLobbyModal: React.FC<Properties> = ({
+    currentRoom,
+    isCountDownStarted,
+    isRaceStarted,
+}) => {
     const modalReference = useRef(null);
-    const [isModalOpen, setIsModalOpen] = useState(true);
     const [isPlayerReady, setIsPlayerReady] = useState(false);
     const dispatch = useAppDispatch();
-    const onModalClose = useCallback(() => {
-        setIsModalOpen(false);
-    }, []);
 
+    const { countDown } = useCountDown({
+        trigger: isCountDownStarted,
+        initialValue: 5,
+    });
     const readyStatusText = isPlayerReady
         ? ButtonLabels.NOT_READY
         : ButtonLabels.READY;
@@ -49,18 +56,26 @@ const RaceLobbyModal: React.FC<Properties> = ({ currentRoom }) => {
     }, [currentRoom?.roomId, dispatch]);
 
     return (
-        <Modal
-            onClose={onModalClose}
-            isOpen={isModalOpen}
-            modalReference={modalReference}
-        >
+        <Modal isOpen={!isRaceStarted} modalReference={modalReference}>
             <Cluster className={styles['lobby-card-wrapper']}>
                 <Cluster className="card-header">
                     <div className={styles['card-header-icon']}>
                         <RocketIcon />
                     </div>
                     <h2 className={styles['card-header-title']}>
-                        Waiting for players…
+                        {isCountDownStarted ? (
+                            <>
+                                <span>Game Starts in...</span>
+                                {'  '}
+                                <span
+                                    className={styles['card-header-countdown']}
+                                >
+                                    {countDown}
+                                </span>
+                            </>
+                        ) : (
+                            'Waiting for players...'
+                        )}
                     </h2>
                     <div className={styles['card-header-subtitle']}>
                         <span>Room</span>
@@ -107,6 +122,7 @@ const RaceLobbyModal: React.FC<Properties> = ({ currentRoom }) => {
                         label={readyStatusText}
                         variant={ButtonVariants.PRIMARY}
                         onClick={handleReadyClick}
+                        isDisabled={isCountDownStarted}
                     />
                     <p className={styles['actions-hint']}>
                         Game starts when all players are ready

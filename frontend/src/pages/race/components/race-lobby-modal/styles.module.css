@@ -83,6 +83,11 @@
     color: var(--color-accent-turquoise);
 }
 
+.card-header-countdown {
+    font-size: var(--step-7);
+    color: var(--color-accent-yellow);
+}
+
 @keyframes idle {
     0%,
     100% {

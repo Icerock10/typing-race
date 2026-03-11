@@ -38,9 +38,8 @@ import {
 
 const Race: React.FC = () => {
     const { user } = useAppSelector((state) => state.auth);
-    const { rooms, isRoomsLoaded, isRaceStarted } = useAppSelector(
-        (state) => state.lobby,
-    );
+    const { rooms, isRoomsLoaded, isRaceStarted, isCountDownStarted } =
+        useAppSelector((state) => state.lobby);
     const { roomId } = useParams() as { roomId: string };
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -71,7 +70,11 @@ const Race: React.FC = () => {
 
     return (
         <>
-            <RaceLobbyModal currentRoom={currentRoom} />
+            <RaceLobbyModal
+                isRaceStarted={isRaceStarted}
+                isCountDownStarted={isCountDownStarted}
+                currentRoom={currentRoom}
+            />
             <Header variant={HeaderVariants.COMPACT}>
                 <Cluster className={styles['header-room-info']}>
                     <strong className={styles['room-name']}>
