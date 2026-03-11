@@ -12,7 +12,7 @@ const ANIMATION_DELAY = 300;
 type Properties = {
     children: React.ReactNode;
     isOpen: boolean;
-    onClose: () => void;
+    onClose?: () => void;
     title?: string;
     modalReference?: React.RefObject<HTMLDialogElement | null>;
 };
