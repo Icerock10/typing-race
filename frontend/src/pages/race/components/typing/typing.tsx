@@ -1,13 +1,26 @@
 import { Cluster, Input } from '~/libs/components/components.js';
 import { getClassNames, getPlayerStats } from '~/libs/helpers/helpers.js';
-import { useAppForm, useTypingStats } from '~/libs/hooks/hooks.js';
+import { actions as raceActions } from '~/features/game/slices/game.js';
+import {
+    useAppForm,
+    useTypingStats,
+    useEffect,
+    useAppDispatch,
+    useCallback,
+} from '~/libs/hooks/hooks.js';
 import { RaceTextDisplay } from './components/components.js';
 import styles from './styles.module.css';
 
 const text = 'The quick brown fox.';
 const MAX_PROGRESS_VALUE = 100;
 
-const Typing: React.FC = () => {
+type Properties = {
+    isRaceStarted: boolean;
+    roomId: string;
+};
+
+const Typing: React.FC<Properties> = ({ isRaceStarted, roomId }) => {
+    const dispatch = useAppDispatch();
     const { control, errors, watch } = useAppForm<{ typedText: string }>({
         defaultValues: {
             typedText: '',
@@ -25,6 +38,23 @@ const Typing: React.FC = () => {
         accuracy,
         errorsCount,
     });
+
+    const handleProgressUpdate = useCallback(() => {
+        const playerProgress = {
+            wpm: wordPerMinute,
+            accuracy,
+            progress,
+            errors: errorsCount,
+        };
+        dispatch(raceActions.updatePlayerProgress({ playerProgress, roomId }));
+    }, [wordPerMinute, errorsCount, dispatch, accuracy, progress, roomId]);
+
+    useEffect(() => {
+        if (!isRaceStarted || !typedText) {
+            return;
+        }
+        handleProgressUpdate();
+    }, [handleProgressUpdate, typedText, isRaceStarted]);
 
     return (
         <section className={styles['race-typing']}>
