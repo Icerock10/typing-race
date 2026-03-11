@@ -12,6 +12,7 @@ import {
     Typing,
     Chat,
     Leaderboard,
+    RaceLobbyModal,
 } from './components/components.js';
 import styles from './styles.module.css';
 import { actions as lobbyActions } from '../../features/game/slices/game.js';
@@ -70,6 +71,7 @@ const Race: React.FC = () => {
 
     return (
         <>
+            <RaceLobbyModal currentRoom={currentRoom} />
             <Header variant={HeaderVariants.COMPACT}>
                 <Cluster className={styles['header-room-info']}>
                     <strong className={styles['room-name']}>

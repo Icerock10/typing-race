@@ -1,0 +1,95 @@
+.card-header-icon {
+    animation: idle 3s ease-in-out infinite;
+}
+
+.lobby-card-wrapper {
+    --cluster-direction: column;
+
+    gap: var(--space-m);
+}
+
+.card-header-title {
+    font-weight: var(--font-weight-extra-bold);
+    color: var(--color-text-main);
+    letter-spacing: -0.5px;
+}
+
+.card-header-subtitle {
+    font-family: var(--font-family-space-mono);
+}
+
+.subtitle-room-name {
+    color: var(--color-accent-yellow);
+}
+
+.card-actions,
+.card-players,
+.player-row {
+    align-self: stretch;
+}
+
+.actions-ready-button {
+    background: var(--color-accent-yellow);
+}
+
+.actions-hint {
+    margin-top: var(--space-s);
+    font-family: var(--font-family-space-mono);
+    font-size: var(--step-minus-4);
+    text-align: center;
+}
+
+.player-row {
+    padding: var(--space-s);
+    background: var(--surface-inline);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-s);
+
+    --cluster-direction: row;
+}
+
+.player-row.ready {
+    background: color-mix(
+        in srgb,
+        var(--color-accent-turquoise),
+        transparent 97%
+    );
+    border-color: color-mix(
+        in srgb,
+        var(--color-accent-turquoise),
+        transparent 70%
+    );
+}
+
+.row-name {
+    flex: 1;
+    font-size: var(--step-minus-4);
+    font-weight: var(--font-weight-extra-bold);
+    color: var(--color-text-main);
+}
+
+.row-status {
+    font-family: var(--font-family-space-mono);
+    font-size: var(--step-minus-4);
+    text-transform: uppercase;
+}
+
+.row-status.not-ready > div {
+    background: var(--color-text-muted);
+    animation: none;
+}
+
+.row-status.ready {
+    color: var(--color-accent-turquoise);
+}
+
+@keyframes idle {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
