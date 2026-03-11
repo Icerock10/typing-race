@@ -1,7 +1,12 @@
 import { type Server as SocketServer, type Socket as TSocket } from 'socket.io';
-import { RaceSocketEvent } from '~/libs/modules/socket/libs/enums/enums.js';
+import {
+    RaceSocketEvent,
+    SocketNamespace,
+} from '~/libs/modules/socket/libs/enums/enums.js';
+import { GameStatus } from '~/libs/enums/enums.js';
 import { type GameStore } from '../store/base-game-store.module.js';
-import { GameStatus, SocketNamespace, type UserDto } from 'shared';
+
+import { type Player, type UserDto } from '../store/types/types.js';
 
 type Constructor = {
     socket: TSocket;
@@ -25,6 +30,10 @@ class RaceHandler {
 
     private registerEvents(): void {
         this.socket.on(RaceSocketEvent.SET_READY_STATUS, this.setReadyStatus);
+        this.socket.on(
+            RaceSocketEvent.UPDATE_PROGRESS,
+            this.updatePlayerProgress,
+        );
     }
 
     private setReadyStatus = ({
@@ -66,6 +75,29 @@ class RaceHandler {
                 }, DELAY);
             }
         }
+    };
+
+    private updatePlayerProgress = ({
+        playerProgress,
+        roomId,
+    }: {
+        playerProgress: Player;
+        roomId: string;
+    }): void => {
+        const { user } = this.socket.data as Record<string, UserDto>;
+        const userId = String(user?.id);
+        const updatedRoomWithPlayerProgress = this.store.updatePlayerProgress({
+            roomId,
+            playerProgress,
+            userId,
+        });
+        this.io
+            .of(SocketNamespace.GAME)
+            .to(roomId)
+            .emit(
+                RaceSocketEvent.UPDATE_PROGRESS,
+                updatedRoomWithPlayerProgress,
+            );
     };
 }
 

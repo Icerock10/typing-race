@@ -124,15 +124,45 @@ class GameStore implements Store {
     }
 
     mapPlayers(players: Map<string, Player>): RoomResponseDto['players'] {
-        const updatedPlayers = players.values().map((player) => ({
-            ...player.user,
-            isReady: player.isReady ?? false,
-        }));
-        return [...updatedPlayers];
+        const INITIAL_STAT_VALUE = 0;
+        return [...players.values()].map(
+            ({
+                user,
+                isReady = false,
+                wpm = INITIAL_STAT_VALUE,
+                accuracy = INITIAL_STAT_VALUE,
+                errors = INITIAL_STAT_VALUE,
+                progress = INITIAL_STAT_VALUE,
+            }) => ({
+                ...user,
+                isReady,
+                wpm,
+                accuracy,
+                errors,
+                progress,
+            }),
+        );
     }
 
     deleteRoom(roomId: string): void {
         this.roomMap.delete(roomId);
+    }
+
+    updatePlayerProgress({
+        roomId,
+        playerProgress,
+        userId,
+    }: {
+        roomId: string;
+        playerProgress: Player;
+        userId: string;
+    }): RoomResponseDto | undefined {
+        const room = this.roomMap.get(roomId);
+        const currentPlayer = room?.players.get(userId);
+        if (currentPlayer) {
+            room?.players.set(userId, { ...currentPlayer, ...playerProgress });
+        }
+        return this.getRoom(roomId);
     }
 
     clear(): void {

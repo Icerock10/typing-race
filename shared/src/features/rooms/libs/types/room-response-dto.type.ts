@@ -5,6 +5,10 @@ import { type UserDto } from '../../../users/users.js';
 
 type PlayerDto = UserDto & {
     isReady: boolean;
+    wpm?: number;
+    progress?: number;
+    accuracy?: number;
+    errors?: number;
 };
 
 type RoomResponseDto = RoomPayload & {
