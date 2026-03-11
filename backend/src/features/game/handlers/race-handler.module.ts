@@ -9,6 +9,8 @@ type Constructor = {
     store: GameStore;
 };
 
+const DELAY = 5000;
+
 class RaceHandler {
     private socket;
     private io;
@@ -52,14 +54,13 @@ class RaceHandler {
                     (player) => player.isReady,
                 );
             if (areAllPlayersReady) {
-                const DELAY = 3000;
                 roomWithUpdatedPlayerStatus.status = GameStatus.IN_GAME;
                 setTimeout(() => {
                     this.io
                         .of(SocketNamespace.GAME)
                         .to(roomId)
                         .emit(
-                            RaceSocketEvent.START_RACE,
+                            RaceSocketEvent.RACE_STARTED,
                             roomWithUpdatedPlayerStatus,
                         );
                 }, DELAY);

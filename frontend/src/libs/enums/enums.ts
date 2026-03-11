@@ -28,4 +28,5 @@ export {
     GameLanguage,
     RoomValidationMessage,
     HandlerParameterIndexes,
+    GameStatus,
 } from 'shared';

@@ -16,6 +16,7 @@ type State = {
     currentRoom: RoomResponseDto | null;
     isRoomsLoaded: boolean;
     isRaceStarted: boolean;
+    isCountDownStarted: boolean;
 };
 
 const initialState: State = {
@@ -24,6 +25,7 @@ const initialState: State = {
     currentRoom: null,
     isRoomsLoaded: false,
     isRaceStarted: false,
+    isCountDownStarted: false,
 };
 
 const { actions, name, reducer } = createSlice({
@@ -67,6 +69,9 @@ const { actions, name, reducer } = createSlice({
         raceStarted(state, action: PayloadAction<RoomResponseDto>) {
             state.isRaceStarted = true;
             state.rooms = mapRooms(state.rooms, action.payload);
+        },
+        toggleCountDown(state) {
+            state.isCountDownStarted = !state.isCountDownStarted;
         },
     },
 });

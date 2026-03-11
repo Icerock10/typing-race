@@ -1,6 +1,6 @@
 const RaceSocketEvent = {
     SET_READY_STATUS: 'race-set-ready-status',
-    START_RACE: 'race-start',
+    RACE_STARTED: 'race-started',
 } as const;
 
 export { RaceSocketEvent };
