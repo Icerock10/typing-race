@@ -18,7 +18,6 @@ type Constructor = {
 };
 
 class LobbyHandler {
-    private deletionTimers = new Map<string, ReturnType<typeof setTimeout>>();
     private socket;
     private io;
     private store;
@@ -99,7 +98,7 @@ class LobbyHandler {
             this.socket.broadcast.emit(LobbySocketEvent.JOIN_ROOM, room);
         }
         if (user && room?.hostId === user.id) {
-            this.cancelRoomDeletion(roomId);
+            this.store.cancelGameTimer(roomId);
         }
     };
     private leaveRoom = ({ roomId }: { roomId: string }): void => {
@@ -126,18 +125,10 @@ class LobbyHandler {
             this.io
                 .of(SocketNamespace.GAME)
                 .emit(LobbySocketEvent.ROOM_DELETED, { roomId });
-            this.deletionTimers.delete(roomId);
+            this.store.cancelGameTimer(roomId);
         }, DELAY);
 
-        this.deletionTimers.set(roomId, timer);
-    }
-
-    private cancelRoomDeletion(roomId: string): void {
-        const timer = this.deletionTimers.get(roomId);
-        if (timer) {
-            clearTimeout(timer);
-            this.deletionTimers.delete(roomId);
-        }
+        this.store.setGameTimer(roomId, timer);
     }
 
     private getActiveRooms = (): void => {

@@ -72,8 +72,34 @@ class RaceHandler {
                             RaceSocketEvent.RACE_STARTED,
                             roomWithUpdatedPlayerStatus,
                         );
+                    this.startRace(roomId);
                 }, DELAY);
             }
+        }
+    };
+
+    private startRace = (roomId: string): void => {
+        const RACE_DURATION = 50_000;
+        const room = this.store.getRoom(roomId);
+        if (!room) {
+            return;
+        }
+        const timer = setTimeout(() => {
+            this.finishRace(roomId);
+        }, RACE_DURATION);
+
+        this.store.setGameTimer(roomId, timer);
+    };
+
+    private finishRace = (roomId: string): void => {
+        this.store.cancelGameTimer(roomId);
+        const room = this.store.getRoom(roomId);
+        if (room) {
+            room.status = GameStatus.FINISHED;
+            this.io
+                .of(SocketNamespace.GAME)
+                .to(roomId)
+                .emit(RaceSocketEvent.RACE_FINISHED, room);
         }
     };
 
@@ -91,6 +117,15 @@ class RaceHandler {
             playerProgress,
             userId,
         });
+        const MAX_PROGRESS_VALUE = 100;
+
+        const haveAllFinished = updatedRoomWithPlayerProgress?.players.every(
+            (player) => player.progress === MAX_PROGRESS_VALUE,
+        );
+        if (haveAllFinished) {
+            this.finishRace(roomId);
+            return;
+        }
         this.io
             .of(SocketNamespace.GAME)
             .to(roomId)

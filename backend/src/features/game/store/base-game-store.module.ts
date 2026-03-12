@@ -16,7 +16,7 @@ type Store = {
 class GameStore implements Store {
     public userMap = new Map<string, string | null>();
     public roomMap = new Map<string, InternalRoom>();
-
+    public gameTimers = new Map<string, ReturnType<typeof setTimeout>>();
     addUser(socketId: string, userId: string | null): void {
         this.userMap.set(socketId, userId);
     }
@@ -165,6 +165,16 @@ class GameStore implements Store {
         return this.getRoom(roomId);
     }
 
+    setGameTimer(roomId: string, timer: ReturnType<typeof setTimeout>): void {
+        this.gameTimers.set(roomId, timer);
+    }
+    cancelGameTimer(roomId: string): void {
+        const timer = this.gameTimers.get(roomId);
+        if (timer) {
+            clearTimeout(timer);
+            this.gameTimers.delete(roomId);
+        }
+    }
     clear(): void {
         this.roomMap.clear();
         this.userMap.clear();
