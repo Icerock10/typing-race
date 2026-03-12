@@ -41,6 +41,16 @@
     animation: typing-bounce 1s ease infinite;
 }
 
+.winner-stats {
+    font-family: var(--font-family-space-mono);
+    font-size: var(--step-minus-3);
+    color: var(--color-text-muted);
+}
+
+.winner-stats-wpm {
+    color: var(--color-accent-turquoise);
+}
+
 @keyframes typing-bounce {
     0%,
     100% {

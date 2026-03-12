@@ -35,13 +35,24 @@ const Leaderboard: React.FC<Properties> = ({ currentRoom }) => {
                                     <span />
                                 </Cluster>
                             )}
-
                             <div className={styles['racer-name']}>
                                 {player.userName}
                             </div>
-                            <div className={styles['racer-percent']}>
-                                {player.progress}%
-                            </div>
+                            {player.isWinner ? (
+                                <Cluster className={styles['winner-stats']}>
+                                    <span
+                                        className={styles['winner-stats-wpm']}
+                                    >
+                                        {player.wpm} wpm
+                                    </span>
+                                    <span>{player.accuracy}% acc</span>
+                                    <span>0:41</span>
+                                </Cluster>
+                            ) : (
+                                <div className={styles['racer-percent']}>
+                                    {player.progress}%
+                                </div>
+                            )}
                         </Cluster>
                     );
                 })}
