@@ -11,6 +11,7 @@ type Player = {
     isTyping?: boolean;
     isWinner?: boolean;
     playerRacePosition?: number;
+    finishedAt?: number;
 };
 
 type InternalRoom = Omit<RoomResponseDto, 'players'> & {

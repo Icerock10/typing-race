@@ -12,6 +12,7 @@ type PlayerDto = UserDto & {
     isTyping?: boolean;
     isWinner: boolean;
     playerRacePosition: number;
+    finishedAt?: number;
 };
 
 type RoomResponseDto = RoomPayload & {
@@ -20,6 +21,7 @@ type RoomResponseDto = RoomPayload & {
     status: ValueOf<typeof GameStatus>;
     countdown?: number;
     hostId: string;
+    startedAt?: number;
 };
 
 export { type RoomResponseDto };
