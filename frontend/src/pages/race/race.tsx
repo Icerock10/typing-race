@@ -152,7 +152,7 @@ const Race: React.FC = () => {
                         roomId={roomId}
                         isRaceStarted={isRaceStarted}
                     />
-                    <Leaderboard />
+                    <Leaderboard currentRoom={currentRoom} />
                     <Chat />
                 </Cluster>
             </main>
