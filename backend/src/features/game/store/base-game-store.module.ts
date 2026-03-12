@@ -130,16 +130,41 @@ class GameStore implements Store {
 
     mapPlayers(players: Map<string, Player>): RoomResponseDto['players'] {
         const INITIAL_STAT_VALUE = 0;
-        return [...players.values()].map(
-            ({
-                user,
-                isReady = false,
-                wpm = INITIAL_STAT_VALUE,
-                accuracy = INITIAL_STAT_VALUE,
-                errors = INITIAL_STAT_VALUE,
-                progress = INITIAL_STAT_VALUE,
-                isTyping = false,
-            }) => ({
+        const PLAYER_MAX_PROGRESS = 100;
+        const INDEX_OFFSET = 1;
+        const sortedPlayersByProgress = [...players.values()].toSorted(
+            (a, b) => Number(b.progress) - Number(a.progress),
+        );
+
+        const hasWinner = sortedPlayersByProgress.some(
+            (player) => player.isWinner,
+        );
+        if (!hasWinner) {
+            const winnerIndex = sortedPlayersByProgress.findIndex(
+                (player) => player.progress === PLAYER_MAX_PROGRESS,
+            );
+            if (winnerIndex !== HandlerParameterIndexes.LAST_INDEX) {
+                const winner = sortedPlayersByProgress[winnerIndex];
+                if (winner) {
+                    winner.isWinner = true;
+                }
+            }
+        }
+
+        return sortedPlayersByProgress.map(
+            (
+                {
+                    user,
+                    isReady = false,
+                    wpm = INITIAL_STAT_VALUE,
+                    accuracy = INITIAL_STAT_VALUE,
+                    errors = INITIAL_STAT_VALUE,
+                    progress = INITIAL_STAT_VALUE,
+                    isTyping = false,
+                    isWinner = false,
+                },
+                index,
+            ) => ({
                 ...user,
                 isReady,
                 wpm,
@@ -147,6 +172,8 @@ class GameStore implements Store {
                 errors,
                 progress,
                 isTyping,
+                isWinner,
+                playerRacePosition: index + INDEX_OFFSET,
             }),
         );
     }

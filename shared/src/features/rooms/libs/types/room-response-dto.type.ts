@@ -10,6 +10,8 @@ type PlayerDto = UserDto & {
     accuracy?: number;
     errors?: number;
     isTyping?: boolean;
+    isWinner: boolean;
+    playerRacePosition: number;
 };
 
 type RoomResponseDto = RoomPayload & {

@@ -9,6 +9,8 @@ type Player = {
     accuracy?: number;
     errors?: number;
     isTyping?: boolean;
+    isWinner?: boolean;
+    playerRacePosition?: number;
 };
 
 type InternalRoom = Omit<RoomResponseDto, 'players'> & {
