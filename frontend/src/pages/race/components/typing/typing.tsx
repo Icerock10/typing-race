@@ -7,12 +7,14 @@ import {
     useEffect,
     useAppDispatch,
     useCallback,
+    useState,
 } from '~/libs/hooks/hooks.js';
 import { RaceTextDisplay } from './components/components.js';
 import styles from './styles.module.css';
 
 const text = 'The quick brown fox.';
 const MAX_PROGRESS_VALUE = 100;
+const DELAY = 500;
 
 type Properties = {
     isRaceStarted: boolean;
@@ -26,6 +28,7 @@ const Typing: React.FC<Properties> = ({
     isRaceFinished,
 }) => {
     const dispatch = useAppDispatch();
+    const [isTyping, setIsTyping] = useState(false);
     const { control, errors, watch } = useAppForm<{ typedText: string }>({
         defaultValues: {
             typedText: '',
@@ -50,9 +53,18 @@ const Typing: React.FC<Properties> = ({
             accuracy,
             progress,
             errors: errorsCount,
+            isTyping,
         };
         dispatch(raceActions.updatePlayerProgress({ playerProgress, roomId }));
-    }, [wordPerMinute, errorsCount, dispatch, accuracy, progress, roomId]);
+    }, [
+        wordPerMinute,
+        errorsCount,
+        dispatch,
+        accuracy,
+        progress,
+        roomId,
+        isTyping,
+    ]);
 
     useEffect(() => {
         if (!isRaceStarted || !typedText) {
@@ -60,6 +72,22 @@ const Typing: React.FC<Properties> = ({
         }
         handleProgressUpdate();
     }, [handleProgressUpdate, typedText, isRaceStarted]);
+
+    useEffect(() => {
+        if (!typedText) {
+            setIsTyping(false);
+            return;
+        }
+
+        setIsTyping(true);
+        const timeout = setTimeout(() => {
+            setIsTyping(false);
+        }, DELAY);
+
+        return (): void => {
+            clearTimeout(timeout);
+        };
+    }, [typedText]);
 
     return (
         <section className={styles['race-typing']}>
