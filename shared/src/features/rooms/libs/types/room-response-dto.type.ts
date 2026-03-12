@@ -5,6 +5,14 @@ import { type UserDto } from '../../../users/users.js';
 
 type PlayerDto = UserDto & {
     isReady: boolean;
+    wpm?: number;
+    progress?: number;
+    accuracy?: number;
+    errors?: number;
+    isTyping?: boolean;
+    isWinner: boolean;
+    playerRacePosition: number;
+    finishedAt?: number;
 };
 
 type RoomResponseDto = RoomPayload & {
@@ -13,6 +21,7 @@ type RoomResponseDto = RoomPayload & {
     status: ValueOf<typeof GameStatus>;
     countdown?: number;
     hostId: string;
+    startedAt?: number;
 };
 
-export { type RoomResponseDto };
+export { type RoomResponseDto, type PlayerDto };

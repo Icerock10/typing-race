@@ -5,6 +5,7 @@ import {
 } from './types/types.js';
 import { GameStatus, HandlerParameterIndexes } from '~/libs/enums/enums.js';
 import { type AppStatsDto } from '~/libs/types/types.js';
+import { sortPlayersByProgress } from './helpers/sort-player-progress.helper.js';
 
 type Store = {
     addUser: (socketId: string, userId: string | null) => void;
@@ -16,7 +17,7 @@ type Store = {
 class GameStore implements Store {
     public userMap = new Map<string, string | null>();
     public roomMap = new Map<string, InternalRoom>();
-
+    public gameTimers = new Map<string, ReturnType<typeof setTimeout>>();
     addUser(socketId: string, userId: string | null): void {
         this.userMap.set(socketId, userId);
     }
@@ -66,7 +67,7 @@ class GameStore implements Store {
 
         return {
             ...internalRoom,
-            players: this.mapPlayers(internalRoom.players),
+            players: this.rankPlayersForRoomResponse(internalRoom.players),
         };
     }
 
@@ -74,7 +75,7 @@ class GameStore implements Store {
         const rooms = [...this.roomMap.values()];
         const roomsWithUpdatedPlayers = rooms.map((room) => ({
             ...room,
-            players: this.mapPlayers(room.players),
+            players: this.rankPlayersForRoomResponse(room.players),
         }));
         return roomsWithUpdatedPlayers.length >
             HandlerParameterIndexes.FIRST_PARAM_INDEX
@@ -92,7 +93,7 @@ class GameStore implements Store {
         }
         if (player) {
             room.players.set(String(player.user.id), player);
-            this.updateRoomStatus(room);
+            this.updateRoomStatus(roomId);
         }
 
         return this.getRoom(roomId);
@@ -107,34 +108,133 @@ class GameStore implements Store {
         }
         if (playerId) {
             room.players.delete(playerId);
-            this.updateRoomStatus(room);
+            this.updateRoomStatus(roomId);
         }
         return this.getRoom(roomId);
     }
 
-    updateRoomStatus(room: InternalRoom | undefined): void {
+    updateRoomStatus(
+        roomId: string,
+        status?: RoomResponseDto['status'],
+        startedAt?: number,
+    ): void {
+        const room = this.roomMap.get(roomId);
         if (!room) {
             return;
         }
 
-        room.status =
-            Number(room.maxPlayers) === room.players.size
-                ? GameStatus.FULL
-                : GameStatus.WAITING;
+        if (startedAt) {
+            room.startedAt = startedAt;
+        }
+        if (status) {
+            room.status = status;
+            return;
+        }
+        const isRoomFull = room.players.size === Number(room.maxPlayers);
+
+        room.status = isRoomFull ? GameStatus.FULL : GameStatus.WAITING;
     }
 
-    mapPlayers(players: Map<string, Player>): RoomResponseDto['players'] {
-        const updatedPlayers = players.values().map((player) => ({
-            ...player.user,
-            isReady: player.isReady ?? false,
-        }));
-        return [...updatedPlayers];
+    rankPlayersForRoomResponse(
+        players: Map<string, Player>,
+    ): RoomResponseDto['players'] {
+        const INITIAL_STAT_VALUE = 0;
+        const PLAYER_MAX_PROGRESS = 100;
+        const INDEX_OFFSET = 1;
+        const sortedPlayersByProgress = sortPlayersByProgress([
+            ...players.values(),
+        ]);
+
+        const hasWinner = sortedPlayersByProgress.some(
+            (player) => player.isWinner,
+        );
+        if (!hasWinner) {
+            const winnerIndex = sortedPlayersByProgress.findIndex(
+                (player) => player.progress === PLAYER_MAX_PROGRESS,
+            );
+            if (winnerIndex !== HandlerParameterIndexes.LAST_INDEX) {
+                const winner = sortedPlayersByProgress[winnerIndex];
+                if (winner) {
+                    winner.isWinner = true;
+                }
+            }
+        }
+
+        return sortedPlayersByProgress.map(
+            (
+                {
+                    user,
+                    isReady = false,
+                    wpm = INITIAL_STAT_VALUE,
+                    accuracy = INITIAL_STAT_VALUE,
+                    errors = INITIAL_STAT_VALUE,
+                    progress = INITIAL_STAT_VALUE,
+                    isTyping = false,
+                    isWinner = false,
+                    finishedAt,
+                },
+                index,
+            ) => ({
+                ...user,
+                isReady,
+                wpm,
+                accuracy,
+                errors,
+                progress,
+                isTyping,
+                isWinner,
+                playerRacePosition: index + INDEX_OFFSET,
+                finishedAt,
+            }),
+        );
     }
 
     deleteRoom(roomId: string): void {
         this.roomMap.delete(roomId);
     }
 
+    updatePlayerProgress({
+        roomId,
+        playerProgress,
+        userId,
+    }: {
+        roomId: string;
+        playerProgress: Player;
+        userId: string;
+    }): RoomResponseDto | undefined {
+        const room = this.roomMap.get(roomId);
+        const currentPlayer = room?.players.get(userId);
+        if (currentPlayer) {
+            room?.players.set(userId, { ...currentPlayer, ...playerProgress });
+        }
+        return this.getRoom(roomId);
+    }
+
+    setGameTimer(roomId: string, timer: ReturnType<typeof setTimeout>): void {
+        this.gameTimers.set(roomId, timer);
+    }
+    cancelGameTimer(roomId: string): void {
+        const timer = this.gameTimers.get(roomId);
+        if (timer) {
+            clearTimeout(timer);
+            this.gameTimers.delete(roomId);
+        }
+    }
+    attachPlayerFinishTime(
+        roomId: string,
+        socketId: string,
+    ): ReturnType<Store['getRoom']> {
+        const room = this.roomMap.get(roomId);
+        const player = room?.players.get(socketId);
+        if (!player) {
+            return;
+        }
+
+        if (!player.finishedAt) {
+            player.finishedAt = Date.now();
+        }
+        return this.getRoom(roomId);
+    }
     clear(): void {
         this.roomMap.clear();
         this.userMap.clear();

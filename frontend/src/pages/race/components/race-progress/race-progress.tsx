@@ -1,14 +1,8 @@
-import {
-    ButtonLabels,
-    ButtonVariants,
-    ClusterVariant,
-} from '~/libs/enums/enums.js';
+import { ClusterVariant } from '~/libs/enums/enums.js';
 import { SectionHeader } from '../section-header/section-header.js';
 import styles from './styles.module.css';
-import { useAppDispatch, useCallback, useState } from '~/libs/hooks/hooks.js';
-import { Cluster, Avatar, Button } from '~/libs/components/components.js';
+import { Cluster, Avatar } from '~/libs/components/components.js';
 import { type UserDto, type RoomResponseDto } from '~/libs/types/types.js';
-import { actions as raceActions } from '~/features/game/slices/game.js';
 
 type Properties = {
     currentRoom?: RoomResponseDto;
@@ -16,29 +10,8 @@ type Properties = {
     isRaceStarted: boolean;
 };
 
-const RaceProgress: React.FC<Properties> = ({
-    currentRoom,
-    user,
-    isRaceStarted,
-}) => {
-    const dispatch = useAppDispatch();
-    const [isReady, setIsReady] = useState(false);
+const RaceProgress: React.FC<Properties> = ({ currentRoom, user }) => {
     const userId = user?.id;
-
-    const handleReadyClick = useCallback(() => {
-        setIsReady((previous) => {
-            const updatedReadyState = !previous;
-
-            dispatch(
-                raceActions.setReadyStatus({
-                    roomId: String(currentRoom?.roomId),
-                    isReady: updatedReadyState,
-                }),
-            );
-            return updatedReadyState;
-        });
-    }, [currentRoom?.roomId, dispatch]);
-
     return (
         <section className={styles['race-progress']}>
             <Cluster className={styles['track-header']}>
@@ -71,30 +44,16 @@ const RaceProgress: React.FC<Properties> = ({
                                 </span>
                             </Cluster>
                             <div className={styles['track-bar-wrap']}>
-                                <div className={styles['track-bar-fill']} />
+                                <div
+                                    style={{
+                                        width: `${String(player.progress)}%`,
+                                    }}
+                                    className={styles['track-bar-fill']}
+                                />
                             </div>
-
-                            {!isRaceStarted && (
-                                <>
-                                    {me ? (
-                                        <Button
-                                            label={
-                                                isReady
-                                                    ? ButtonLabels.READY
-                                                    : ButtonLabels.NOT_READY
-                                            }
-                                            variant={ButtonVariants.SECONDARY}
-                                            onClick={handleReadyClick}
-                                        />
-                                    ) : (
-                                        <span>
-                                            {player.isReady
-                                                ? ButtonLabels.READY
-                                                : ButtonLabels.NOT_READY}
-                                        </span>
-                                    )}
-                                </>
-                            )}
+                            <span className={styles['track-wpm']}>
+                                {player.wpm} wpm
+                            </span>
                         </Cluster>
                     );
                 })}

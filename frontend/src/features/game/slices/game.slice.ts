@@ -10,12 +10,21 @@ const mapRooms = (
     );
 };
 
+type PlayerProgress = {
+    wpm: number;
+    accuracy: number;
+    progress: number;
+    errors: number;
+};
+
 type State = {
     rooms: RoomResponseDto[];
     stats: AppStatsDto | null;
     currentRoom: RoomResponseDto | null;
     isRoomsLoaded: boolean;
     isRaceStarted: boolean;
+    isCountDownStarted: boolean;
+    playerTypingProgress: PlayerProgress;
 };
 
 const initialState: State = {
@@ -24,6 +33,13 @@ const initialState: State = {
     currentRoom: null,
     isRoomsLoaded: false,
     isRaceStarted: false,
+    isCountDownStarted: false,
+    playerTypingProgress: {
+        wpm: 0,
+        accuracy: 0,
+        progress: 0,
+        errors: 0,
+    },
 };
 
 const { actions, name, reducer } = createSlice({
@@ -67,6 +83,25 @@ const { actions, name, reducer } = createSlice({
         raceStarted(state, action: PayloadAction<RoomResponseDto>) {
             state.isRaceStarted = true;
             state.rooms = mapRooms(state.rooms, action.payload);
+        },
+        raceFinished(state, action: PayloadAction<RoomResponseDto>) {
+            state.rooms = mapRooms(state.rooms, action.payload);
+        },
+        playerFinished(state, action: PayloadAction<RoomResponseDto>) {
+            state.rooms = mapRooms(state.rooms, action.payload);
+        },
+        toggleCountDown(state) {
+            state.isCountDownStarted = !state.isCountDownStarted;
+        },
+        updatePlayerProgress(
+            state,
+            action: PayloadAction<{
+                playerProgress: PlayerProgress;
+                roomId: string;
+            }>,
+        ) {
+            const { playerProgress } = action.payload;
+            state.playerTypingProgress = playerProgress;
         },
     },
 });

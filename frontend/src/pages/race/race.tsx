@@ -12,6 +12,7 @@ import {
     Typing,
     Chat,
     Leaderboard,
+    RaceLobbyModal,
 } from './components/components.js';
 import styles from './styles.module.css';
 import { actions as lobbyActions } from '../../features/game/slices/game.js';
@@ -25,6 +26,7 @@ import {
     AvatarVariants,
     AppRoute,
     SuccessMessage,
+    GameStatus,
 } from '~/libs/enums/enums.js';
 import {
     useAppDispatch,
@@ -33,19 +35,23 @@ import {
     useParams,
     useNavigate,
     useEffect,
+    useCountDown,
 } from '~/libs/hooks/hooks.js';
 
 const Race: React.FC = () => {
     const { user } = useAppSelector((state) => state.auth);
-    const { rooms, isRoomsLoaded, isRaceStarted } = useAppSelector(
-        (state) => state.lobby,
-    );
+    const { rooms, isRoomsLoaded, isCountDownStarted, isRaceStarted } =
+        useAppSelector((state) => state.lobby);
     const { roomId } = useParams() as { roomId: string };
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-
-    const guest = !user;
     const currentRoom = rooms.find((room) => room.roomId === roomId);
+    const isRaceFinished = currentRoom?.status === GameStatus.FINISHED;
+    const { countDown } = useCountDown({
+        trigger: isRaceStarted && !isRaceFinished,
+        initialValue: 60,
+    });
+    const guest = !user;
 
     const handleLeaveRoom = useCallback(() => {
         void navigate(AppRoute.LOBBY);
@@ -70,6 +76,11 @@ const Race: React.FC = () => {
 
     return (
         <>
+            <RaceLobbyModal
+                isRaceStarted={isRaceStarted || isRaceFinished}
+                isCountDownStarted={isCountDownStarted}
+                currentRoom={currentRoom}
+            />
             <Header variant={HeaderVariants.COMPACT}>
                 <Cluster className={styles['header-room-info']}>
                     <strong className={styles['room-name']}>
@@ -100,7 +111,7 @@ const Race: React.FC = () => {
                     )}
                 </Cluster>
                 <Cluster className={styles['user-panel']}>
-                    <div className={styles['timer-display']}>0:00</div>
+                    <div className={styles['timer-display']}>{countDown}</div>
                     {guest ? (
                         <Link
                             to={AppRoute.AUTH}
@@ -136,8 +147,12 @@ const Race: React.FC = () => {
                         user={user}
                         currentRoom={currentRoom}
                     />
-                    <Typing />
-                    <Leaderboard />
+                    <Typing
+                        isRaceFinished={isRaceFinished}
+                        roomId={roomId}
+                        isRaceStarted={isRaceStarted}
+                    />
+                    <Leaderboard currentRoom={currentRoom} />
                     <Chat />
                 </Cluster>
             </main>

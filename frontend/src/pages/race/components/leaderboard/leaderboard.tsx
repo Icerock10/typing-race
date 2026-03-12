@@ -1,39 +1,27 @@
 import styles from './styles.module.css';
-import { Cluster, Avatar } from '~/libs/components/components.js';
 import { SectionHeader } from '../section-header/section-header.js';
-import { mockApi } from '~/libs/modules/api/api.js';
-import { getClassNames } from '~/libs/helpers/helpers.js';
+import { type RoomResponseDto } from '~/libs/types/types.js';
+import { LeaderBoardRow } from './components/components.js';
 
-const Leaderboard: React.FC = () => {
+type Properties = {
+    currentRoom?: RoomResponseDto;
+};
+
+const Leaderboard: React.FC<Properties> = ({ currentRoom }) => {
+    const players = currentRoom?.players || [];
     return (
         <section className={styles['race-leaderboard']}>
             <SectionHeader>
                 <span>LeaderBoard</span>
             </SectionHeader>
-            <div className="leaderboard-list">
-                {mockApi.racersPreview.map((racer, index) => {
-                    const clusterClasses = getClassNames(
-                        styles['list-row'],
-                        racer.isFinished && styles['finished'],
-                    );
-                    return (
-                        <Cluster key={index} className={clusterClasses}>
-                            <Avatar name={racer.name} />
-                            {!racer.isFinished && (
-                                <Cluster className={styles['typing-indicator']}>
-                                    <span />
-                                    <span />
-                                    <span />
-                                </Cluster>
-                            )}
-
-                            <div className={styles['racer-name']}>
-                                {racer.name}
-                            </div>
-                            <div className={styles['racer-percent']}>60%</div>
-                        </Cluster>
-                    );
-                })}
+            <div>
+                {players.map((player) => (
+                    <LeaderBoardRow
+                        key={player.id}
+                        startedAt={currentRoom?.startedAt}
+                        player={player}
+                    />
+                ))}
             </div>
         </section>
     );

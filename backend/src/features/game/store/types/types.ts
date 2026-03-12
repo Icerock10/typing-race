@@ -4,6 +4,14 @@ type Player = {
     socketId: string;
     user: UserDto;
     isReady?: boolean;
+    wpm?: number;
+    progress?: number;
+    accuracy?: number;
+    errors?: number;
+    isTyping?: boolean;
+    isWinner?: boolean;
+    playerRacePosition?: number;
+    finishedAt?: number;
 };
 
 type InternalRoom = Omit<RoomResponseDto, 'players'> & {
@@ -12,4 +20,4 @@ type InternalRoom = Omit<RoomResponseDto, 'players'> & {
 
 export { type InternalRoom, type Player };
 
-export { type RoomResponseDto } from '~/libs/types/types.js';
+export { type RoomResponseDto, type UserDto } from '~/libs/types/types.js';

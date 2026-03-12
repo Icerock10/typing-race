@@ -1,13 +1,34 @@
 import { Cluster, Input } from '~/libs/components/components.js';
 import { getClassNames, getPlayerStats } from '~/libs/helpers/helpers.js';
-import { useAppForm, useTypingStats } from '~/libs/hooks/hooks.js';
+import { actions as raceActions } from '~/features/game/slices/game.js';
+import {
+    useAppForm,
+    useTypingStats,
+    useEffect,
+    useAppDispatch,
+    useCallback,
+    useState,
+} from '~/libs/hooks/hooks.js';
 import { RaceTextDisplay } from './components/components.js';
 import styles from './styles.module.css';
 
 const text = 'The quick brown fox.';
 const MAX_PROGRESS_VALUE = 100;
+const DELAY = 500;
 
-const Typing: React.FC = () => {
+type Properties = {
+    isRaceStarted: boolean;
+    isRaceFinished: boolean;
+    roomId: string;
+};
+
+const Typing: React.FC<Properties> = ({
+    isRaceStarted,
+    roomId,
+    isRaceFinished,
+}) => {
+    const dispatch = useAppDispatch();
+    const [isTyping, setIsTyping] = useState(false);
     const { control, errors, watch } = useAppForm<{ typedText: string }>({
         defaultValues: {
             typedText: '',
@@ -25,6 +46,63 @@ const Typing: React.FC = () => {
         accuracy,
         errorsCount,
     });
+
+    const hasPlayerFinished = progress === MAX_PROGRESS_VALUE;
+
+    const handlePlayerFinish = useCallback(() => {
+        if (hasPlayerFinished) {
+            dispatch(raceActions.initPlayerFinish({ roomId }));
+        }
+    }, [hasPlayerFinished, roomId, dispatch]);
+
+    const handleProgressUpdate = useCallback(() => {
+        const playerProgress = {
+            wpm: wordPerMinute,
+            accuracy,
+            progress,
+            errors: errorsCount,
+            isTyping,
+        };
+        dispatch(raceActions.updatePlayerProgress({ playerProgress, roomId }));
+    }, [
+        wordPerMinute,
+        errorsCount,
+        dispatch,
+        accuracy,
+        progress,
+        roomId,
+        isTyping,
+    ]);
+
+    useEffect(() => {
+        if (!isRaceStarted) {
+            return;
+        }
+        handlePlayerFinish();
+    }, [isRaceStarted, handlePlayerFinish]);
+
+    useEffect(() => {
+        if (!isRaceStarted || !typedText) {
+            return;
+        }
+        handleProgressUpdate();
+    }, [handleProgressUpdate, typedText, isRaceStarted]);
+
+    useEffect(() => {
+        if (!typedText) {
+            setIsTyping(false);
+            return;
+        }
+
+        setIsTyping(true);
+        const timeout = setTimeout(() => {
+            setIsTyping(false);
+        }, DELAY);
+
+        return (): void => {
+            clearTimeout(timeout);
+        };
+    }, [typedText]);
 
     return (
         <section className={styles['race-typing']}>
@@ -46,7 +124,7 @@ const Typing: React.FC = () => {
                 control={control}
                 errors={errors}
                 maxLength={Infinity}
-                disabled={progress === MAX_PROGRESS_VALUE}
+                disabled={hasPlayerFinished || isRaceFinished}
             />
             <Cluster className={styles['live-stats']}>
                 {playerStats.map((stat) => (

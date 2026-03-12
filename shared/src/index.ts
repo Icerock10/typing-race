@@ -62,6 +62,7 @@ export {
 export {
     type RoomPayload,
     type RoomResponseDto,
+    type PlayerDto,
     roomCreateValidationSchema,
     joinRoomByCodeValidationSchema,
     RoomValidationMessage,
