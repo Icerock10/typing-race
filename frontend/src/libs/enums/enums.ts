@@ -29,4 +29,5 @@ export {
     RoomValidationMessage,
     HandlerParameterIndexes,
     GameStatus,
+    RaceChatSocketEvent,
 } from 'shared';

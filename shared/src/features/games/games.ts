@@ -1,4 +1,8 @@
-export { type GameDto, type GameResultDto } from './libs/types/types.js';
+export {
+    type GameDto,
+    type GameResultDto,
+    type ChatMessageDto,
+} from './libs/types/types.js';
 export {
     GamesDifficulty,
     GameLanguage,

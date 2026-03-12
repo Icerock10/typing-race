@@ -1,5 +1,9 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { type RoomResponseDto, type AppStatsDto } from '~/libs/types/types.js';
+import {
+    type RoomResponseDto,
+    type AppStatsDto,
+    type ChatMessageDto,
+} from '~/libs/types/types.js';
 
 const mapRooms = (
     rooms: RoomResponseDto[],
@@ -25,6 +29,7 @@ type State = {
     isRaceStarted: boolean;
     isCountDownStarted: boolean;
     playerTypingProgress: PlayerProgress;
+    chat: ChatMessageDto[];
 };
 
 const initialState: State = {
@@ -40,6 +45,7 @@ const initialState: State = {
         progress: 0,
         errors: 0,
     },
+    chat: [],
 };
 
 const { actions, name, reducer } = createSlice({
@@ -102,6 +108,9 @@ const { actions, name, reducer } = createSlice({
         ) {
             const { playerProgress } = action.payload;
             state.playerTypingProgress = playerProgress;
+        },
+        updatedChatMessages(state, action: PayloadAction<ChatMessageDto>) {
+            state.chat.push(action.payload);
         },
     },
 });

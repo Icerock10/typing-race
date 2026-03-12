@@ -15,4 +15,5 @@ export {
     type RoomResponseDto,
     type AppStatsDto,
     type PlayerDto,
+    type ChatMessageDto,
 } from 'shared';

@@ -58,6 +58,7 @@ export {
     GamesDifficulty,
     GameLanguage,
     GameStatus,
+    type ChatMessageDto,
 } from './features/games/games.js';
 export {
     type RoomPayload,
