@@ -92,7 +92,7 @@ class GameStore implements Store {
         }
         if (player) {
             room.players.set(String(player.user.id), player);
-            this.updateRoomStatus(room);
+            this.updateRoomStatus(roomId);
         }
 
         return this.getRoom(roomId);
@@ -107,20 +107,25 @@ class GameStore implements Store {
         }
         if (playerId) {
             room.players.delete(playerId);
-            this.updateRoomStatus(room);
+            this.updateRoomStatus(roomId);
         }
         return this.getRoom(roomId);
     }
 
-    updateRoomStatus(room: InternalRoom | undefined): void {
+    updateRoomStatus(roomId: string, status?: RoomResponseDto['status']): void {
+        const room = this.roomMap.get(roomId);
         if (!room) {
             return;
         }
-
-        room.status =
-            Number(room.maxPlayers) === room.players.size
-                ? GameStatus.FULL
-                : GameStatus.WAITING;
+        if (status) {
+            room.status = status;
+            return;
+        }
+        if (room.players.size === Number(room.maxPlayers)) {
+            room.status = GameStatus.FULL;
+            return;
+        }
+        room.status = GameStatus.WAITING;
     }
 
     mapPlayers(players: Map<string, Player>): RoomResponseDto['players'] {

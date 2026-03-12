@@ -63,15 +63,14 @@ class RaceHandler {
                     (player) => player.isReady,
                 );
             if (areAllPlayersReady) {
-                roomWithUpdatedPlayerStatus.status = GameStatus.IN_GAME;
+                this.store.updateRoomStatus(roomId, GameStatus.IN_GAME);
+                const room = this.store.getRoom(roomId);
+
                 setTimeout(() => {
                     this.io
                         .of(SocketNamespace.GAME)
                         .to(roomId)
-                        .emit(
-                            RaceSocketEvent.RACE_STARTED,
-                            roomWithUpdatedPlayerStatus,
-                        );
+                        .emit(RaceSocketEvent.RACE_STARTED, room);
                     this.startRace(roomId);
                 }, DELAY);
             }
@@ -80,10 +79,6 @@ class RaceHandler {
 
     private startRace = (roomId: string): void => {
         const RACE_DURATION = 50_000;
-        const room = this.store.getRoom(roomId);
-        if (!room) {
-            return;
-        }
         const timer = setTimeout(() => {
             this.finishRace(roomId);
         }, RACE_DURATION);
@@ -93,9 +88,9 @@ class RaceHandler {
 
     private finishRace = (roomId: string): void => {
         this.store.cancelGameTimer(roomId);
+        this.store.updateRoomStatus(roomId, GameStatus.FINISHED);
         const room = this.store.getRoom(roomId);
         if (room) {
-            room.status = GameStatus.FINISHED;
             this.io
                 .of(SocketNamespace.GAME)
                 .to(roomId)
