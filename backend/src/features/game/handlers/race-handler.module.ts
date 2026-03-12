@@ -8,6 +8,8 @@ import { type GameStore } from '../store/base-game-store.module.js';
 
 import { type Player, type UserDto } from '../store/types/types.js';
 
+type User = Record<'user', UserDto>;
+
 type Constructor = {
     socket: TSocket;
     io: SocketServer;
@@ -31,6 +33,10 @@ class RaceHandler {
     private registerEvents(): void {
         this.socket.on(RaceSocketEvent.SET_READY_STATUS, this.setReadyStatus);
         this.socket.on(
+            RaceSocketEvent.PLAYER_FINISHED,
+            this.handlePlayerFinish,
+        );
+        this.socket.on(
             RaceSocketEvent.UPDATE_PROGRESS,
             this.updatePlayerProgress,
         );
@@ -43,7 +49,7 @@ class RaceHandler {
         roomId: string;
         isReady: boolean;
     }): void => {
-        const { user } = this.socket.data as Record<'user', UserDto>;
+        const { user } = this.socket.data as User;
         const roomWithUpdatedPlayerStatus = this.store.setPlayerReadyStatus(
             roomId,
             String(user.id),
@@ -63,9 +69,13 @@ class RaceHandler {
                     (player) => player.isReady,
                 );
             if (areAllPlayersReady) {
-                this.store.updateRoomStatus(roomId, GameStatus.IN_GAME);
+                const startedAt = Date.now();
+                this.store.updateRoomStatus(
+                    roomId,
+                    GameStatus.IN_GAME,
+                    startedAt,
+                );
                 const room = this.store.getRoom(roomId);
-
                 setTimeout(() => {
                     this.io
                         .of(SocketNamespace.GAME)
@@ -75,6 +85,15 @@ class RaceHandler {
                 }, DELAY);
             }
         }
+    };
+
+    private handlePlayerFinish = ({ roomId }: { roomId: string }): void => {
+        const { user } = this.socket.data as User;
+        const room = this.store.attachPlayerFinishTime(roomId, String(user.id));
+        this.io
+            .of(SocketNamespace.GAME)
+            .to(roomId)
+            .emit(RaceSocketEvent.PLAYER_FINISHED, room);
     };
 
     private startRace = (roomId: string): void => {

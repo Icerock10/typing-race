@@ -5,6 +5,7 @@ import {
 } from './types/types.js';
 import { GameStatus, HandlerParameterIndexes } from '~/libs/enums/enums.js';
 import { type AppStatsDto } from '~/libs/types/types.js';
+import { sortPlayersByProgress } from './helpers/sort-player-progress.helper.js';
 
 type Store = {
     addUser: (socketId: string, userId: string | null) => void;
@@ -66,7 +67,7 @@ class GameStore implements Store {
 
         return {
             ...internalRoom,
-            players: this.mapPlayers(internalRoom.players),
+            players: this.rankPlayersForRoomResponse(internalRoom.players),
         };
     }
 
@@ -74,7 +75,7 @@ class GameStore implements Store {
         const rooms = [...this.roomMap.values()];
         const roomsWithUpdatedPlayers = rooms.map((room) => ({
             ...room,
-            players: this.mapPlayers(room.players),
+            players: this.rankPlayersForRoomResponse(room.players),
         }));
         return roomsWithUpdatedPlayers.length >
             HandlerParameterIndexes.FIRST_PARAM_INDEX
@@ -112,29 +113,37 @@ class GameStore implements Store {
         return this.getRoom(roomId);
     }
 
-    updateRoomStatus(roomId: string, status?: RoomResponseDto['status']): void {
+    updateRoomStatus(
+        roomId: string,
+        status?: RoomResponseDto['status'],
+        startedAt?: number,
+    ): void {
         const room = this.roomMap.get(roomId);
         if (!room) {
             return;
+        }
+
+        if (startedAt) {
+            room.startedAt = startedAt;
         }
         if (status) {
             room.status = status;
             return;
         }
-        if (room.players.size === Number(room.maxPlayers)) {
-            room.status = GameStatus.FULL;
-            return;
-        }
-        room.status = GameStatus.WAITING;
+        const isRoomFull = room.players.size === Number(room.maxPlayers);
+
+        room.status = isRoomFull ? GameStatus.FULL : GameStatus.WAITING;
     }
 
-    mapPlayers(players: Map<string, Player>): RoomResponseDto['players'] {
+    rankPlayersForRoomResponse(
+        players: Map<string, Player>,
+    ): RoomResponseDto['players'] {
         const INITIAL_STAT_VALUE = 0;
         const PLAYER_MAX_PROGRESS = 100;
         const INDEX_OFFSET = 1;
-        const sortedPlayersByProgress = [...players.values()].toSorted(
-            (a, b) => Number(b.progress) - Number(a.progress),
-        );
+        const sortedPlayersByProgress = sortPlayersByProgress([
+            ...players.values(),
+        ]);
 
         const hasWinner = sortedPlayersByProgress.some(
             (player) => player.isWinner,
@@ -162,6 +171,7 @@ class GameStore implements Store {
                     progress = INITIAL_STAT_VALUE,
                     isTyping = false,
                     isWinner = false,
+                    finishedAt,
                 },
                 index,
             ) => ({
@@ -174,6 +184,7 @@ class GameStore implements Store {
                 isTyping,
                 isWinner,
                 playerRacePosition: index + INDEX_OFFSET,
+                finishedAt,
             }),
         );
     }
@@ -208,6 +219,21 @@ class GameStore implements Store {
             clearTimeout(timer);
             this.gameTimers.delete(roomId);
         }
+    }
+    attachPlayerFinishTime(
+        roomId: string,
+        socketId: string,
+    ): ReturnType<Store['getRoom']> {
+        const room = this.roomMap.get(roomId);
+        const player = room?.players.get(socketId);
+        if (!player) {
+            return;
+        }
+
+        if (!player.finishedAt) {
+            player.finishedAt = Date.now();
+        }
+        return this.getRoom(roomId);
     }
     clear(): void {
         this.roomMap.clear();
