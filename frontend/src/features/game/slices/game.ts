@@ -5,6 +5,7 @@ import {
     refreshRoom,
     setReadyStatus,
     initPlayerFinish,
+    initChatMessageSend,
 } from './actions.js';
 import { actions } from './game.slice.js';
 
@@ -15,6 +16,7 @@ const allActions = {
     leaveRoom,
     refreshRoom,
     setReadyStatus,
+    initChatMessageSend,
     initPlayerFinish,
 };
 

@@ -1,8 +1,15 @@
 import { type Middleware } from '@reduxjs/toolkit';
 import { actions as gameActions } from '~/features/game/slices/game.js';
-import { type RoomResponseDto } from '~/libs/types/types.js';
+import {
+    type RoomResponseDto,
+    type ChatMessageDto,
+} from '~/libs/types/types.js';
 import { socket } from './socket.js';
-import { RaceSocketEvent, GameStatus } from '~/libs/enums/enums.js';
+import {
+    RaceSocketEvent,
+    GameStatus,
+    RaceChatSocketEvent,
+} from '~/libs/enums/enums.js';
 
 const gameSocketMiddleware: Middleware = ({ dispatch }) => {
     socket.on(RaceSocketEvent.SET_READY_STATUS, (room: RoomResponseDto) => {
@@ -25,6 +32,9 @@ const gameSocketMiddleware: Middleware = ({ dispatch }) => {
     socket.on(RaceSocketEvent.PLAYER_FINISHED, (room: RoomResponseDto) => {
         dispatch(gameActions.playerFinished(room));
     });
+    socket.on(RaceChatSocketEvent.NEW_MESSAGE, (payload: ChatMessageDto) => {
+        dispatch(gameActions.updatedChatMessages(payload));
+    });
     return (next) => (action) => {
         if (gameActions.setReadyStatus.match(action)) {
             socket.emit(RaceSocketEvent.SET_READY_STATUS, action.payload);
@@ -34,6 +44,9 @@ const gameSocketMiddleware: Middleware = ({ dispatch }) => {
         }
         if (gameActions.initPlayerFinish.match(action)) {
             socket.emit(RaceSocketEvent.PLAYER_FINISHED, action.payload);
+        }
+        if (gameActions.initChatMessageSend.match(action)) {
+            socket.emit(RaceChatSocketEvent.SEND_MESSAGE, action.payload);
         }
         next(action);
     };

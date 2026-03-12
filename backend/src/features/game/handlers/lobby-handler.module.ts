@@ -8,6 +8,7 @@ import {
 import { type UserDto, type RoomPayload } from '~/libs/types/types.js';
 import { type Player } from '../store/types/types.js';
 import { type GameStore } from '../store/base-game-store.module.js';
+import { type ChatHandler } from './chat-handler.module.js';
 
 type Constructor = {
     socket: TSocket;
@@ -15,6 +16,7 @@ type Constructor = {
     store: GameStore;
     userService: UserService;
     emitStats: () => void;
+    chat: ChatHandler;
 };
 
 class LobbyHandler {
@@ -23,14 +25,23 @@ class LobbyHandler {
     private store;
     private emitStats;
     private userService;
+    private chat;
 
-    constructor({ socket, io, store, emitStats, userService }: Constructor) {
+    constructor({
+        socket,
+        io,
+        store,
+        emitStats,
+        userService,
+        chat,
+    }: Constructor) {
         this.socket = socket;
         this.io = io;
         this.store = store;
         this.userService = userService;
         this.emitStats = emitStats;
         this.registerEvents();
+        this.chat = chat;
     }
 
     private registerEvents(): void {

@@ -9,6 +9,12 @@ const ActionType = {
     REFRESH_ROOM: `${sliceName}/refresh-room`,
     SET_READY_STATUS: `${sliceName}/set-ready`,
     PLAYER_FINISH: `${sliceName}/player-finish`,
+    SEND_CHAT_MESSAGE: `${sliceName}/send-chat-message`,
+};
+
+type ChatMessageSendPayload = {
+    roomId: RoomResponseDto['roomId'];
+    message: string;
 };
 
 type ReadyStatusPayload = {
@@ -20,6 +26,9 @@ const setReadyStatus = createAction<ReadyStatusPayload>(
     ActionType.SET_READY_STATUS,
 );
 const createRoom = createAction<RoomPayload>(ActionType.CREATE_ROOM);
+const initChatMessageSend = createAction<ChatMessageSendPayload>(
+    ActionType.SEND_CHAT_MESSAGE,
+);
 const joinRoom = createAction<{ roomId: string }>(ActionType.JOIN_ROOM);
 const leaveRoom = createAction<{ roomId: string }>(ActionType.LEAVE_ROOM);
 const refreshRoom = createAction(ActionType.REFRESH_ROOM);
@@ -34,4 +43,5 @@ export {
     refreshRoom,
     setReadyStatus,
     initPlayerFinish,
+    initChatMessageSend,
 };

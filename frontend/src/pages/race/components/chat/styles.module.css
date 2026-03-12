@@ -8,7 +8,7 @@
     color: var(--color-text-muted);
 }
 
-.chat-messages {
+.chat-message-box {
     flex: 1;
     gap: 10px;
     min-height: 160px;
@@ -34,9 +34,15 @@
     padding: 0.5rem;
 }
 
+.chat-message {
+    --cluster-direction: column;
+    --cluster-vertical-alignment: stretch;
+    --gutter: var(--space-3xs);
+}
+
 .chat-message-text {
     font-family: var(--font-family-space-mono);
-    font-size: 0.65rem;
-    font-style: italic;
-    color: var(--color-text-muted);
+    font-size: var(--step-minus-4);
+    color: var(--color-text-main);
+    opacity: 0.8;
 }

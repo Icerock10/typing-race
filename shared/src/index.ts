@@ -58,6 +58,7 @@ export {
     GamesDifficulty,
     GameLanguage,
     GameStatus,
+    type ChatMessageDto,
 } from './features/games/games.js';
 export {
     type RoomPayload,
@@ -72,4 +73,5 @@ export {
     SocketEvent,
     RaceSocketEvent,
     LobbySocketEvent,
+    RaceChatSocketEvent,
 } from './libs/modules/socket/enums/enums.js';
