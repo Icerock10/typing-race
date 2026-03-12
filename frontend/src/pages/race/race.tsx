@@ -40,7 +40,7 @@ import {
 
 const Race: React.FC = () => {
     const { user } = useAppSelector((state) => state.auth);
-    const { rooms, isRoomsLoaded, isCountDownStarted, isRaceStarted } =
+    const { rooms, isRoomsLoaded, isCountDownStarted, isRaceStarted, chat } =
         useAppSelector((state) => state.lobby);
     const { roomId } = useParams() as { roomId: string };
     const dispatch = useAppDispatch();
@@ -153,7 +153,7 @@ const Race: React.FC = () => {
                         isRaceStarted={isRaceStarted}
                     />
                     <Leaderboard currentRoom={currentRoom} />
-                    <Chat />
+                    <Chat chat={chat} roomId={roomId} />
                 </Cluster>
             </main>
         </>
