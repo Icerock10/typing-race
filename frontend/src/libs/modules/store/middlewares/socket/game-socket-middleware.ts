@@ -19,6 +19,9 @@ const gameSocketMiddleware: Middleware = ({ dispatch }) => {
     socket.on(RaceSocketEvent.UPDATE_PROGRESS, (room: RoomResponseDto) => {
         dispatch(gameActions.updateCurrentRoom(room));
     });
+    socket.on(RaceSocketEvent.RACE_FINISHED, (room: RoomResponseDto) => {
+        dispatch(gameActions.raceFinished(room));
+    });
     return (next) => (action) => {
         if (gameActions.setReadyStatus.match(action)) {
             socket.emit(RaceSocketEvent.SET_READY_STATUS, action.payload);

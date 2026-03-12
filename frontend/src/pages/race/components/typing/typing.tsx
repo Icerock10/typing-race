@@ -16,10 +16,15 @@ const MAX_PROGRESS_VALUE = 100;
 
 type Properties = {
     isRaceStarted: boolean;
+    isRaceFinished: boolean;
     roomId: string;
 };
 
-const Typing: React.FC<Properties> = ({ isRaceStarted, roomId }) => {
+const Typing: React.FC<Properties> = ({
+    isRaceStarted,
+    roomId,
+    isRaceFinished,
+}) => {
     const dispatch = useAppDispatch();
     const { control, errors, watch } = useAppForm<{ typedText: string }>({
         defaultValues: {
@@ -76,7 +81,7 @@ const Typing: React.FC<Properties> = ({ isRaceStarted, roomId }) => {
                 control={control}
                 errors={errors}
                 maxLength={Infinity}
-                disabled={progress === MAX_PROGRESS_VALUE}
+                disabled={progress === MAX_PROGRESS_VALUE || isRaceFinished}
             />
             <Cluster className={styles['live-stats']}>
                 {playerStats.map((stat) => (
