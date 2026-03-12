@@ -3,3 +3,4 @@ export { getErrorMessage } from './get-error-message.js';
 export { configureString } from 'shared';
 export { getAvatarSource } from './get-avatar-source.js';
 export { getPlayerStats } from './get-player-stats.helper.js';
+export { formatDuration } from './format-duration.helper.js';
