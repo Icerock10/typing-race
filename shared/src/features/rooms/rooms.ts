@@ -1,4 +1,8 @@
-export { type RoomPayload, type RoomResponseDto } from './libs/types/types.js';
+export {
+    type RoomPayload,
+    type RoomResponseDto,
+    type PlayerDto,
+} from './libs/types/types.js';
 export {
     roomCreateValidationSchema,
     joinRoomByCodeValidationSchema,

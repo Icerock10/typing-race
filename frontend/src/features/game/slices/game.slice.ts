@@ -87,6 +87,9 @@ const { actions, name, reducer } = createSlice({
         raceFinished(state, action: PayloadAction<RoomResponseDto>) {
             state.rooms = mapRooms(state.rooms, action.payload);
         },
+        playerFinished(state, action: PayloadAction<RoomResponseDto>) {
+            state.rooms = mapRooms(state.rooms, action.payload);
+        },
         toggleCountDown(state) {
             state.isCountDownStarted = !state.isCountDownStarted;
         },

@@ -47,6 +47,14 @@ const Typing: React.FC<Properties> = ({
         errorsCount,
     });
 
+    const hasPlayerFinished = progress === MAX_PROGRESS_VALUE;
+
+    const handlePlayerFinish = useCallback(() => {
+        if (hasPlayerFinished) {
+            dispatch(raceActions.initPlayerFinish({ roomId }));
+        }
+    }, [hasPlayerFinished, roomId, dispatch]);
+
     const handleProgressUpdate = useCallback(() => {
         const playerProgress = {
             wpm: wordPerMinute,
@@ -65,6 +73,13 @@ const Typing: React.FC<Properties> = ({
         roomId,
         isTyping,
     ]);
+
+    useEffect(() => {
+        if (!isRaceStarted) {
+            return;
+        }
+        handlePlayerFinish();
+    }, [isRaceStarted, handlePlayerFinish]);
 
     useEffect(() => {
         if (!isRaceStarted || !typedText) {
@@ -109,7 +124,7 @@ const Typing: React.FC<Properties> = ({
                 control={control}
                 errors={errors}
                 maxLength={Infinity}
-                disabled={progress === MAX_PROGRESS_VALUE || isRaceFinished}
+                disabled={hasPlayerFinished || isRaceFinished}
             />
             <Cluster className={styles['live-stats']}>
                 {playerStats.map((stat) => (

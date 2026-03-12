@@ -24,4 +24,4 @@ type RoomResponseDto = RoomPayload & {
     startedAt?: number;
 };
 
-export { type RoomResponseDto };
+export { type RoomResponseDto, type PlayerDto };
