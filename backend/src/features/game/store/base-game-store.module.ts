@@ -133,6 +133,7 @@ class GameStore implements Store {
                 accuracy = INITIAL_STAT_VALUE,
                 errors = INITIAL_STAT_VALUE,
                 progress = INITIAL_STAT_VALUE,
+                isTyping = false,
             }) => ({
                 ...user,
                 isReady,
@@ -140,6 +141,7 @@ class GameStore implements Store {
                 accuracy,
                 errors,
                 progress,
+                isTyping,
             }),
         );
     }

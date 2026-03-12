@@ -9,6 +9,7 @@ type PlayerDto = UserDto & {
     progress?: number;
     accuracy?: number;
     errors?: number;
+    isTyping?: boolean;
 };
 
 type RoomResponseDto = RoomPayload & {
