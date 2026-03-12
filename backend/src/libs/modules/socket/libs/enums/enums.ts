@@ -3,4 +3,5 @@ export {
     SocketNamespace,
     LobbySocketEvent,
     RaceSocketEvent,
+    RaceChatSocketEvent,
 } from 'shared';

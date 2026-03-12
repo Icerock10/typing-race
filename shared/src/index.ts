@@ -72,4 +72,5 @@ export {
     SocketEvent,
     RaceSocketEvent,
     LobbySocketEvent,
+    RaceChatSocketEvent,
 } from './libs/modules/socket/enums/enums.js';

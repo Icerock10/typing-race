@@ -1,6 +1,10 @@
 import { type Server } from 'node:http';
 import { type GameStore } from '~/features/game/store/base-game-store.module.js';
-import { LobbyHandler, RaceHandler } from '~/features/game/game.js';
+import {
+    LobbyHandler,
+    RaceHandler,
+    ChatHandler,
+} from '~/features/game/game.js';
 import { config } from '../config/config.js';
 import { type UserDto } from '~/libs/types/types.js';
 import { type SocketService } from './libs/types/types.js';
@@ -87,12 +91,18 @@ class Socket implements SocketService {
     };
 
     private initHandlers = (socket: TSocket): void => {
+        const chatHandler = new ChatHandler({
+            socket,
+            io: this._io,
+            store: this.store,
+        });
         new LobbyHandler({
             socket,
             io: this._io,
             store: this.store,
             emitStats: this.emitStats,
             userService: this.userService,
+            chat: chatHandler,
         });
         new RaceHandler({
             socket,
