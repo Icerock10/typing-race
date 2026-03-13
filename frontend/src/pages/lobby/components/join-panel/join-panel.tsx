@@ -28,7 +28,7 @@ const validateJoinCode = (
 const JoinPanel: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { rooms } = useAppSelector((state) => state.lobby);
+    const { rooms } = useAppSelector((state) => state.game);
     const { control, errors, handleSubmit, setError } = useAppForm<{
         roomJoinCode: string;
     }>({

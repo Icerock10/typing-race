@@ -10,7 +10,7 @@ const STATS_CONFIG = [
 ] as const;
 
 const Stats: React.FC = () => {
-    const { stats } = useAppSelector((state) => state.lobby);
+    const { stats } = useAppSelector((state) => state.game);
 
     return (
         <Cluster cluster={ClusterVariant.FLEX} className={styles['auth-stats']}>

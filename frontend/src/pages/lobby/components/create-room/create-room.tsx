@@ -25,7 +25,7 @@ const Createroom: React.FC = () => {
     const navigate = useNavigate();
 
     const { user } = useAppSelector((state) => state.auth);
-    const { currentRoom } = useAppSelector((state) => state.lobby);
+    const { currentRoom } = useAppSelector((state) => state.game);
 
     const { control, errors, handleSubmit } = useAppForm<RoomPayload>({
         defaultValues: DEFAULT_CREATE_ROOM_VALUES,

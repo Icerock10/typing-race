@@ -15,7 +15,7 @@ import {
 } from '~/libs/hooks/hooks.js';
 
 const Rooms: React.FC = () => {
-    const { rooms } = useAppSelector((state) => state.lobby);
+    const { rooms } = useAppSelector((state) => state.game);
     const { user } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
 

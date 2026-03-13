@@ -41,7 +41,7 @@ import {
 const Race: React.FC = () => {
     const { user } = useAppSelector((state) => state.auth);
     const { rooms, isRoomsLoaded, isCountDownStarted, isRaceStarted, chat } =
-        useAppSelector((state) => state.lobby);
+        useAppSelector((state) => state.game);
     const { roomId } = useParams() as { roomId: string };
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
