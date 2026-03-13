@@ -15,7 +15,6 @@ type Constructor = {
     io: SocketServer;
     store: GameStore;
     userService: UserService;
-    emitStats: () => void;
     chat: ChatHandler;
 };
 
@@ -23,23 +22,14 @@ class LobbyHandler {
     private socket;
     private io;
     private store;
-    private emitStats;
     private userService;
     private chat;
 
-    constructor({
-        socket,
-        io,
-        store,
-        emitStats,
-        userService,
-        chat,
-    }: Constructor) {
+    constructor({ socket, io, store, userService, chat }: Constructor) {
         this.socket = socket;
         this.io = io;
         this.store = store;
         this.userService = userService;
-        this.emitStats = emitStats;
         this.registerEvents();
         this.chat = chat;
     }
@@ -74,7 +64,6 @@ class LobbyHandler {
         void this.socket.join(roomId);
         this.socket.emit(LobbySocketEvent.CREATE_ROOM, createdRoom);
         this.socket.broadcast.emit(LobbySocketEvent.CREATE_ROOM, createdRoom);
-        this.emitStats();
     };
 
     private updateUserAuth = async ({
@@ -85,7 +74,8 @@ class LobbyHandler {
         try {
             const user = await this.userService.find(userId);
             (this.socket.data as Record<'user', UserDto | null>).user = user;
-            this.store.addUser(this.socket.id, userId);
+            this.store.removeUser(this.socket.id);
+            this.store.addUser(userId, this.socket.id);
         } catch {
             this.store.addUser(this.socket.id, null);
         }
