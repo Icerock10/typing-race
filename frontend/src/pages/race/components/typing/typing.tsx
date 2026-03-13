@@ -7,7 +7,8 @@ import {
     useEffect,
     useAppDispatch,
     useCallback,
-    useState,
+    useMemo,
+    useRef,
 } from '~/libs/hooks/hooks.js';
 import { RaceTextDisplay } from './components/components.js';
 import styles from './styles.module.css';
@@ -28,7 +29,7 @@ const Typing: React.FC<Properties> = ({
     isRaceFinished,
 }) => {
     const dispatch = useAppDispatch();
-    const [isTyping, setIsTyping] = useState(false);
+    const isTypingReference = useRef(false);
     const { control, errors, watch } = useAppForm<{ typedText: string }>({
         defaultValues: {
             typedText: '',
@@ -41,11 +42,15 @@ const Typing: React.FC<Properties> = ({
         targetText: text,
     });
 
-    const playerStats = getPlayerStats({
-        wordPerMinute,
-        accuracy,
-        errorsCount,
-    });
+    const playerStats = useMemo(
+        () =>
+            getPlayerStats({
+                wordPerMinute,
+                accuracy,
+                errorsCount,
+            }),
+        [accuracy, errorsCount, wordPerMinute],
+    );
 
     const hasPlayerFinished = progress === MAX_PROGRESS_VALUE;
 
@@ -61,18 +66,10 @@ const Typing: React.FC<Properties> = ({
             accuracy,
             progress,
             errors: errorsCount,
-            isTyping,
+            isTyping: isTypingReference.current,
         };
         dispatch(raceActions.updatePlayerProgress({ playerProgress, roomId }));
-    }, [
-        wordPerMinute,
-        errorsCount,
-        dispatch,
-        accuracy,
-        progress,
-        roomId,
-        isTyping,
-    ]);
+    }, [wordPerMinute, errorsCount, dispatch, accuracy, progress, roomId]);
 
     useEffect(() => {
         if (!isRaceStarted) {
@@ -83,26 +80,20 @@ const Typing: React.FC<Properties> = ({
 
     useEffect(() => {
         if (!isRaceStarted || !typedText) {
+            isTypingReference.current = false;
             return;
         }
+        isTypingReference.current = true;
         handleProgressUpdate();
-    }, [handleProgressUpdate, typedText, isRaceStarted]);
-
-    useEffect(() => {
-        if (!typedText) {
-            setIsTyping(false);
-            return;
-        }
-
-        setIsTyping(true);
         const timeout = setTimeout(() => {
-            setIsTyping(false);
+            isTypingReference.current = false;
+            handleProgressUpdate();
         }, DELAY);
 
         return (): void => {
             clearTimeout(timeout);
         };
-    }, [typedText]);
+    }, [handleProgressUpdate, typedText, isRaceStarted]);
 
     return (
         <section className={styles['race-typing']}>
