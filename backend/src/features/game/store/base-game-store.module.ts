@@ -18,6 +18,7 @@ class GameStore implements Store {
     public userMap = new Map<string, string | null>();
     public roomMap = new Map<string, InternalRoom>();
     public gameTimers = new Map<string, ReturnType<typeof setTimeout>>();
+
     addUser(socketId: string, userId: string | null): void {
         this.userMap.set(socketId, userId);
     }

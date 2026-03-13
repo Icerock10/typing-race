@@ -35,13 +35,13 @@ const signIn = createAsyncThunk<
     AsyncThunkConfig
 >(
     `${sliceName}/sign-in`,
-    async (registerPayload, { extra, rejectWithValue, dispatch }) => {
+    async (registerPayload, { extra, rejectWithValue }) => {
         const { authApi, storage } = extra;
 
         try {
             const { token, user } = await authApi.signIn(registerPayload);
             await storage.set(StorageKey.TOKEN, token);
-            dispatch(updateSocketAuth({ userId: String(user.id) }));
+
             return user;
         } catch (error) {
             const { message } = displayErrorMessage(error);
@@ -57,13 +57,13 @@ const signUp = createAsyncThunk<
     AsyncThunkConfig
 >(
     `${sliceName}/sign-up`,
-    async (registerPayload, { extra, rejectWithValue, dispatch }) => {
+    async (registerPayload, { extra, rejectWithValue }) => {
         const { authApi, storage } = extra;
 
         try {
             const { token, user } = await authApi.signUp(registerPayload);
             await storage.set(StorageKey.TOKEN, token);
-            dispatch(updateSocketAuth({ userId: String(user.id) }));
+
             return user;
         } catch (error) {
             const { message } = displayErrorMessage(error);
