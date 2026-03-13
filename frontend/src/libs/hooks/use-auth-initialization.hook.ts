@@ -15,6 +15,9 @@ const useAuthInitialization = (): void => {
 
     const initializeAuth = useCallback((): void => {
         if (user) {
+            void dispatch(
+                authActions.updateSocketAuth({ userId: String(user.id) }),
+            );
             return;
         }
 
