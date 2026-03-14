@@ -1,25 +1,16 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import {
     type RoomResponseDto,
-    type AppStatsDto,
     type ChatMessageDto,
-} from '~/libs/types/types.js';
+    type AppStatsDto,
+    type PlayerDto,
+} from '../libs/types/types.js';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { updateRoomById } from '../libs/helpers/update-room-by-id.helper.js';
 
-const mapRooms = (
-    rooms: RoomResponseDto[],
-    roomPayload: RoomResponseDto,
-): RoomResponseDto[] => {
-    return rooms.map((room) =>
-        room.roomId === roomPayload.roomId ? roomPayload : room,
-    );
-};
-
-type PlayerProgress = {
-    wpm: number;
-    accuracy: number;
-    progress: number;
-    errors: number;
-};
+type PlayerProgress = Pick<
+    PlayerDto,
+    'wpm' | 'accuracy' | 'progress' | 'errors'
+>;
 
 type State = {
     rooms: RoomResponseDto[];
@@ -64,10 +55,10 @@ const { actions, name, reducer } = createSlice({
             }
         },
         playerJoined(state, action: PayloadAction<RoomResponseDto>) {
-            state.rooms = mapRooms(state.rooms, action.payload);
+            state.rooms = updateRoomById(state.rooms, action.payload);
         },
         playerLeft(state, action: PayloadAction<RoomResponseDto>) {
-            state.rooms = mapRooms(state.rooms, action.payload);
+            state.rooms = updateRoomById(state.rooms, action.payload);
             state.race.isRaceStarted = false;
         },
         roomsUpdated(state, action: PayloadAction<RoomResponseDto[]>) {
@@ -92,17 +83,17 @@ const { actions, name, reducer } = createSlice({
             state.currentRoom = null;
         },
         updateCurrentRoom(state, action: PayloadAction<RoomResponseDto>) {
-            state.rooms = mapRooms(state.rooms, action.payload);
+            state.rooms = updateRoomById(state.rooms, action.payload);
         },
         raceStarted(state, action: PayloadAction<RoomResponseDto>) {
             state.race.isRaceStarted = true;
-            state.rooms = mapRooms(state.rooms, action.payload);
+            state.rooms = updateRoomById(state.rooms, action.payload);
         },
         raceFinished(state, action: PayloadAction<RoomResponseDto>) {
-            state.rooms = mapRooms(state.rooms, action.payload);
+            state.rooms = updateRoomById(state.rooms, action.payload);
         },
         playerFinished(state, action: PayloadAction<RoomResponseDto>) {
-            state.rooms = mapRooms(state.rooms, action.payload);
+            state.rooms = updateRoomById(state.rooms, action.payload);
         },
         toggleCountDown(state) {
             state.race.isCountDownStarted = !state.race.isCountDownStarted;
