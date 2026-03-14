@@ -1,8 +1,16 @@
 import styles from './styles.module.css';
+import {
+    type UserSignInRequestDto,
+    type UserSignUpRequestDto,
+} from '~/libs/types/types.js';
 import { DiscordIcon } from '~/assets/image/discord/discord.img.js';
-import { useAppSelector, useCallback } from '~/libs/hooks/hooks.js';
+import {
+    useAppSelector,
+    useCallback,
+    useAppDispatch,
+} from '~/libs/hooks/hooks.js';
 import { config } from '~/libs/modules/config/config.js';
-
+import { actions as authActions } from '~/features/auth/auth.js';
 import { SignIn, Registration } from './components/components.js';
 import { Button, Cluster } from '~/libs/components/components.js';
 import {
@@ -31,12 +39,26 @@ const AuthCard: React.FC<Properties> = ({
         : 'Already have an account?';
 
     const { isLoading } = useAppSelector((state) => state.auth);
+    const dispatch = useAppDispatch();
 
     const onDiscordSignIn = useCallback(() => {
         globalThis.location.replace(
             `${config.ENV.API.DEV_URL}${OpenAuthPath.DISCORD}`,
         );
     }, []);
+
+    const onSignIn = useCallback(
+        (payload: UserSignInRequestDto) => {
+            void dispatch(authActions.signIn(payload));
+        },
+        [dispatch],
+    );
+    const onRegister = useCallback(
+        (payload: UserSignUpRequestDto) => {
+            void dispatch(authActions.signUp(payload));
+        },
+        [dispatch],
+    );
 
     return (
         <div className={styles['auth-card']}>
@@ -58,9 +80,9 @@ const AuthCard: React.FC<Properties> = ({
                 <div className={styles['divider-line']} />
             </Cluster>
             {isSignIn ? (
-                <SignIn isLoading={isLoading} />
+                <SignIn onSignIn={onSignIn} isLoading={isLoading} />
             ) : (
-                <Registration isLoading={isLoading} />
+                <Registration onRegister={onRegister} isLoading={isLoading} />
             )}
             <Cluster className={styles['switch-prompt']}>
                 <span> {isSignInText} </span>

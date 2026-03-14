@@ -3,7 +3,6 @@ import {
     DEFAULT_AVATAR_ICONS,
     DEFAULT_SIGN_UP_PAYLOAD,
 } from '~/pages/auth/libs/constants/constants.js';
-import { actions as authActions } from '~/features/auth/auth.js';
 import {
     Cluster,
     Input,
@@ -20,8 +19,7 @@ import {
     userSignUpValidationSchema,
     type UserSignUpRequestDto,
 } from '~/libs/types/types.js';
-import { useAppForm, useCallback, useAppDispatch } from '~/libs/hooks/hooks.js';
-import { type BaseSyntheticEvent } from 'react';
+import { useAppForm, useCallback } from '~/libs/hooks/hooks.js';
 
 const AVATAR_OPTIONS = DEFAULT_AVATAR_ICONS.map(({ name, src }) => ({
     label: name,
@@ -31,11 +29,11 @@ const AVATAR_OPTIONS = DEFAULT_AVATAR_ICONS.map(({ name, src }) => ({
 
 type Properties = {
     isLoading: boolean;
+    onRegister: (payload: UserSignUpRequestDto) => void;
 };
 
-const Registration: React.FC<Properties> = ({ isLoading }) => {
+const Registration: React.FC<Properties> = ({ isLoading, onRegister }) => {
     const [option] = AVATAR_OPTIONS;
-    const dispatch = useAppDispatch();
     const { control, errors, handleSubmit } = useAppForm<UserSignUpRequestDto>({
         defaultValues: {
             ...DEFAULT_SIGN_UP_PAYLOAD,
@@ -45,12 +43,10 @@ const Registration: React.FC<Properties> = ({ isLoading }) => {
     });
 
     const onSubmit = useCallback(
-        (event: BaseSyntheticEvent) => {
-            void handleSubmit((data) => dispatch(authActions.signUp(data)))(
-                event,
-            );
+        (event: React.BaseSyntheticEvent) => {
+            void handleSubmit(onRegister)(event);
         },
-        [handleSubmit, dispatch],
+        [handleSubmit, onRegister],
     );
 
     return (
