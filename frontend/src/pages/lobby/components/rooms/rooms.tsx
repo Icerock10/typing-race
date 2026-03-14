@@ -8,19 +8,19 @@ import {
     ButtonSizes,
 } from '~/libs/enums/enums.js';
 import styles from './styles.module.css';
-import {
-    useAppSelector,
-    useCallback,
-    useAppDispatch,
-} from '~/libs/hooks/hooks.js';
+import { useCallback, useAppDispatch } from '~/libs/hooks/hooks.js';
+import { type RoomResponseDto, type UserDto } from '~/libs/types/types.js';
 
-const Rooms: React.FC = () => {
-    const { rooms } = useAppSelector((state) => state.game);
-    const { user } = useAppSelector((state) => state.auth);
+type Properties = {
+    user: UserDto | null;
+    rooms: RoomResponseDto[];
+};
+
+const Rooms: React.FC<Properties> = ({ user, rooms }) => {
     const dispatch = useAppDispatch();
 
     const handleRefreshRoom = useCallback(() => {
-        void dispatch(lobbyActions.refreshRoom());
+        dispatch(lobbyActions.refreshRoom());
     }, [dispatch]);
 
     const roomTitleClasses = getClassNames(styles['rooms-title'], 'with-dash');

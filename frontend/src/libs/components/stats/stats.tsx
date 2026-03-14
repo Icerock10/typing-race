@@ -2,12 +2,7 @@ import styles from './styles.module.css';
 import { useAppSelector } from '~/libs/hooks/hooks.js';
 import { Cluster } from '~/libs/components/components.js';
 import { ClusterVariant } from '~/libs/enums/enums.js';
-
-const STATS_CONFIG = [
-    { key: 'onlineUsers', dataStat: 'online', label: 'Online now' },
-    { key: 'activeRooms', dataStat: 'rooms', label: 'Open rooms' },
-    { key: 'wpm', dataStat: 'record', label: 'Todays record' },
-] as const;
+import { STATS_CONFIG } from './libs/enums/stats-config.enum.js';
 
 const Stats: React.FC = () => {
     const { stats } = useAppSelector((state) => state.game);

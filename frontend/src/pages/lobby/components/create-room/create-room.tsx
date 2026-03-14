@@ -4,11 +4,14 @@ import {
     useAppForm,
     useCallback,
     useAppDispatch,
-    useAppSelector,
     useNavigate,
     useEffect,
 } from '~/libs/hooks/hooks.js';
-import { type RoomPayload } from '~/libs/types/types.js';
+import {
+    type UserDto,
+    type RoomPayload,
+    type RoomResponseDto,
+} from '~/libs/types/types.js';
 import { DEFAULT_CREATE_ROOM_VALUES } from '../../libs/constants/constants.js';
 import { actions as lobbyActions } from '~/features/game/slices/game.js';
 import { getClassNames } from '~/libs/helpers/helpers.js';
@@ -20,12 +23,14 @@ import {
     Select,
 } from '~/libs/components/components.js';
 
-const Createroom: React.FC = () => {
+type Properties = {
+    user: UserDto | null;
+    currentRoom: RoomResponseDto | null;
+};
+
+const Createroom: React.FC<Properties> = ({ user, currentRoom }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-
-    const { user } = useAppSelector((state) => state.auth);
-    const { currentRoom } = useAppSelector((state) => state.game);
 
     const { control, errors, handleSubmit } = useAppForm<RoomPayload>({
         defaultValues: DEFAULT_CREATE_ROOM_VALUES,
@@ -44,7 +49,7 @@ const Createroom: React.FC = () => {
     useEffect(() => {
         if (currentRoom && currentRoom.hostId === user?.id) {
             void navigate(`${AppRoute.RACE_BASE}${String(currentRoom.roomId)}`);
-            void dispatch(lobbyActions.resetCurrentRoom());
+            dispatch(lobbyActions.resetCurrentRoom());
         }
     }, [navigate, currentRoom, dispatch, user?.id]);
 
