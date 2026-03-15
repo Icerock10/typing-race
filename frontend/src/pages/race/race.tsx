@@ -12,7 +12,7 @@ import {
     Typing,
     Chat,
     Leaderboard,
-    RaceLobbyModal,
+    LobbyModal,
 } from './components/components.js';
 import styles from './styles.module.css';
 import { actions as lobbyActions } from '../../features/game/slices/game.js';
@@ -78,7 +78,7 @@ const Race: React.FC = () => {
 
     return (
         <>
-            <RaceLobbyModal
+            <LobbyModal
                 isRaceStarted={isRaceStarted || isRaceFinished}
                 isCountDownStarted={isCountDownStarted}
                 currentRoom={currentRoom}
