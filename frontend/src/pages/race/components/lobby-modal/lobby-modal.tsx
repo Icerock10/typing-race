@@ -16,14 +16,14 @@ import { LobbyPlayer } from '../player/player.js';
 type Properties = {
     currentRoom?: RoomResponseDto;
     isCountDownStarted: boolean;
-    isRaceStarted: boolean;
+    shouldOpen: boolean;
     currentUserId?: string;
 };
 
 const LobbyModal: React.FC<Properties> = ({
     currentRoom,
     isCountDownStarted,
-    isRaceStarted,
+    shouldOpen,
     currentUserId,
 }) => {
     const modalReference = useRef(null);
@@ -55,7 +55,7 @@ const LobbyModal: React.FC<Properties> = ({
     }
 
     return (
-        <Modal isOpen={!isRaceStarted} modalReference={modalReference}>
+        <Modal isOpen={shouldOpen} modalReference={modalReference}>
             <Cluster className={styles['lobby-card-wrapper']}>
                 <Cluster className="card-header">
                     <div className={styles['card-header-icon']}>

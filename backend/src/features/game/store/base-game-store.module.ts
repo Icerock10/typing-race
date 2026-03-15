@@ -236,6 +236,12 @@ class GameStore implements Store {
         }
         return this.getRoom(roomId);
     }
+    findRoomByUserId(userId: string): RoomResponseDto | undefined {
+        const rooms = this.getAllRooms();
+        return rooms.find((room) =>
+            room.players.some((player) => player.id === userId),
+        );
+    }
     clear(): void {
         this.roomMap.clear();
         this.userMap.clear();

@@ -35,6 +35,12 @@ const gameSocketMiddleware: Middleware = ({ dispatch }) => {
     socket.on(RaceChatSocketEvent.NEW_MESSAGE, (payload: ChatMessageDto) => {
         dispatch(gameActions.updatedChatMessages(payload));
     });
+    socket.on(
+        RaceSocketEvent.PLAYER_RECONNECTED,
+        (payload: { room: RoomResponseDto; playerProgress: unknown }) => {
+            dispatch(gameActions.playerReconnected(payload));
+        },
+    );
     return (next) => (action) => {
         if (gameActions.setReadyStatus.match(action)) {
             socket.emit(RaceSocketEvent.SET_READY_STATUS, action.payload);

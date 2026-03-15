@@ -9,6 +9,7 @@ import {
     useCallback,
     useMemo,
     useRef,
+    useAppSelector,
 } from '~/libs/hooks/hooks.js';
 import { RaceTextDisplay } from './components/components.js';
 import styles from './styles.module.css';
@@ -35,6 +36,7 @@ const Typing: React.FC<Properties> = ({
             typedText: '',
         },
     });
+    const { playerTypingProgress } = useAppSelector((state) => state.game.race);
     const typedText = watch('typedText');
 
     const { wordPerMinute, accuracy, errorsCount, progress } = useTypingStats({
@@ -45,11 +47,11 @@ const Typing: React.FC<Properties> = ({
     const playerStats = useMemo(
         () =>
             getPlayerStats({
-                wordPerMinute,
-                accuracy,
-                errorsCount,
+                wordPerMinute: Number(playerTypingProgress.wpm),
+                accuracy: Number(playerTypingProgress.accuracy),
+                errorsCount: Number(playerTypingProgress.errors),
             }),
-        [accuracy, errorsCount, wordPerMinute],
+        [playerTypingProgress],
     );
 
     const hasPlayerFinished = progress === MAX_PROGRESS_VALUE;
@@ -126,11 +128,15 @@ const Typing: React.FC<Properties> = ({
                 ))}
                 <div className={styles['typing-progress']}>
                     <div
-                        style={{ width: `${String(progress)}%` }}
+                        style={{
+                            width: `${String(playerTypingProgress.progress)}%`,
+                        }}
                         className={styles['typing-progress-fill']}
                     />
                 </div>
-                <span className={styles['progress-percent']}>{progress}%</span>
+                <span className={styles['progress-percent']}>
+                    {playerTypingProgress.progress}%
+                </span>
             </Cluster>
         </section>
     );
