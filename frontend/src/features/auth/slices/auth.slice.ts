@@ -36,6 +36,7 @@ const { actions, name, reducer } = createSlice({
             (state, action) => {
                 state.isLoading = false;
                 state.user = action.payload;
+                state.dataStatus = DataStatus.FULFILLED;
             },
         );
 
@@ -47,6 +48,7 @@ const { actions, name, reducer } = createSlice({
             (state) => {
                 state.isLoading = false;
                 state.user = null;
+                state.dataStatus = DataStatus.REJECTED;
             },
         );
     },
