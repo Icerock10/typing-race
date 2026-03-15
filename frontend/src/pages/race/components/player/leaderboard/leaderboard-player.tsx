@@ -8,7 +8,7 @@ type Properties = {
     startedAt?: number;
 };
 
-const LeaderBoardRow: React.FC<Properties> = ({ player, startedAt }) => {
+const LeaderBoardPlayer: React.FC<Properties> = ({ player, startedAt }) => {
     const finishedOn = formatDuration(
         Number(player.finishedAt) - Number(startedAt),
     );
@@ -44,4 +44,4 @@ const LeaderBoardRow: React.FC<Properties> = ({ player, startedAt }) => {
     );
 };
 
-export { LeaderBoardRow };
+export { LeaderBoardPlayer };

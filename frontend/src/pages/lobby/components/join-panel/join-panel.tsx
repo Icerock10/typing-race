@@ -2,11 +2,10 @@ import {
     useAppForm,
     useAppDispatch,
     useCallback,
-    useAppSelector,
     useNavigate,
 } from '~/libs/hooks/hooks.js';
 import { joinRoomByCodeValidationSchema } from '../../libs/enums/enums.js';
-import { type RoomResponseDto } from '~/libs/types/types.js';
+import { validateJoinCode } from './libs/helpers/validate-join-code.helper.js';
 import { Input, Button, Cluster } from '~/libs/components/components.js';
 import { actions as lobbyActions } from '~/features/game/slices/game.js';
 import styles from './styles.module.css';
@@ -17,49 +16,51 @@ import {
     ButtonVariants,
     RoomValidationMessage,
 } from '~/libs/enums/enums.js';
+import { type RoomResponseDto } from '~/libs/types/types.js';
 
 const JOIN_BY_CODE_INPUT_MAX_LENGTH = 100;
 
-const validateJoinCode = (
-    rooms: RoomResponseDto[],
-    roomJoinCode: string,
-): boolean => rooms.some((room) => room.roomId === roomJoinCode);
+type RoomJoinCodeDto = {
+    roomJoinCode: string;
+};
 
-const JoinPanel: React.FC = () => {
+type Properties = {
+    rooms: RoomResponseDto[];
+};
+
+const JoinPanel: React.FC<Properties> = ({ rooms }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { rooms } = useAppSelector((state) => state.lobby);
-    const { control, errors, handleSubmit, setError } = useAppForm<{
-        roomJoinCode: string;
-    }>({
-        defaultValues: {
-            roomJoinCode: '',
-        },
-        validationSchema: joinRoomByCodeValidationSchema,
-    });
+    const { control, errors, handleSubmit, setError } =
+        useAppForm<RoomJoinCodeDto>({
+            defaultValues: {
+                roomJoinCode: '',
+            },
+            validationSchema: joinRoomByCodeValidationSchema,
+        });
 
-    const joinRoomByCode = useCallback(
-        (code: string) => {
-            void dispatch(lobbyActions.joinRoom({ roomId: code }));
-            void navigate(`${AppRoute.RACE_BASE}${code}`);
+    const handleAndValidateRoomJoinByCode = useCallback(
+        (roomJoinCode: string) => {
+            const isJoinCodeValid = validateJoinCode(rooms, roomJoinCode);
+            if (!isJoinCodeValid) {
+                setError('roomJoinCode', {
+                    message: RoomValidationMessage.INVALID_JOIN_CODE,
+                });
+                return;
+            }
+            void dispatch(lobbyActions.joinRoom({ roomId: roomJoinCode }));
+            void navigate(`${AppRoute.RACE_BASE}${roomJoinCode}`);
         },
-        [dispatch, navigate],
+        [dispatch, navigate, rooms, setError],
     );
 
     const onSubmit = useCallback(
         (event: React.BaseSyntheticEvent) => {
             void handleSubmit(({ roomJoinCode }) => {
-                const isJoinCodeValid = validateJoinCode(rooms, roomJoinCode);
-                if (!isJoinCodeValid) {
-                    setError('roomJoinCode', {
-                        message: RoomValidationMessage.INVALID_JOIN_CODE,
-                    });
-                    return;
-                }
-                joinRoomByCode(roomJoinCode);
+                handleAndValidateRoomJoinByCode(roomJoinCode);
             })(event);
         },
-        [handleSubmit, setError, rooms, joinRoomByCode],
+        [handleSubmit, handleAndValidateRoomJoinByCode],
     );
 
     return (

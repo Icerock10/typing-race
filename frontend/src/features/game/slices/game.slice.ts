@@ -1,35 +1,28 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import {
     type RoomResponseDto,
-    type AppStatsDto,
     type ChatMessageDto,
-} from '~/libs/types/types.js';
+    type AppStatsDto,
+    type PlayerDto,
+} from '../libs/types/types.js';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { updateRoomById } from '../libs/helpers/update-room-by-id.helper.js';
 
-const mapRooms = (
-    rooms: RoomResponseDto[],
-    roomPayload: RoomResponseDto,
-): RoomResponseDto[] => {
-    return rooms.map((room) =>
-        room.roomId === roomPayload.roomId ? roomPayload : room,
-    );
-};
-
-type PlayerProgress = {
-    wpm: number;
-    accuracy: number;
-    progress: number;
-    errors: number;
-};
+type PlayerProgress = Pick<
+    PlayerDto,
+    'wpm' | 'accuracy' | 'progress' | 'errors'
+>;
 
 type State = {
     rooms: RoomResponseDto[];
     stats: AppStatsDto | null;
     currentRoom: RoomResponseDto | null;
     isRoomsLoaded: boolean;
-    isRaceStarted: boolean;
-    isCountDownStarted: boolean;
-    playerTypingProgress: PlayerProgress;
-    chat: ChatMessageDto[];
+    race: {
+        isRaceStarted: boolean;
+        isCountDownStarted: boolean;
+        playerTypingProgress: PlayerProgress;
+        chat: ChatMessageDto[];
+    };
 };
 
 const initialState: State = {
@@ -37,15 +30,17 @@ const initialState: State = {
     stats: null,
     currentRoom: null,
     isRoomsLoaded: false,
-    isRaceStarted: false,
-    isCountDownStarted: false,
-    playerTypingProgress: {
-        wpm: 0,
-        accuracy: 0,
-        progress: 0,
-        errors: 0,
+    race: {
+        isRaceStarted: false,
+        isCountDownStarted: false,
+        playerTypingProgress: {
+            wpm: 0,
+            accuracy: 0,
+            progress: 0,
+            errors: 0,
+        },
+        chat: [],
     },
-    chat: [],
 };
 
 const { actions, name, reducer } = createSlice({
@@ -60,10 +55,11 @@ const { actions, name, reducer } = createSlice({
             }
         },
         playerJoined(state, action: PayloadAction<RoomResponseDto>) {
-            state.rooms = mapRooms(state.rooms, action.payload);
+            state.rooms = updateRoomById(state.rooms, action.payload);
         },
         playerLeft(state, action: PayloadAction<RoomResponseDto>) {
-            state.rooms = mapRooms(state.rooms, action.payload);
+            state.rooms = updateRoomById(state.rooms, action.payload);
+            state.race.isRaceStarted = false;
         },
         roomsUpdated(state, action: PayloadAction<RoomResponseDto[]>) {
             state.rooms = action.payload;
@@ -87,20 +83,20 @@ const { actions, name, reducer } = createSlice({
             state.currentRoom = null;
         },
         updateCurrentRoom(state, action: PayloadAction<RoomResponseDto>) {
-            state.rooms = mapRooms(state.rooms, action.payload);
+            state.rooms = updateRoomById(state.rooms, action.payload);
         },
         raceStarted(state, action: PayloadAction<RoomResponseDto>) {
-            state.isRaceStarted = true;
-            state.rooms = mapRooms(state.rooms, action.payload);
+            state.race.isRaceStarted = true;
+            state.rooms = updateRoomById(state.rooms, action.payload);
         },
         raceFinished(state, action: PayloadAction<RoomResponseDto>) {
-            state.rooms = mapRooms(state.rooms, action.payload);
+            state.rooms = updateRoomById(state.rooms, action.payload);
         },
         playerFinished(state, action: PayloadAction<RoomResponseDto>) {
-            state.rooms = mapRooms(state.rooms, action.payload);
+            state.rooms = updateRoomById(state.rooms, action.payload);
         },
         toggleCountDown(state) {
-            state.isCountDownStarted = !state.isCountDownStarted;
+            state.race.isCountDownStarted = !state.race.isCountDownStarted;
         },
         updatePlayerProgress(
             state,
@@ -110,10 +106,10 @@ const { actions, name, reducer } = createSlice({
             }>,
         ) {
             const { playerProgress } = action.payload;
-            state.playerTypingProgress = playerProgress;
+            state.race.playerTypingProgress = playerProgress;
         },
         updatedChatMessages(state, action: PayloadAction<ChatMessageDto>) {
-            state.chat.push(action.payload);
+            state.race.chat.push(action.payload);
         },
     },
 });

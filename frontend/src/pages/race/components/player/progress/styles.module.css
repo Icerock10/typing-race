@@ -1,35 +1,3 @@
-.race-progress {
-    grid-column: span 2;
-}
-
-.race-progress :is(.track-header, .player-info, .player-wpm) {
-    font-size: 0.7rem;
-}
-
-.track-header {
-    --cluster-horizontal-alignment: space-between;
-
-    margin-bottom: 1rem;
-    color: var(--color-text-muted);
-}
-
-.player-info {
-    font-weight: var(--font-weight-extra-bold);
-
-    --cluster-wrap: nowrap;
-}
-
-.players-count,
-.player-wpm {
-    font-family: var(--font-family-space-mono);
-}
-
-.tracks {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-s);
-}
-
 .player-name {
     width: 110px;
     overflow: hidden;
@@ -44,6 +12,7 @@
 
 .player-track {
     grid-template-columns: auto auto 1fr 5rem;
+    font-size: var(--step-minus-4);
 }
 
 .track-bar-wrap,
@@ -80,8 +49,8 @@
     text-align: right;
 }
 
-@media screen and (width <= 700px) {
-    .race-progress {
-        grid-column: span 1;
-    }
+.player-info {
+    font-weight: var(--font-weight-extra-bold);
+
+    --cluster-wrap: nowrap;
 }

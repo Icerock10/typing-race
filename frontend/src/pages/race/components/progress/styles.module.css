@@ -1,0 +1,31 @@
+.race-progress {
+    grid-column: span 2;
+}
+
+.race-progress :is(.track-header) {
+    font-size: var(--step-minus-4);
+}
+
+.track-header {
+    --cluster-horizontal-alignment: space-between;
+
+    margin-bottom: 1rem;
+    color: var(--color-text-muted);
+}
+
+.players-count,
+.player-wpm {
+    font-family: var(--font-family-space-mono);
+}
+
+.tracks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+}
+
+@media screen and (width <= 700px) {
+    .race-progress {
+        grid-column: span 1;
+    }
+}
