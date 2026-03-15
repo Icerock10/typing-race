@@ -156,9 +156,10 @@ const Race: React.FC = () => {
                         isRaceFinished={isRaceFinished}
                         roomId={roomId}
                         isRaceStarted={isRaceStarted}
+                        guest={guest}
                     />
                     <Leaderboard currentRoom={currentRoom} />
-                    <Chat chat={chat} roomId={roomId} />
+                    <Chat guest={guest} chat={chat} roomId={roomId} />
                 </Cluster>
             </main>
         </>
