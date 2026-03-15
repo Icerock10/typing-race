@@ -41,7 +41,7 @@ import {
 const Race: React.FC = () => {
     const { user } = useAppSelector((state) => state.auth);
     const { rooms, isRoomsLoaded } = useAppSelector((state) => state.game);
-    const { isCountDownStarted, isRaceStarted, chat } = useAppSelector(
+    const { isCountDownStarted, chat } = useAppSelector(
         (state) => state.game.race,
     );
     const { roomId } = useParams() as { roomId: string };
@@ -49,6 +49,7 @@ const Race: React.FC = () => {
     const navigate = useNavigate();
     const currentRoom = rooms.find((room) => room.roomId === roomId);
     const isRaceFinished = currentRoom?.status === GameStatus.FINISHED;
+    const isRaceStarted = Boolean(currentRoom?.startedAt);
     const { countDown } = useCountDown({
         trigger: isRaceStarted && !isRaceFinished,
         initialValue: 60,
@@ -97,7 +98,7 @@ const Race: React.FC = () => {
         <>
             <LobbyModal
                 currentUserId={String(user?.id)}
-                isRaceStarted={isRaceStarted || isRaceFinished}
+                shouldOpen={!isRaceStarted}
                 isCountDownStarted={isCountDownStarted}
                 currentRoom={currentRoom}
             />

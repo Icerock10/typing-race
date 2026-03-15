@@ -2,6 +2,7 @@ import { type Server as SocketServer, type Socket as TSocket } from 'socket.io';
 import {
     SocketNamespace,
     LobbySocketEvent,
+    RaceSocketEvent,
 } from '~/libs/modules/socket/libs/enums/enums.js';
 import { type GameStore } from '~/features/game/store/base-game-store.module.js';
 import { type BaseToken } from '~/libs/modules/token/token.js';
@@ -44,6 +45,7 @@ class ConnectionHandler {
                 clearTimeout(existingTimer);
                 this.store.gameTimers.delete(userId);
             }
+            await this.handleReconnect(socket, userId);
         }
     };
 
@@ -65,6 +67,33 @@ class ConnectionHandler {
             );
             this.store.addUser(socket.id, null);
         }
+    };
+
+    private handleReconnect = async (
+        socket: TSocket,
+        userId: string,
+    ): Promise<void> => {
+        const room = this.store.findRoomByUserId(userId);
+
+        if (!room) {
+            return;
+        }
+
+        await socket.join(String(room.roomId));
+
+        const playerProgress = room.players.find(
+            (player) => player.id === userId,
+        );
+
+        socket.emit(RaceSocketEvent.PLAYER_RECONNECTED, {
+            room,
+            playerProgress: {
+                wpm: playerProgress?.wpm,
+                accuracy: playerProgress?.accuracy,
+                errors: playerProgress?.errors,
+                progress: playerProgress?.progress,
+            },
+        });
     };
 
     public handleDisconnect = (socket: TSocket): void => {
