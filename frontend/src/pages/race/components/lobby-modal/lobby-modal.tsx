@@ -3,7 +3,6 @@ import { Modal, Cluster, Button } from '~/libs/components/components.js';
 import { RocketIcon } from '~/assets/image/image.js';
 import {
     useRef,
-    useState,
     useCallback,
     useAppDispatch,
     useCountDown,
@@ -12,22 +11,27 @@ import { actions as raceActions } from '~/features/game/slices/game.js';
 import { type RoomResponseDto } from '~/libs/types/types.js';
 
 import { ButtonLabels, ButtonVariants } from '~/libs/enums/enums.js';
-import { Player } from '../player/player.js';
+import { LobbyPlayer } from '../player/player.js';
 
 type Properties = {
     currentRoom?: RoomResponseDto;
     isCountDownStarted: boolean;
     isRaceStarted: boolean;
+    currentUserId?: string;
 };
 
 const LobbyModal: React.FC<Properties> = ({
     currentRoom,
     isCountDownStarted,
     isRaceStarted,
+    currentUserId,
 }) => {
     const modalReference = useRef(null);
-    const [isPlayerReady, setIsPlayerReady] = useState(false);
     const dispatch = useAppDispatch();
+
+    const isPlayerReady =
+        currentRoom?.players.find((player) => player.id === currentUserId)
+            ?.isReady ?? false;
 
     const { countDown } = useCountDown({
         trigger: isCountDownStarted,
@@ -38,18 +42,17 @@ const LobbyModal: React.FC<Properties> = ({
         : ButtonLabels.READY;
 
     const handleReadyClick = useCallback(() => {
-        setIsPlayerReady((previous) => {
-            const updatedReadyState = !previous;
-            dispatch(
-                raceActions.setReadyStatus({
-                    roomId: String(currentRoom?.roomId),
-                    isReady: updatedReadyState,
-                }),
-            );
+        dispatch(
+            raceActions.setReadyStatus({
+                roomId: String(currentRoom?.roomId),
+                isReady: !isPlayerReady,
+            }),
+        );
+    }, [currentRoom?.roomId, dispatch, isPlayerReady]);
 
-            return updatedReadyState;
-        });
-    }, [currentRoom?.roomId, dispatch]);
+    if (!currentRoom) {
+        return null;
+    }
 
     return (
         <Modal isOpen={!isRaceStarted} modalReference={modalReference}>
@@ -77,18 +80,18 @@ const LobbyModal: React.FC<Properties> = ({
                         <span>Room</span>
                         {' · '}
                         <span className={styles['subtitle-room-name']}>
-                            {currentRoom?.roomName} 🔥
+                            {currentRoom.roomName} 🔥
                         </span>
                         {' · '}
                         <span>
-                            {currentRoom?.players.length}/
-                            {currentRoom?.maxPlayers} players
+                            {currentRoom.players.length}/
+                            {currentRoom.maxPlayers} players
                         </span>
                     </div>
                 </Cluster>
                 <Cluster className={styles['card-players']}>
-                    {currentRoom?.players.map((player) => (
-                        <Player key={player.id} player={player} />
+                    {currentRoom.players.map((player) => (
+                        <LobbyPlayer key={player.id} player={player} />
                     ))}
                 </Cluster>
                 <div className={styles['card-actions']}>

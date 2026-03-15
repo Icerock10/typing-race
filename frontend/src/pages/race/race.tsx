@@ -8,7 +8,7 @@ import {
 import { LinkIcon } from '~/assets/image/image.js';
 
 import {
-    RaceProgress,
+    Progress,
     Typing,
     Chat,
     Leaderboard,
@@ -79,6 +79,7 @@ const Race: React.FC = () => {
     return (
         <>
             <LobbyModal
+                currentUserId={String(user?.id)}
                 isRaceStarted={isRaceStarted || isRaceFinished}
                 isCountDownStarted={isCountDownStarted}
                 currentRoom={currentRoom}
@@ -144,9 +145,8 @@ const Race: React.FC = () => {
                     cluster={ClusterVariant.GRID}
                     className={styles['race']}
                 >
-                    <RaceProgress
+                    <Progress
                         isRaceStarted={isRaceStarted}
-                        user={user}
                         currentRoom={currentRoom}
                     />
                     <Typing

@@ -1,7 +1,7 @@
 import styles from './styles.module.css';
 import { SectionHeader } from '../section-header/section-header.js';
 import { type RoomResponseDto } from '~/libs/types/types.js';
-import { LeaderBoardRow } from './components/components.js';
+import { LeaderBoardPlayer } from '../player/player.js';
 
 type Properties = {
     currentRoom?: RoomResponseDto;
@@ -16,7 +16,7 @@ const Leaderboard: React.FC<Properties> = ({ currentRoom }) => {
             </SectionHeader>
             <div>
                 {players.map((player) => (
-                    <LeaderBoardRow
+                    <LeaderBoardPlayer
                         key={player.id}
                         startedAt={currentRoom?.startedAt}
                         player={player}
