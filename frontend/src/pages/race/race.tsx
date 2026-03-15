@@ -55,6 +55,23 @@ const Race: React.FC = () => {
     });
     const guest = !user;
 
+    const userPanel = guest ? (
+        <Link
+            to={AppRoute.AUTH}
+            asButtonVariant={ButtonVariants.SECONDARY}
+            className={styles['sign-in-link']}
+            asButtonSize={ButtonSizes.FIT}
+        >
+            {ButtonLabels.SIGN_IN}
+        </Link>
+    ) : (
+        <Avatar
+            name={user.userName}
+            variant={AvatarVariants.FULL}
+            avatarUrl={user.avatarUrl}
+        />
+    );
+
     const handleLeaveRoom = useCallback(() => {
         void navigate(AppRoute.LOBBY);
     }, [navigate]);
@@ -115,22 +132,7 @@ const Race: React.FC = () => {
                 </Cluster>
                 <Cluster className={styles['user-panel']}>
                     <div className={styles['timer-display']}>{countDown}</div>
-                    {guest ? (
-                        <Link
-                            to={AppRoute.AUTH}
-                            asButtonVariant={ButtonVariants.SECONDARY}
-                            className={styles['sign-in-link']}
-                            asButtonSize={ButtonSizes.FIT}
-                        >
-                            {ButtonLabels.SIGN_IN}
-                        </Link>
-                    ) : (
-                        <Avatar
-                            name={user.userName}
-                            variant={AvatarVariants.FULL}
-                            avatarUrl={user.avatarUrl}
-                        />
-                    )}
+                    {userPanel}
                     <Button
                         size={ButtonSizes.FIT}
                         label={ButtonLabels.LEAVE_ROOM}
