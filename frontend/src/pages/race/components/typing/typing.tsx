@@ -22,12 +22,14 @@ type Properties = {
     isRaceStarted: boolean;
     isRaceFinished: boolean;
     roomId: string;
+    guest: boolean;
 };
 
 const Typing: React.FC<Properties> = ({
     isRaceStarted,
     roomId,
     isRaceFinished,
+    guest,
 }) => {
     const dispatch = useAppDispatch();
     const isTypingReference = useRef(false);
@@ -106,38 +108,46 @@ const Typing: React.FC<Properties> = ({
                     'text-caps',
                 )}
             >
-                <span>Your turn — type the text below</span>
-            </Cluster>
-            <RaceTextDisplay text={text} typedText={typedText} />
-            <Input
-                type="text"
-                label=""
-                placeholder="Start typing here..."
-                name="typedText"
-                control={control}
-                errors={errors}
-                maxLength={Infinity}
-                disabled={hasPlayerFinished || isRaceFinished}
-            />
-            <Cluster className={styles['live-stats']}>
-                {playerStats.map((stat) => (
-                    <div key={stat.label}>
-                        <span data-stat={stat.label}>{stat.value}</span>
-                        <span>{stat.label}</span>
-                    </div>
-                ))}
-                <div className={styles['typing-progress']}>
-                    <div
-                        style={{
-                            width: `${String(playerTypingProgress.progress)}%`,
-                        }}
-                        className={styles['typing-progress-fill']}
-                    />
-                </div>
-                <span className={styles['progress-percent']}>
-                    {playerTypingProgress.progress}%
+                <span>
+                    {guest
+                        ? 'Login to participate'
+                        : 'Your turn — type the text below'}{' '}
                 </span>
             </Cluster>
+            <RaceTextDisplay text={text} typedText={typedText} />
+            {!guest && (
+                <>
+                    <Input
+                        type="text"
+                        label=""
+                        placeholder="Start typing here..."
+                        name="typedText"
+                        control={control}
+                        errors={errors}
+                        maxLength={Infinity}
+                        disabled={hasPlayerFinished || isRaceFinished}
+                    />
+                    <Cluster className={styles['live-stats']}>
+                        {playerStats.map((stat) => (
+                            <div key={stat.label}>
+                                <span data-stat={stat.label}>{stat.value}</span>
+                                <span>{stat.label}</span>
+                            </div>
+                        ))}
+                        <div className={styles['typing-progress']}>
+                            <div
+                                style={{
+                                    width: `${String(playerTypingProgress.progress)}%`,
+                                }}
+                                className={styles['typing-progress-fill']}
+                            />
+                        </div>
+                        <span className={styles['progress-percent']}>
+                            {playerTypingProgress.progress}%
+                        </span>
+                    </Cluster>
+                </>
+            )}
         </section>
     );
 };

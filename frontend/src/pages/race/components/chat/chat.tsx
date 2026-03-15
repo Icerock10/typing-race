@@ -10,9 +10,10 @@ import { actions as raceChatActions } from '~/features/game/slices/game.js';
 type Properties = {
     roomId: string;
     chat: ChatMessageDto[];
+    guest: boolean;
 };
 
-const Chat: React.FC<Properties> = ({ roomId, chat }) => {
+const Chat: React.FC<Properties> = ({ roomId, chat, guest }) => {
     const { control, errors, handleSubmit, reset } = useAppForm<{
         chatMessage: string;
     }>({
@@ -63,6 +64,7 @@ const Chat: React.FC<Properties> = ({ roomId, chat }) => {
                         control={control}
                         errors={errors}
                         maxLength={Infinity}
+                        disabled={guest}
                     />
                     <Button
                         icon={<SendIcon />}
@@ -71,6 +73,7 @@ const Chat: React.FC<Properties> = ({ roomId, chat }) => {
                         iconOnlySize={ButtonSizes.SMALL}
                         variant={ButtonVariants.SECONDARY}
                         size={ButtonSizes.FIT}
+                        isDisabled={guest}
                         type="submit"
                     />
                 </Cluster>
