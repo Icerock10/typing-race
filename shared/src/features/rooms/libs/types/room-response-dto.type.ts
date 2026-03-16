@@ -22,6 +22,7 @@ type RoomResponseDto = RoomPayload & {
     countdown?: number;
     hostId: string;
     startedAt?: number;
+    text?: string;
 };
 
 export { type RoomResponseDto, type PlayerDto };

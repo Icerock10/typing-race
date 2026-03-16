@@ -2,10 +2,10 @@ import {
     type RoomResponseDto,
     type InternalRoom,
     type Player,
-} from './types/types.js';
+} from '../libs/types/types.js';
 import { GameStatus, HandlerParameterIndexes } from '~/libs/enums/enums.js';
 import { type AppStatsDto } from '~/libs/types/types.js';
-import { sortPlayersByProgress } from './helpers/sort-player-progress.helper.js';
+import { sortPlayersByProgress } from '../libs/helpers/helpers.js';
 
 type Store = {
     addUser: (socketId: string, userId: string | null) => void;

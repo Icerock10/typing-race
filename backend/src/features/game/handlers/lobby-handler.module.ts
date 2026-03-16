@@ -6,7 +6,7 @@ import {
     LobbySocketEvent,
 } from '~/libs/modules/socket/libs/enums/enums.js';
 import { type UserDto, type RoomPayload } from '~/libs/types/types.js';
-import { type Player } from '../store/types/types.js';
+import { type Player } from '../libs/types/types.js';
 import { type GameStore } from '../store/base-game-store.module.js';
 import { type ChatHandler } from './chat-handler.module.js';
 

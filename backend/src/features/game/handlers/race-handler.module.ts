@@ -6,7 +6,7 @@ import {
 import { GameStatus } from '~/libs/enums/enums.js';
 import { type GameStore } from '../store/base-game-store.module.js';
 
-import { type Player, type UserDto } from '../store/types/types.js';
+import { type Player, type UserDto } from '../libs/types/types.js';
 
 type User = Record<'user', UserDto>;
 
