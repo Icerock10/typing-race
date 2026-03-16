@@ -81,7 +81,7 @@ class RaceHandler {
                         .of(SocketNamespace.GAME)
                         .to(roomId)
                         .emit(RaceSocketEvent.RACE_STARTED, room);
-                    this.startRace(roomId);
+                    this.startRace(roomId, room?.timeForGame as number);
                 }, DELAY);
             }
         }
@@ -96,11 +96,10 @@ class RaceHandler {
             .emit(RaceSocketEvent.PLAYER_FINISHED, room);
     };
 
-    private startRace = (roomId: string): void => {
-        const RACE_DURATION = 50_000;
+    private startRace = (roomId: string, raceDuration: number): void => {
         const timer = setTimeout(() => {
             this.finishRace(roomId);
-        }, RACE_DURATION);
+        }, raceDuration);
 
         this.store.setGameTimer(roomId, timer);
     };

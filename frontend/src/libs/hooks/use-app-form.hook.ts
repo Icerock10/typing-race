@@ -13,6 +13,7 @@ import {
     type UseFormReset,
     type UseFormSetError,
     type UseFormSetValue,
+    type UseFormSetFocus,
     type UseFormWatch,
     type ValidationMode,
 } from 'react-hook-form';
@@ -36,6 +37,7 @@ type ReturnValue<T extends FieldValues = FieldValues> = {
     reset: UseFormReset<T>;
     setError: UseFormSetError<T>;
     setValue: UseFormSetValue<T>;
+    setFocus: UseFormSetFocus<T>;
     watch: UseFormWatch<T>;
 };
 
@@ -68,6 +70,7 @@ const useAppForm = <T extends FieldValues = FieldValues>({
         setError,
         setValue,
         watch,
+        setFocus,
     } = useForm<T>(parameters);
 
     return {
@@ -82,6 +85,7 @@ const useAppForm = <T extends FieldValues = FieldValues>({
         setError,
         setValue,
         watch,
+        setFocus,
     };
 };
 

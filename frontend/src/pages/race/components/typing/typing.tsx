@@ -14,7 +14,6 @@ import {
 import { RaceTextDisplay } from './components/components.js';
 import styles from './styles.module.css';
 
-const text = 'The quick brown fox.';
 const MAX_PROGRESS_VALUE = 100;
 const DELAY = 500;
 
@@ -23,6 +22,7 @@ type Properties = {
     isRaceFinished: boolean;
     roomId: string;
     guest: boolean;
+    text: string;
 };
 
 const Typing: React.FC<Properties> = ({
@@ -30,10 +30,13 @@ const Typing: React.FC<Properties> = ({
     roomId,
     isRaceFinished,
     guest,
+    text,
 }) => {
     const dispatch = useAppDispatch();
     const isTypingReference = useRef(false);
-    const { control, errors, watch } = useAppForm<{ typedText: string }>({
+    const { control, errors, watch, setFocus } = useAppForm<{
+        typedText: string;
+    }>({
         defaultValues: {
             typedText: '',
         },
@@ -79,8 +82,9 @@ const Typing: React.FC<Properties> = ({
         if (!isRaceStarted) {
             return;
         }
+        setFocus('typedText');
         handlePlayerFinish();
-    }, [isRaceStarted, handlePlayerFinish]);
+    }, [isRaceStarted, handlePlayerFinish, setFocus, typedText]);
 
     useEffect(() => {
         if (!isRaceStarted || !typedText) {

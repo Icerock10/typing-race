@@ -3,11 +3,11 @@ import { getClassNames } from '~/libs/helpers/helpers.js';
 import styles from './styles.module.css';
 
 type Properties = {
-    text: string;
+    text?: string;
     typedText: string;
 };
 
-const RaceTextDisplay: React.FC<Properties> = ({ text, typedText }) => {
+const RaceTextDisplay: React.FC<Properties> = ({ text = '', typedText }) => {
     return (
         <Cluster className={styles['text-display']}>
             {[...text].map((char, index) => {

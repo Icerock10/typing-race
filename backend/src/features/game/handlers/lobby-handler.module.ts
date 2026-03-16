@@ -1,6 +1,7 @@
 import { type Server as SocketServer, type Socket as TSocket } from 'socket.io';
 import { type UserService } from '../../users/user.service.js';
 import { GameStatus } from '~/libs/enums/enums.js';
+import { ROOM_CONFIG } from '../libs/constants/constants.js';
 import {
     SocketNamespace,
     LobbySocketEvent,
@@ -45,7 +46,9 @@ class LobbyHandler {
     private createRoom = (roomData: RoomPayload): void => {
         const roomId = crypto.randomUUID();
         const { user } = this.socket.data as Record<'user', UserDto>;
-
+        const { timeForGame } = ROOM_CONFIG[roomData.difficulty];
+        const texts = ROOM_CONFIG[roomData.difficulty][roomData.language];
+        const randomText = texts[Math.floor(Math.random() * texts.length)];
         const players = new Map<string, Player>();
 
         players.set(String(user.id), {
@@ -59,6 +62,8 @@ class LobbyHandler {
             status: GameStatus.WAITING,
             roomId,
             hostId: String(user.id),
+            text: randomText,
+            timeForGame,
         });
 
         void this.socket.join(roomId);

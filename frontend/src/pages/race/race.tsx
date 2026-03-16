@@ -37,6 +37,9 @@ import {
     useEffect,
     useCountDown,
 } from '~/libs/hooks/hooks.js';
+import { formatDuration } from '../../libs/helpers/format-duration.helper.js';
+
+const MS_IN_SECOND = 1000;
 
 const Race: React.FC = () => {
     const { user } = useAppSelector((state) => state.auth);
@@ -52,7 +55,7 @@ const Race: React.FC = () => {
     const isRaceStarted = Boolean(currentRoom?.startedAt);
     const { countDown } = useCountDown({
         trigger: isRaceStarted && !isRaceFinished,
-        initialValue: 60,
+        initialValue: currentRoom?.timeForGame as number,
     });
     const guest = !user;
 
@@ -132,7 +135,9 @@ const Race: React.FC = () => {
                     )}
                 </Cluster>
                 <Cluster className={styles['user-panel']}>
-                    <div className={styles['timer-display']}>{countDown}</div>
+                    <div className={styles['timer-display']}>
+                        {formatDuration(countDown * MS_IN_SECOND)}
+                    </div>
                     {userPanel}
                     <Button
                         size={ButtonSizes.FIT}
@@ -157,6 +162,7 @@ const Race: React.FC = () => {
                         roomId={roomId}
                         isRaceStarted={isRaceStarted}
                         guest={guest}
+                        text={currentRoom?.text as string}
                     />
                     <Leaderboard currentRoom={currentRoom} />
                     <Chat guest={guest} chat={chat} roomId={roomId} />

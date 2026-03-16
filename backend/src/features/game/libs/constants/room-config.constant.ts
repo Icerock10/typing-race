@@ -32,6 +32,6 @@ const ROOM_CONFIG = {
             'Neuroplastizität — die bemerkenswerte Fähigkeit des Gehirns, synaptische Verbindungen neu zu organisieren — deutet darauf hin, dass kognitive Rehabilitation nach traumatischen Verletzungen bis ins Erwachsenenalter möglich bleibt.',
         ],
     },
-} as const;
+};
 
 export { ROOM_CONFIG };
