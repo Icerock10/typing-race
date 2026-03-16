@@ -11,12 +11,15 @@ type UseCountDownReturn = {
 const INTERVAL_TICK = 1000;
 const COUNTDOWN_OFFSET = 1;
 const MIN_COUNTDOWN_VALUE = 0;
+const MS_IN_SECOND = 1000;
 
 const useCountDown = ({
     trigger,
     initialValue,
 }: UseCountDownPayload): UseCountDownReturn => {
-    const [countDown, setCountDown] = useState<number>(initialValue);
+    const [countDown, setCountDown] = useState<number>(
+        initialValue / MS_IN_SECOND,
+    );
     useEffect(() => {
         if (!trigger) {
             return;

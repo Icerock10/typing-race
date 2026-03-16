@@ -61,9 +61,7 @@ const Room: React.FC<Properties> = ({ room, user }) => {
                     <div className={styles['dificulty']}>
                         {room.difficulty} ·
                     </div>
-                    <time className={styles['time']}>
-                        Starts in {room.countdown ?? '0'}
-                    </time>
+                    <time className={styles['time']}>Starts in 0</time>
                 </Cluster>
                 <Button
                     size={ButtonSizes.FIT}

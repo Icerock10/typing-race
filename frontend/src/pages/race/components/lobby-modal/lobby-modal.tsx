@@ -35,7 +35,7 @@ const LobbyModal: React.FC<Properties> = ({
 
     const { countDown } = useCountDown({
         trigger: isCountDownStarted,
-        initialValue: 5,
+        initialValue: 5000,
     });
     const readyStatusText = isPlayerReady
         ? ButtonLabels.NOT_READY

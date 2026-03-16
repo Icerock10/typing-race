@@ -1,12 +1,13 @@
 import { type Server as SocketServer, type Socket as TSocket } from 'socket.io';
 import { type UserService } from '../../users/user.service.js';
 import { GameStatus } from '~/libs/enums/enums.js';
+import { ROOM_CONFIG } from '../libs/constants/constants.js';
 import {
     SocketNamespace,
     LobbySocketEvent,
 } from '~/libs/modules/socket/libs/enums/enums.js';
 import { type UserDto, type RoomPayload } from '~/libs/types/types.js';
-import { type Player } from '../store/types/types.js';
+import { type Player } from '../libs/types/types.js';
 import { type GameStore } from '../store/base-game-store.module.js';
 import { type ChatHandler } from './chat-handler.module.js';
 
@@ -45,7 +46,9 @@ class LobbyHandler {
     private createRoom = (roomData: RoomPayload): void => {
         const roomId = crypto.randomUUID();
         const { user } = this.socket.data as Record<'user', UserDto>;
-
+        const { timeForGame } = ROOM_CONFIG[roomData.difficulty];
+        const texts = ROOM_CONFIG[roomData.difficulty][roomData.language];
+        const randomText = texts[Math.floor(Math.random() * texts.length)];
         const players = new Map<string, Player>();
 
         players.set(String(user.id), {
@@ -59,6 +62,8 @@ class LobbyHandler {
             status: GameStatus.WAITING,
             roomId,
             hostId: String(user.id),
+            text: randomText,
+            timeForGame,
         });
 
         void this.socket.join(roomId);
