@@ -25,11 +25,11 @@ const ROOM_CONFIG = {
         timeForGame: 30_000,
         English: [
             'The implementation of quantum computing algorithms presents extraordinary challenges for contemporary software engineers. Superposition and entanglement fundamentally redefine computational possibilities beyond classical binary systems.',
-            'Neuroplasticity — the brains remarkable capacity to reorganize synaptic connections — suggests that cognitive rehabilitation following traumatic injury remains achievable well into adulthood, contradicting previously held assumptions.',
+            'Neuroplasticity - the brains remarkable capacity to reorganize synaptic connections - suggests that cognitive rehabilitation following traumatic injury remains achievable well into adulthood, contradicting previously held assumptions.',
         ],
         Deutsch: [
             'Die Implementierung von Quantencomputing-Algorithmen stellt außerordentliche Herausforderungen für zeitgenössische Softwareingenieure dar. Superposition und Verschränkung definieren rechnerische Möglichkeiten grundlegend neu.',
-            'Neuroplastizität — die bemerkenswerte Fähigkeit des Gehirns, synaptische Verbindungen neu zu organisieren — deutet darauf hin, dass kognitive Rehabilitation nach traumatischen Verletzungen bis ins Erwachsenenalter möglich bleibt.',
+            'Neuroplastizität - die bemerkenswerte Fähigkeit des Gehirns, synaptische Verbindungen neu zu organisieren - deutet darauf hin, dass kognitive Rehabilitation nach traumatischen Verletzungen bis ins Erwachsenenalter möglich bleibt.',
         ],
     },
 };

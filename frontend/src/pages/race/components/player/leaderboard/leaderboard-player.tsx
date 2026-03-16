@@ -33,7 +33,7 @@ const LeaderBoardPlayer: React.FC<Properties> = ({ player, startedAt }) => {
                         {player.wpm} wpm
                     </span>
                     <span>{player.accuracy}% acc</span>
-                    <span>{finishedOn}</span>
+                    {player.finishedAt && <span>{finishedOn}</span>}
                 </Cluster>
             ) : (
                 <div className={styles['racer-percent']}>
