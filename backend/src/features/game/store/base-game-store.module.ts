@@ -68,7 +68,10 @@ class GameStore implements Store {
 
         return {
             ...internalRoom,
-            players: this.rankPlayersForRoomResponse(internalRoom.players),
+            players: this.rankPlayersForRoomResponse(
+                internalRoom.players,
+                internalRoom.status,
+            ),
         };
     }
 
@@ -76,7 +79,7 @@ class GameStore implements Store {
         const rooms = [...this.roomMap.values()];
         const roomsWithUpdatedPlayers = rooms.map((room) => ({
             ...room,
-            players: this.rankPlayersForRoomResponse(room.players),
+            players: this.rankPlayersForRoomResponse(room.players, room.status),
         }));
         return roomsWithUpdatedPlayers.length >
             HandlerParameterIndexes.FIRST_PARAM_INDEX
@@ -131,6 +134,12 @@ class GameStore implements Store {
             room.status = status;
             return;
         }
+        if (
+            room.status === GameStatus.IN_GAME ||
+            room.status === GameStatus.FINISHED
+        ) {
+            return;
+        }
         const isRoomFull = room.players.size === Number(room.maxPlayers);
 
         room.status = isRoomFull ? GameStatus.FULL : GameStatus.WAITING;
@@ -138,6 +147,7 @@ class GameStore implements Store {
 
     rankPlayersForRoomResponse(
         players: Map<string, Player>,
+        roomStatus: string,
     ): RoomResponseDto['players'] {
         const INITIAL_STAT_VALUE = 0;
         const PLAYER_MAX_PROGRESS = 100;
@@ -150,14 +160,13 @@ class GameStore implements Store {
             (player) => player.isWinner,
         );
         if (!hasWinner) {
-            const winnerIndex = sortedPlayersByProgress.findIndex(
-                (player) => player.progress === PLAYER_MAX_PROGRESS,
-            );
-            if (winnerIndex !== HandlerParameterIndexes.LAST_INDEX) {
-                const winner = sortedPlayersByProgress[winnerIndex];
-                if (winner) {
-                    winner.isWinner = true;
-                }
+            const [topPlayer] = sortedPlayersByProgress;
+            if (
+                topPlayer &&
+                (topPlayer.progress === PLAYER_MAX_PROGRESS ||
+                    roomStatus === GameStatus.FINISHED)
+            ) {
+                topPlayer.isWinner = true;
             }
         }
 
