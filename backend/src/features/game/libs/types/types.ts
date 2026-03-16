@@ -1,18 +1,13 @@
-import { type RoomResponseDto, type UserDto } from '~/libs/types/types.js';
+import {
+    type RoomResponseDto,
+    type UserDto,
+    type PlayerDto,
+} from '~/libs/types/types.js';
 
 type Player = {
     socketId: string;
     user: UserDto;
-    isReady?: boolean;
-    wpm?: number;
-    progress?: number;
-    accuracy?: number;
-    errors?: number;
-    isTyping?: boolean;
-    isWinner?: boolean;
-    playerRacePosition?: number;
-    finishedAt?: number;
-};
+} & Partial<PlayerDto>;
 
 type InternalRoom = Omit<RoomResponseDto, 'players'> & {
     players: Map<string, Player>;

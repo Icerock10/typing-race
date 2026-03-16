@@ -19,7 +19,7 @@ type RoomResponseDto = RoomPayload & {
     roomId: string | null;
     players: PlayerDto[];
     status: ValueOf<typeof GameStatus>;
-    countdown?: number;
+    timeForGame?: number;
     hostId: string;
     startedAt?: number;
     text?: string;
