@@ -104,6 +104,7 @@ const Race: React.FC = () => {
                 shouldOpen={!isRaceStarted}
                 isCountDownStarted={isCountDownStarted}
                 currentRoom={currentRoom}
+                guest={guest}
             />
             <Header variant={HeaderVariants.COMPACT}>
                 <Cluster className={styles['header-room-info']}>
