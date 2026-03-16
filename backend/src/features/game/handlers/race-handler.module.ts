@@ -57,7 +57,6 @@ class RaceHandler {
         );
         this.io
             .of(SocketNamespace.GAME)
-            .to(roomId)
             .emit(
                 RaceSocketEvent.SET_READY_STATUS,
                 roomWithUpdatedPlayerStatus,
@@ -79,7 +78,6 @@ class RaceHandler {
                 setTimeout(() => {
                     this.io
                         .of(SocketNamespace.GAME)
-                        .to(roomId)
                         .emit(RaceSocketEvent.RACE_STARTED, room);
                     this.startRace(roomId, room?.timeForGame as number);
                 }, DELAY);
@@ -111,7 +109,6 @@ class RaceHandler {
         if (room) {
             this.io
                 .of(SocketNamespace.GAME)
-                .to(roomId)
                 .emit(RaceSocketEvent.RACE_FINISHED, room);
         }
     };

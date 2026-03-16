@@ -18,6 +18,7 @@ type Properties = {
     isCountDownStarted: boolean;
     shouldOpen: boolean;
     currentUserId?: string;
+    guest: boolean;
 };
 
 const LobbyModal: React.FC<Properties> = ({
@@ -25,6 +26,7 @@ const LobbyModal: React.FC<Properties> = ({
     isCountDownStarted,
     shouldOpen,
     currentUserId,
+    guest,
 }) => {
     const modalReference = useRef(null);
     const dispatch = useAppDispatch();
@@ -95,13 +97,15 @@ const LobbyModal: React.FC<Properties> = ({
                     ))}
                 </Cluster>
                 <div className={styles['card-actions']}>
-                    <Button
-                        className={styles['actions-ready-button']}
-                        label={readyStatusText}
-                        variant={ButtonVariants.PRIMARY}
-                        onClick={handleReadyClick}
-                        isDisabled={isCountDownStarted}
-                    />
+                    {!guest && (
+                        <Button
+                            className={styles['actions-ready-button']}
+                            label={readyStatusText}
+                            variant={ButtonVariants.PRIMARY}
+                            onClick={handleReadyClick}
+                            isDisabled={isCountDownStarted}
+                        />
+                    )}
                     <p className={styles['actions-hint']}>
                         Game starts when all players are ready
                     </p>
