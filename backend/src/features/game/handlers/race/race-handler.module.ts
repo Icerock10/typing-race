@@ -3,17 +3,13 @@ import {
     RaceSocketEvent,
     SocketNamespace,
 } from '~/libs/modules/socket/libs/enums/enums.js';
-import { GameStatus } from '~/libs/enums/enums.js';
-import { type GameStore } from '../../store/base-game-store.module.js';
-
-import { type Player, type UserDto } from '../../libs/types/types.js';
-
-type User = Record<'user', UserDto>;
+import { type RaceService } from './race-service.module.js';
+import { type Player } from '../../libs/types/types.js';
 
 type Constructor = {
     socket: TSocket;
     io: SocketServer;
-    store: GameStore;
+    raceService: RaceService;
 };
 
 const DELAY = 5000;
@@ -21,12 +17,12 @@ const DELAY = 5000;
 class RaceHandler {
     private socket;
     private io;
-    private store;
+    private raceService;
 
-    constructor({ socket, io, store }: Constructor) {
+    constructor({ socket, io, raceService }: Constructor) {
         this.socket = socket;
         this.io = io;
-        this.store = store;
+        this.raceService = raceService;
         this.registerEvents();
     }
 
@@ -49,45 +45,36 @@ class RaceHandler {
         roomId: string;
         isReady: boolean;
     }): void => {
-        const { user } = this.socket.data as User;
-        const roomWithUpdatedPlayerStatus = this.store.setPlayerReadyStatus(
+        const roomData = this.raceService.setReadyStatus({
             roomId,
-            String(user.id),
             isReady,
-        );
+            socket: this.socket,
+        });
+
         this.io
             .of(SocketNamespace.GAME)
-            .emit(
-                RaceSocketEvent.SET_READY_STATUS,
-                roomWithUpdatedPlayerStatus,
-            );
+            .to(roomId)
+            .emit(RaceSocketEvent.SET_READY_STATUS, roomData?.room);
 
-        if (roomWithUpdatedPlayerStatus?.status === GameStatus.FULL) {
-            const areAllPlayersReady =
-                roomWithUpdatedPlayerStatus.players.every(
-                    (player) => player.isReady,
-                );
-            if (areAllPlayersReady) {
-                const startedAt = Date.now();
-                this.store.updateRoomStatus(
+        if (roomData?.shouldStart) {
+            setTimeout(() => {
+                this.io
+                    .of(SocketNamespace.GAME)
+                    .to(roomId)
+                    .emit(RaceSocketEvent.RACE_STARTED, roomData.startedRoom);
+                this.startRace(
                     roomId,
-                    GameStatus.IN_GAME,
-                    startedAt,
+                    roomData.startedRoom?.timeForGame as number,
                 );
-                const room = this.store.getRoom(roomId);
-                setTimeout(() => {
-                    this.io
-                        .of(SocketNamespace.GAME)
-                        .emit(RaceSocketEvent.RACE_STARTED, room);
-                    this.startRace(roomId, room?.timeForGame as number);
-                }, DELAY);
-            }
+            }, DELAY);
         }
     };
 
     private handlePlayerFinish = ({ roomId }: { roomId: string }): void => {
-        const { user } = this.socket.data as User;
-        const room = this.store.attachPlayerFinishTime(roomId, String(user.id));
+        const room = this.raceService.handlePlayerFinish({
+            roomId,
+            socket: this.socket,
+        });
         this.io
             .of(SocketNamespace.GAME)
             .to(roomId)
@@ -99,13 +86,11 @@ class RaceHandler {
             this.finishRace(roomId);
         }, raceDuration);
 
-        this.store.setGameTimer(roomId, timer);
+        this.raceService.setGameTimer({ roomId, timer });
     };
 
     private finishRace = (roomId: string): void => {
-        this.store.cancelGameTimer(roomId);
-        this.store.updateRoomStatus(roomId, GameStatus.FINISHED);
-        const room = this.store.getRoom(roomId);
+        const room = this.raceService.finishRace(roomId);
         if (room) {
             this.io
                 .of(SocketNamespace.GAME)
@@ -120,18 +105,12 @@ class RaceHandler {
         playerProgress: Player;
         roomId: string;
     }): void => {
-        const { user } = this.socket.data as Record<string, UserDto>;
-        const userId = String(user?.id);
-        const updatedRoomWithPlayerProgress = this.store.updatePlayerProgress({
-            roomId,
-            playerProgress,
-            userId,
-        });
-        const MAX_PROGRESS_VALUE = 100;
-
-        const haveAllFinished = updatedRoomWithPlayerProgress?.players.every(
-            (player) => player.progress === MAX_PROGRESS_VALUE,
-        );
+        const { haveAllFinished, updatedRoomWithPlayerProgress } =
+            this.raceService.updatePlayerProgress({
+                socket: this.socket,
+                playerProgress,
+                roomId,
+            });
         if (haveAllFinished) {
             this.finishRace(roomId);
             return;
