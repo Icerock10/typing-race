@@ -57,12 +57,11 @@ class LobbyService implements Service {
         socket,
     }: CreateRoomPayload): ReturnType<Service['createRoom']> => {
         const roomId = crypto.randomUUID();
-        const { user } = socket.data as Record<'user', UserDto>;
-
+        const user = this.getUserFromSocketData(socket);
         const players = new Map<string, Player>();
 
-        players.set(String(user.id), {
-            user,
+        players.set(String(user?.id), {
+            user: user as UserDto,
             socketId: socket.id,
         });
 
@@ -71,7 +70,7 @@ class LobbyService implements Service {
             players,
             status: GameStatus.WAITING,
             roomId,
-            hostId: String(user.id),
+            hostId: String(user?.id),
         });
         return { room: createdRoom, roomId: createdRoom.roomId };
     };
@@ -94,7 +93,7 @@ class LobbyService implements Service {
         socket,
         roomId,
     }: RoomBasePayload): ReturnType<Service['joinRoom']> => {
-        const { user } = socket.data as Record<'user', UserDto | null>;
+        const user = this.getUserFromSocketData(socket);
 
         const player = user
             ? {
