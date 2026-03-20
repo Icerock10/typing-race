@@ -4,7 +4,7 @@ import {
     SocketNamespace,
 } from '~/libs/modules/socket/libs/enums/enums.js';
 import { type RaceService } from './race-service.module.js';
-import { type Player } from '../../libs/types/types.js';
+import { type Player, type UserDto } from '../../libs/types/types.js';
 
 type Constructor = {
     socket: TSocket;
@@ -45,10 +45,11 @@ class RaceHandler {
         roomId: string;
         isReady: boolean;
     }): void => {
+        const { id } = this.getUserFromSocket(this.socket);
         const roomData = this.raceService.setReadyStatus({
             roomId,
             isReady,
-            socket: this.socket,
+            userId: String(id),
         });
 
         this.io
@@ -68,9 +69,10 @@ class RaceHandler {
     };
 
     private handlePlayerFinish = ({ roomId }: { roomId: string }): void => {
+        const { id } = this.getUserFromSocket(this.socket);
         const room = this.raceService.handlePlayerFinish({
             roomId,
-            socket: this.socket,
+            userId: String(id),
         });
         this.io
             .of(SocketNamespace.GAME)
@@ -104,12 +106,15 @@ class RaceHandler {
         playerProgress: Player;
         roomId: string;
     }): void => {
+        const { id } = this.getUserFromSocket(this.socket);
+
         const { haveAllFinished, updatedRoomWithPlayerProgress } =
             this.raceService.updatePlayerProgress({
-                socket: this.socket,
+                userId: String(id),
                 playerProgress,
                 roomId,
             });
+
         if (haveAllFinished) {
             this.finishRace(roomId);
             return;
@@ -121,6 +126,11 @@ class RaceHandler {
                 RaceSocketEvent.UPDATE_PROGRESS,
                 updatedRoomWithPlayerProgress,
             );
+    };
+
+    public getUserFromSocket = (socket: TSocket): UserDto => {
+        const { user } = socket.data as Record<'user', UserDto>;
+        return user;
     };
 }
 
