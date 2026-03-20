@@ -1,10 +1,11 @@
 import {
     type RoomResponseDto,
     type InternalRoom,
+    type AppStatsDto,
     type Player,
 } from '../libs/types/types.js';
 import { GameStatus, HandlerParameterIndexes } from '~/libs/enums/enums.js';
-import { type AppStatsDto } from '~/libs/types/types.js';
+
 import { sortPlayersByProgress } from '../libs/helpers/helpers.js';
 
 type Store = {

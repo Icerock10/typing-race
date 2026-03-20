@@ -1,15 +1,15 @@
 import { type Server as SocketServer, type Socket as TSocket } from 'socket.io';
-import { type UserService } from '../../users/user.service.js';
+import { type UserService } from '~/features/users/user.service.js';
 import { GameStatus } from '~/libs/enums/enums.js';
-import { ROOM_CONFIG } from '../libs/constants/constants.js';
+import { ROOM_CONFIG } from '../../libs/constants/constants.js';
 import {
     SocketNamespace,
     LobbySocketEvent,
 } from '~/libs/modules/socket/libs/enums/enums.js';
 import { type UserDto, type RoomPayload } from '~/libs/types/types.js';
-import { type Player } from '../libs/types/types.js';
-import { type GameStore } from '../store/base-game-store.module.js';
-import { type ChatHandler } from './chat-handler.module.js';
+import { type Player } from '../../libs/types/types.js';
+import { type GameStore } from '../../store/base-game-store.module.js';
+import { type ChatHandler } from '../chat/chat-handler.module.js';
 
 type Constructor = {
     socket: TSocket;
