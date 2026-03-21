@@ -6,11 +6,7 @@ type Constructor = {
     gameRepository: GameRepository;
 };
 
-type Service<T> = {
-    create(payload: T): Promise<T>;
-};
-
-class GameService implements Service<GameDto> {
+class GameService {
     private gameRepository: GameRepository;
     public constructor({ gameRepository }: Constructor) {
         this.gameRepository = gameRepository;

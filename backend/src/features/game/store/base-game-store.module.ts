@@ -8,14 +8,7 @@ import { GameStatus, HandlerParameterIndexes } from '~/libs/enums/enums.js';
 
 import { sortPlayersByProgress } from '../libs/helpers/helpers.js';
 
-type Store = {
-    addUser: (socketId: string, userId: string | null) => void;
-    getUser: (socketId: string) => string | undefined;
-    getRoom: (roomId: string) => RoomResponseDto | undefined;
-    addRoom: (roomId: string, roomData: InternalRoom) => void;
-};
-
-class GameStore implements Store {
+class GameStore {
     public userMap = new Map<string, string | null>();
     public roomMap = new Map<string, InternalRoom>();
     public gameTimers = new Map<string, ReturnType<typeof setTimeout>>();
@@ -24,7 +17,7 @@ class GameStore implements Store {
         this.userMap.set(socketId, userId);
     }
 
-    getUser(socketId: string): ReturnType<Store['getUser']> {
+    getUser(socketId: string): string | undefined {
         const user = this.userMap.get(socketId);
         return user ?? undefined;
     }
@@ -61,7 +54,7 @@ class GameStore implements Store {
         return this.getRoom(roomId) as RoomResponseDto;
     }
 
-    getRoom(roomId: string): ReturnType<Store['getRoom']> {
+    getRoom(roomId: string): RoomResponseDto | undefined {
         const internalRoom = this.roomMap.get(roomId);
         if (!internalRoom) {
             return undefined;
@@ -234,7 +227,7 @@ class GameStore implements Store {
     attachPlayerFinishTime(
         roomId: string,
         socketId: string,
-    ): ReturnType<Store['getRoom']> {
+    ): RoomResponseDto | undefined {
         const room = this.roomMap.get(roomId);
         const player = room?.players.get(socketId);
         if (!player) {
