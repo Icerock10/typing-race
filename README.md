@@ -56,24 +56,18 @@ erDiagram
     }
     games {
         id ObjectId
-        text string
-        playersCount number
         title string
-        status string
         language string
         difficulty string
-        startedAt timestamp
-        finishedAt timestamp
         winnerUserId ObjectId
     }
     result {
         userId ObjectId
-        username string
+        userName string
         wpm number
         accuracy number
         place number
-        finishedAt timestamp
-        isWinner boolean
+        finishedAt number
     }
 ```
 
