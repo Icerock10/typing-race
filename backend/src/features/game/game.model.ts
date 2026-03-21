@@ -1,4 +1,5 @@
 import { getModelForClass, prop } from '@typegoose/typegoose';
+import { GameDto } from './libs/types/types.js';
 import { BaseModel } from '~/libs/modules/database/base-model.js';
 
 class UserResult {
@@ -25,13 +26,13 @@ class Game extends BaseModel {
     @prop({ type: () => String })
     public title!: string;
     @prop({ type: () => String })
-    public language!: string;
+    public language!: GameDto['language'];
     @prop({ type: () => String })
-    public difficulty!: string;
+    public difficulty!: GameDto['difficulty'];
     @prop({ type: () => String, default: null })
-    public winnerUserId!: string | null;
+    public winnerUserId!: string;
     @prop({ type: () => [UserResult], _id: false })
-    public result!: UserResult[];
+    public results!: UserResult[];
 }
 
 const gameModel = getModelForClass(Game);
