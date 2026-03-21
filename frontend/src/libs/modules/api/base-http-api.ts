@@ -19,7 +19,7 @@ type Constructor = {
     baseUrl: string;
     http: HTTP;
     path: string;
-    storage: Storage;
+    storage?: Storage;
 };
 
 class BaseHTTPApi implements HTTPApi {
@@ -29,7 +29,7 @@ class BaseHTTPApi implements HTTPApi {
 
     private path: string;
 
-    private storage: Storage;
+    private storage?: Storage;
 
     public constructor({ baseUrl, http, path, storage }: Constructor) {
         this.baseUrl = baseUrl;
@@ -104,7 +104,7 @@ class BaseHTTPApi implements HTTPApi {
         }
 
         if (hasAuth) {
-            const token = await this.storage.get<string>(StorageKey.TOKEN);
+            const token = await this.storage?.get<string>(StorageKey.TOKEN);
             headers.append(HTTPHeader.AUTHORIZATION, `Bearer ${token ?? ''}`);
         }
 

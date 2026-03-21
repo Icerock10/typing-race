@@ -1,5 +1,4 @@
 const GamesApiPath = {
-    CREATE: '/create',
     ROOT: '/',
 } as const;
 
