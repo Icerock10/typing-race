@@ -16,6 +16,13 @@ class GameRepository
         const gameDocument = await super.createDocument(entity);
         return GameEntity.initialize(gameDocument);
     }
+    public async getAll(): Promise<GameEntity[]> {
+        const gameDocuments = await super.getAllDocuments();
+        const toGameEntities = gameDocuments.map((document) =>
+            GameEntity.initialize(document),
+        );
+        return toGameEntities;
+    }
 }
 
 export { GameRepository };

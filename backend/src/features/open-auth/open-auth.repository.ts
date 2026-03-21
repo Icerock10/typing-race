@@ -11,7 +11,7 @@ type OpenAuthUser = {
 
 class OpenAuthRepository
     extends BaseRepository<typeof OpenAuthModel>
-    implements Omit<Repository<OpenAuthUser>, 'findByEmail'>
+    implements Repository<OpenAuthUser>
 {
     public constructor(openAuthModel: ReturnModelType<typeof OpenAuthModel>) {
         super(openAuthModel);

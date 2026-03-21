@@ -1,11 +1,7 @@
 import { BaseController } from '~/libs/modules/controller/base-controller.module.js';
-import {
-    type APIHandlerOptions,
-    type APIHandlerResponse,
-} from '~/libs/modules/controller/controller.js';
+import { type APIHandlerResponse } from '~/libs/modules/controller/controller.js';
 import { type Logger } from '~/libs/modules/logger/libs/types/types.js';
 import { type GameService } from './game.service.js';
-import { type GameDto } from './libs/types/types.js';
 import {
     APIPath,
     HTTPRequestMethod,
@@ -24,23 +20,16 @@ class GameController extends BaseController {
         super(logger, APIPath.GAMES);
         this.gameService = gameService;
         this.addRoute({
-            handler: (options) =>
-                this.create(
-                    options as APIHandlerOptions<{
-                        body: GameDto;
-                    }>,
-                ),
-            method: HTTPRequestMethod.POST,
-            path: GamesApiPath.CREATE,
+            handler: () => this.getAll(),
+            method: HTTPRequestMethod.GET,
+            path: GamesApiPath.ROOT,
             validation: {},
             isPublic: true,
         });
     }
-    private async create(
-        options: APIHandlerOptions<{ body: GameDto }>,
-    ): Promise<APIHandlerResponse> {
+    private async getAll(): Promise<APIHandlerResponse> {
         return {
-            payload: await this.gameService.create(options.body),
+            payload: await this.gameService.getAll(),
             status: HTTPCode.OK,
         };
     }

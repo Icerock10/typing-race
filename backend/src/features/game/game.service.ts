@@ -30,6 +30,13 @@ class GameService {
         );
         return gameEntity.toObject();
     }
+    public async getAll(): Promise<GameDto[]> {
+        const gameEntities = await this.gameRepository.getAll();
+        const gameDtos = gameEntities.map((gameEntity) =>
+            gameEntity.toObject(),
+        );
+        return gameDtos;
+    }
 }
 
 export { GameService };
