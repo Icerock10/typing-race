@@ -26,10 +26,7 @@ const TopPlayers: React.FC<Properties> = ({ games }) => {
             {findTopFivePlayers.map(({ userName, wpm }, index) => {
                 const rank = ++index;
                 return (
-                    <Cluster
-                        key={userName}
-                        className={styles['leaderboard-row']}
-                    >
+                    <Cluster key={rank} className={styles['leaderboard-row']}>
                         <span className={styles['row-rank']}>{rank}</span>
                         <Avatar name={userName} />
                         <span className={styles['row-name']}>{userName}</span>

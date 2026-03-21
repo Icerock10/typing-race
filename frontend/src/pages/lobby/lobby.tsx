@@ -30,7 +30,7 @@ const Lobby: React.FC = () => {
 
     return (
         <>
-            <Ticker />
+            <Ticker games={games} />
             <Header variant={HeaderVariants.SHRUNK}>
                 <UserMenu user={user} />
             </Header>
