@@ -10,7 +10,7 @@ import {
     Rooms,
     Createroom,
     JoinPanel,
-    LeaderBoardPanel,
+    TopPlayers,
     UserMenu,
 } from './components/components.js';
 import { getClassNames } from '~/libs/helpers/helpers.js';
@@ -20,7 +20,7 @@ import styles from './styles.module.css';
 const Lobby: React.FC = () => {
     const dispatch = useAppDispatch();
     const { user } = useAppSelector((state) => state.auth);
-    const { rooms, currentRoom } = useAppSelector((state) => state.game);
+    const { rooms, currentRoom, games } = useAppSelector((state) => state.game);
 
     useEffect(() => {
         void dispatch(gameActions.getAllGames());
@@ -52,7 +52,7 @@ const Lobby: React.FC = () => {
                     <Rooms rooms={rooms} user={user} />
                     <Createroom currentRoom={currentRoom} user={user} />
                     <JoinPanel rooms={rooms} />
-                    <LeaderBoardPanel />
+                    <TopPlayers games={games} />
                 </main>
                 <Footer />
             </div>
