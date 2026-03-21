@@ -3,7 +3,6 @@ import {
     RaceChatSocketEvent,
     SocketNamespace,
 } from '~/libs/modules/socket/libs/enums/enums.js';
-import { type GameStore } from '../../store/base-game-store.module.js';
 
 import { type UserDto } from '../../libs/types/types.js';
 
@@ -12,18 +11,15 @@ type User = Record<'user', UserDto>;
 type Constructor = {
     socket: TSocket;
     io: SocketServer;
-    store: GameStore;
 };
 
 class ChatHandler {
     private socket;
     private io;
-    private store;
 
-    constructor({ socket, io, store }: Constructor) {
+    constructor({ socket, io }: Constructor) {
         this.socket = socket;
         this.io = io;
-        this.store = store;
         this.registerEvents();
     }
 
