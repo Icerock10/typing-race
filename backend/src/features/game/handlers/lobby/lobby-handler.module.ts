@@ -71,15 +71,16 @@ class LobbyHandler {
             roomId,
         });
         void this.socket.leave(roomId);
-        this.socket.emit(LobbySocketEvent.LEAVE_ROOM, roomData?.room);
 
-        if (roomData?.user) {
-            this.socket.broadcast.emit(
-                LobbySocketEvent.LEAVE_ROOM,
-                roomData.room,
-            );
+        if (!roomData) {
+            return;
         }
-        if (roomData?.room.hostId === roomData?.user.id) {
+        const { room, user } = roomData;
+        this.socket.emit(LobbySocketEvent.LEAVE_ROOM, room);
+
+        this.socket.broadcast.emit(LobbySocketEvent.LEAVE_ROOM, room);
+
+        if (room.hostId === user.id) {
             this.lobbyService.scheduleRoomDeletion(roomId, () => {
                 this.io
                     .of(SocketNamespace.GAME)

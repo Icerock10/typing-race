@@ -54,14 +54,12 @@ class RaceHandler {
 
         this.io
             .of(SocketNamespace.GAME)
-            .to(roomId)
             .emit(RaceSocketEvent.SET_READY_STATUS, roomData?.room);
 
         if (roomData?.shouldStart) {
             setTimeout(() => {
                 this.io
                     .of(SocketNamespace.GAME)
-                    .to(roomId)
                     .emit(RaceSocketEvent.RACE_STARTED, roomData.startedRoom);
                 this.startRace(
                     roomId,
