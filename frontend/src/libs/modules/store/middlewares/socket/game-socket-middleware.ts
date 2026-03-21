@@ -1,5 +1,5 @@
 import { type Middleware } from '@reduxjs/toolkit';
-import { actions as gameActions } from '~/features/game/slices/game.js';
+import { actions as gameActions } from '~/features/game/game.js';
 import {
     type RoomResponseDto,
     type ChatMessageDto,

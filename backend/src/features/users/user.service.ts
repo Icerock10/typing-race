@@ -3,13 +3,7 @@ import { UserEntity } from './user.entity.js';
 import { type UserDto, type UserSignUpRequestDto } from './libs/types/types.js';
 import { type UserRepository } from './user.repository.js';
 
-type Service<T = unknown> = {
-    create(payload: T): Promise<T>;
-    find(id?: string): Promise<null | T>;
-    findByEmail(email: string): Promise<T>;
-};
-
-class UserService implements Service {
+class UserService {
     private encryptor: Encryptor;
     private userRepository: UserRepository;
     public constructor(userRepository: UserRepository, encryptor: Encryptor) {

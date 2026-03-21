@@ -16,4 +16,5 @@ export {
     type AppStatsDto,
     type PlayerDto,
     type ChatMessageDto,
+    type GameDto,
 } from 'shared';

@@ -1,5 +1,10 @@
-import { createAction } from '@reduxjs/toolkit';
-import { type RoomPayload, type RoomResponseDto } from '~/libs/types/types.js';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+    type RoomPayload,
+    type RoomResponseDto,
+    type GameDto,
+    type AsyncThunkConfig,
+} from '~/libs/types/types.js';
 import { name as sliceName } from './game.slice.js';
 
 const ActionType = {
@@ -36,6 +41,19 @@ const initPlayerFinish = createAction<{ roomId: string }>(
     ActionType.PLAYER_FINISH,
 );
 
+const getAllGames = createAsyncThunk<GameDto[], undefined, AsyncThunkConfig>(
+    `${sliceName}/get-all`,
+    async (_, { extra, rejectWithValue }) => {
+        const { gameApi } = extra;
+        try {
+            const games = await gameApi.getAllGames();
+            return games;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    },
+);
+
 export {
     createRoom,
     joinRoom,
@@ -44,4 +62,5 @@ export {
     setReadyStatus,
     initPlayerFinish,
     initChatMessageSend,
+    getAllGames,
 };

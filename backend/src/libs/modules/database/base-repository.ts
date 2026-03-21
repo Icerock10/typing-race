@@ -15,6 +15,10 @@ class BaseRepository<
     public findDocumentById(id?: string): Promise<T | null> {
         return this.model.findById(id);
     }
+
+    public getAllDocuments(): Promise<T[]> {
+        return this.model.find({});
+    }
 }
 
 export { BaseRepository };

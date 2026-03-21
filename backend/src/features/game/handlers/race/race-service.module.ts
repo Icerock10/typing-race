@@ -1,7 +1,8 @@
 import { GameStatus } from '~/libs/enums/enums.js';
 import { type RoomResponseDto } from '~/libs/types/types.js';
-import { type Player } from '../../libs/types/types.js';
+import { type Player, type GameDto } from '../../libs/types/types.js';
 import { type GameStore } from '../../store/base-game-store.module.js';
+import { type GameService } from '../../game.service.js';
 
 type SetReadyStatusReturnType = {
     shouldStart: boolean;
@@ -11,15 +12,18 @@ type SetReadyStatusReturnType = {
 
 type Constructor = {
     store: GameStore;
+    gameService: GameService;
 };
 
 const MAX_PROGRESS_VALUE = 100;
 
 class RaceService {
     private store;
+    private gameService;
 
-    constructor({ store }: Constructor) {
+    constructor({ store, gameService }: Constructor) {
         this.store = store;
+        this.gameService = gameService;
     }
 
     public setReadyStatus = ({
@@ -92,7 +96,32 @@ class RaceService {
         this.store.cancelGameTimer(roomId);
         this.store.updateRoomStatus(roomId, GameStatus.FINISHED);
         const room = this.store.getRoom(roomId);
+        if (room) {
+            void this.recordGameResults(room);
+        }
         return room;
+    };
+
+    public recordGameResults = async (room: RoomResponseDto): Promise<void> => {
+        const playerWinnerId = room.players.find((player) => player.isWinner);
+        const getPlayerGameResults = room.players.map((player) => ({
+            ...player,
+            userId: player.id,
+            userName: player.userName,
+            wpm: player.wpm,
+            accuracy: player.accuracy,
+            place: player.playerRacePosition,
+            finishedAt: player.finishedAt,
+        })) as GameDto['results'];
+
+        await this.gameService.create({
+            title: room.roomName,
+            language: room.language,
+            difficulty: room.difficulty,
+            winnerUserId: playerWinnerId?.id as string,
+            results: getPlayerGameResults,
+            id: null,
+        });
     };
 
     public setGameTimer = ({

@@ -12,28 +12,17 @@ import { type GameStore } from '../../store/base-game-store.module.js';
 import { type ChatHandler } from '../chat/chat-handler.module.js';
 
 type RoomBasePayload = { roomId: string; socket: TSocket };
+
+type RoomBaseReturn = {
+    user: UserDto;
+    room: RoomResponseDto;
+} | null;
+
 type CreateRoomPayload = { roomData: RoomPayload; socket: TSocket };
+
 type UpdateUserAuthPayload = {
     userId: string;
     socket: TSocket;
-};
-type Service = {
-    createRoom: (payload: CreateRoomPayload) => {
-        room: RoomResponseDto;
-        roomId: string | null;
-    };
-    updateUserAuth: (payload: UpdateUserAuthPayload) => Promise<void>;
-    joinRoom: (payload: RoomBasePayload) => {
-        user: UserDto;
-        room: RoomResponseDto;
-    } | null;
-    leaveRoom: (payload: RoomBasePayload) => {
-        user: UserDto;
-        room: RoomResponseDto;
-    } | null;
-    scheduleRoomDeletion(roomId: string, onDelete: () => void): void;
-    getUserFromSocketData: (socket: TSocket) => UserDto | null;
-    getActiveRooms: () => RoomResponseDto[];
 };
 
 type Constructor = {
@@ -42,7 +31,7 @@ type Constructor = {
     chat: ChatHandler;
 };
 
-class LobbyService implements Service {
+class LobbyService {
     private store;
     private userService;
     private chat;
@@ -56,7 +45,10 @@ class LobbyService implements Service {
     public createRoom = ({
         roomData,
         socket,
-    }: CreateRoomPayload): ReturnType<Service['createRoom']> => {
+    }: CreateRoomPayload): {
+        room: RoomResponseDto;
+        roomId: string | null;
+    } => {
         const roomId = crypto.randomUUID();
         const user = this.getUserFromSocketData(socket);
         const { timeForGame } = ROOM_CONFIG[roomData.difficulty];
@@ -96,10 +88,7 @@ class LobbyService implements Service {
         }
     };
 
-    public joinRoom = ({
-        socket,
-        roomId,
-    }: RoomBasePayload): ReturnType<Service['joinRoom']> => {
+    public joinRoom = ({ socket, roomId }: RoomBasePayload): RoomBaseReturn => {
         const user = this.getUserFromSocketData(socket);
 
         const player = user
@@ -125,7 +114,7 @@ class LobbyService implements Service {
     public leaveRoom = ({
         socket,
         roomId,
-    }: RoomBasePayload): ReturnType<Service['leaveRoom']> => {
+    }: RoomBasePayload): RoomBaseReturn => {
         const user = this.getUserFromSocketData(socket);
         const playerId = user ? user.id : null;
 

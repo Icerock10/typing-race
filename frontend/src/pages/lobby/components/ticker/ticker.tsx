@@ -1,20 +1,26 @@
 import styles from './styles.module.css';
-import { mockApi } from '~/libs/modules/api/api.js';
+import { type GameDto } from '~/libs/types/types.js';
 
-const Ticker: React.FC = () => {
+type Properties = {
+    games: GameDto[];
+};
+
+const Ticker: React.FC<Properties> = ({ games }) => {
+    const gameResults = games.flatMap((game) =>
+        game.results.map((result) => ({ ...result, gameTitle: game.title })),
+    );
+
     return (
         <div className={styles['ticker-bar']}>
             <div className={styles['ticker-inner']}>
-                {mockApi.tickers.map((_, index) => {
-                    return (
-                        <div key={index} className={styles['ticker-item']}>
-                            <span>
-                                🏁 k1netic finished with 132 WPM — room Morning
-                                Grind
-                            </span>
-                        </div>
-                    );
-                })}
+                {gameResults.map(({ userName, gameTitle, wpm }, index) => (
+                    <div key={index} className={styles['ticker-item']}>
+                        <span>
+                            🏁 {userName} finished with {wpm} WPM — room{' '}
+                            {gameTitle}
+                        </span>
+                    </div>
+                ))}
             </div>
         </div>
     );

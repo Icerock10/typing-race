@@ -2,12 +2,7 @@ import { BaseRepository } from '~/libs/modules/database/database.js';
 import { type ReturnModelType } from './libs/types/types.js';
 import { UserEntity } from './user.entity.js';
 import { type User as UserModel } from './user.model.js';
-
-type Repository<T> = {
-    create(payload: T): Promise<T>;
-    find(id?: string): Promise<null | T>;
-    findByEmail(email: string): Promise<null | T>;
-};
+import { type Repository } from '~/libs/types/repository.type.js';
 
 class UserRepository
     extends BaseRepository<typeof UserModel>

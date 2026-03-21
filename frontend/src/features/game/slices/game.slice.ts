@@ -3,9 +3,13 @@ import {
     type ChatMessageDto,
     type AppStatsDto,
     type PlayerDto,
+    type ValueOf,
+    type GameDto,
 } from '../libs/types/types.js';
+import { DataStatus } from '../libs/enums/enums.js';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { updateRoomById } from '../libs/helpers/update-room-by-id.helper.js';
+import { getAllGames } from './actions.js';
 
 type PlayerProgress = Pick<
     PlayerDto,
@@ -13,8 +17,10 @@ type PlayerProgress = Pick<
 >;
 
 type State = {
+    games: GameDto[];
     rooms: RoomResponseDto[];
     stats: AppStatsDto | null;
+    dataStatus: ValueOf<typeof DataStatus>;
     currentRoom: RoomResponseDto | null;
     isRoomsLoaded: boolean;
     race: {
@@ -25,8 +31,10 @@ type State = {
 };
 
 const initialState: State = {
+    games: [],
     rooms: [],
     stats: null,
+    dataStatus: DataStatus.IDLE,
     currentRoom: null,
     isRoomsLoaded: false,
     race: {
@@ -42,6 +50,22 @@ const initialState: State = {
 };
 
 const { actions, name, reducer } = createSlice({
+    extraReducers(builder) {
+        builder.addCase(
+            getAllGames.fulfilled,
+            (state, action: PayloadAction<GameDto[]>) => {
+                state.games = action.payload;
+                state.dataStatus = DataStatus.FULFILLED;
+            },
+        );
+        builder.addCase(getAllGames.pending, (state) => {
+            state.dataStatus = DataStatus.PENDING;
+        });
+        builder.addCase(getAllGames.rejected, (state) => {
+            state.games = [];
+            state.dataStatus = DataStatus.REJECTED;
+        });
+    },
     initialState,
     name: 'game',
     reducers: {
