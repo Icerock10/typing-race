@@ -1,6 +1,7 @@
 import { BaseRepository } from '~/libs/modules/database/database.js';
 import { type ReturnModelType } from '@typegoose/typegoose';
 import { type OpenAuth as OpenAuthModel } from './open-auth.model.js';
+import { type Repository } from '~/libs/types/types.js';
 
 type OpenAuthUser = {
     userId: string;
@@ -8,14 +9,9 @@ type OpenAuthUser = {
     providerUserId: string;
 };
 
-type Repository = {
-    create(payload: OpenAuthUser): Promise<OpenAuthUser>;
-    find(discordId: string): Promise<OpenAuthUser | null>;
-};
-
 class OpenAuthRepository
     extends BaseRepository<typeof OpenAuthModel>
-    implements Repository
+    implements Omit<Repository<OpenAuthUser>, 'findByEmail'>
 {
     public constructor(openAuthModel: ReturnModelType<typeof OpenAuthModel>) {
         super(openAuthModel);

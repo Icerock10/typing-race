@@ -18,3 +18,5 @@ export {
     type AppStatsDto,
     type PlayerDto,
 } from 'shared';
+
+export { type Repository } from './repository.type.js';
