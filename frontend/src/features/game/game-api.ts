@@ -14,7 +14,7 @@ class GameApi extends BaseHTTPApi {
     public constructor({ baseUrl, http }: Constructor) {
         super({ baseUrl, http, path: APIPath.GAMES });
     }
-    public async getAllGames(): Promise<GameDto> {
+    public async getAllGames(): Promise<GameDto[]> {
         const response = await this.load(
             this.getFullEndpoint(GamesApiPath.ROOT, {}),
             {
@@ -24,7 +24,7 @@ class GameApi extends BaseHTTPApi {
             },
         );
 
-        return await response.json<GameDto>();
+        return await response.json<GameDto[]>();
     }
 }
 

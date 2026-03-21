@@ -1,1 +1,1 @@
-export { GamesApiPath } from 'shared';
+export { GamesApiPath, DataStatus } from 'shared';

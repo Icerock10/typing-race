@@ -6,6 +6,7 @@ import {
     setReadyStatus,
     initPlayerFinish,
     initChatMessageSend,
+    getAllGames,
 } from './actions.js';
 import { actions } from './game.slice.js';
 
@@ -18,6 +19,7 @@ const allActions = {
     setReadyStatus,
     initChatMessageSend,
     initPlayerFinish,
+    getAllGames,
 };
 
 export { allActions as actions };

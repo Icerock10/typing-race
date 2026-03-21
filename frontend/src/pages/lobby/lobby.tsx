@@ -1,5 +1,10 @@
 import { HeaderVariants } from '~/libs/enums/enums.js';
-import { useAppSelector } from '~/libs/hooks/hooks.js';
+import {
+    useAppSelector,
+    useAppDispatch,
+    useEffect,
+} from '~/libs/hooks/hooks.js';
+import { actions as gameActions } from '~/features/game/game.js';
 import {
     Ticker,
     Rooms,
@@ -13,9 +18,15 @@ import { Header, Hero, Stats, Footer } from '~/libs/components/components.js';
 import styles from './styles.module.css';
 
 const Lobby: React.FC = () => {
-    const mainContentClasses = getClassNames(styles['main'], 'grid');
+    const dispatch = useAppDispatch();
     const { user } = useAppSelector((state) => state.auth);
     const { rooms, currentRoom } = useAppSelector((state) => state.game);
+
+    useEffect(() => {
+        void dispatch(gameActions.getAllGames());
+    }, [dispatch]);
+
+    const mainContentClasses = getClassNames(styles['main'], 'grid');
 
     return (
         <>
