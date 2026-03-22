@@ -53,10 +53,10 @@ jobs:
             - name: Build & Push to ECR
               env:
                   ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-                  ECR_REPOSITORY: typing-race
+                  ECR_REPOSITORY: typing-race/repo
                   IMAGE_TAG: ${{ github.sha }}
               run: |
-                  docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+                  docker build -f ./backend/DockerFile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
                   docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
                   docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
                   docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
