@@ -1,5 +1,73 @@
 # Changelog
 
+## [1.1.0](https://github.com/Icerock10/typing-race/compare/shared-v1.0.0...shared-v1.1.0) (2026-03-22)
+
+
+### Features
+
+* + avatarUrl to users model, updated readme tr-5 ([7932727](https://github.com/Icerock10/typing-race/commit/7932727a6200c7e5f654720d7b1d43d9b2b5ba6b))
+* + chat-message-dto type, added action-creator to init message send and handle in reducer tr-27 ([0c47254](https://github.com/Icerock10/typing-race/commit/0c47254a09aac7dcab9a7aa0a9fe09c0b1b5da44))
+* + chat-socket-event, possibility to handle chat events on server tr-27 ([b6bb7ec](https://github.com/Icerock10/typing-race/commit/b6bb7ec065663713d7982bd71a1ea092223d0d98))
+* + connect to lobby with token tr-10 ([a7ddbba](https://github.com/Icerock10/typing-race/commit/a7ddbba059371926b56be57a8e92c804734607d9))
+* + detect winner logic, new fields in Playerdto tr-26 ([431a6a3](https://github.com/Icerock10/typing-race/commit/431a6a36315e40e4e48c1a51ad4308894f6a6b96))
+* + discord-user-dto type tr-9 ([b94f365](https://github.com/Icerock10/typing-race/commit/b94f365bab58b89d46ca8d3f4921c7ea8b8c342d))
+* + expanded validation schema on room creation, - strict mode tr-16 ([bf68bf1](https://github.com/Icerock10/typing-race/commit/bf68bf142b0bb497def31b26fc762414959bafbe))
+* + exports, socket.io-client package tr-6 ([288fd89](https://github.com/Icerock10/typing-race/commit/288fd89b064bfa34d9fdbda71ce72ea951c4a0e9))
+* + game settings enum tr-10 ([0eba034](https://github.com/Icerock10/typing-race/commit/0eba03476c1c5c9201022b1e560528ec0a35c37a))
+* + handle race-start event, added delay before start when all players are ready tr-21 ([3be38b1](https://github.com/Icerock10/typing-race/commit/3be38b14da2324ce948f66d65fb1abd09f770ddf))
+* + handle ready status event, * updated players type tr-21 ([8f80336](https://github.com/Icerock10/typing-race/commit/8f80336e646299c0e759b56411a656467fdbbb1d))
+* + handled countdown on client, notification when game ends tr-25 ([1f9248d](https://github.com/Icerock10/typing-race/commit/1f9248deb8e64e7ffd81d44642bd3b9849760c10))
+* + handled progress update on client, without ui tr-24 ([a62df7e](https://github.com/Icerock10/typing-race/commit/a62df7e2b94966ab6688baf47fbc7119284e56a3))
+* + helper for sort, new race event, expanded dto tr-26 ([92b8d3c](https://github.com/Icerock10/typing-race/commit/92b8d3c8dbf8634849a5c16e05892b0ec4bb4a1e))
+* + join-by-code flow with validation tr-18 ([1b2a006](https://github.com/Icerock10/typing-race/commit/1b2a006004ad79f427710fe4e8479008102fa71a))
+* + leaderboard row to show exact time when player ends race tr-26 ([6b19a63](https://github.com/Icerock10/typing-race/commit/6b19a63192515dd2fa762b223d6474f4f6d3058a))
+* + link svg, join-by-code validation schema, enums, * exports tr-18 ([b91a90b](https://github.com/Icerock10/typing-race/commit/b91a90b4e1f2a1d2fde3518e707206b58c70106a))
+* + open-auth enum tr-9 ([81e309f](https://github.com/Icerock10/typing-race/commit/81e309fe03345ac8adf291737e7febf5e911ce38))
+* + open-auth settings tr-9 ([80f6493](https://github.com/Icerock10/typing-race/commit/80f64932b22d3227c48a9d1c9d9568066aea79dc))
+* + possibility to reconnect and retrieve user progress tr-31 ([10fba12](https://github.com/Icerock10/typing-race/commit/10fba12294a545c87bbf753e79a860fb63d5d61b))
+* + possibility to reconnect and retrieve user progress tr-31 ([90b689f](https://github.com/Icerock10/typing-race/commit/90b689f8c8522f37e6d5fd829ca3981cd55e3917))
+* + possibility to start countdown event, * renamed race-socket event tr-23 ([93e5479](https://github.com/Icerock10/typing-race/commit/93e54795225898e97215406df28c83099cc1a7a3))
+* + race page tr-3 ([e0394e3](https://github.com/Icerock10/typing-race/commit/e0394e3927f2aa882795746a58c585338ff25a8b))
+* + race progress tr-3 ([147be70](https://github.com/Icerock10/typing-race/commit/147be709422d6649e2255e357f5dc3c6f1b06252))
+* + race typing with live stats tr-3 ([57e392a](https://github.com/Icerock10/typing-race/commit/57e392a947e513cac697f3043979dd3a6c7ca0d4))
+* + refresh room logic tr-13 ([fe7f1cc](https://github.com/Icerock10/typing-race/commit/fe7f1cc7a31c13d9b53382aac49048396e8232b6))
+* + registration page tr-1 ([0934ec4](https://github.com/Icerock10/typing-race/commit/0934ec4887160602381865f6a25b3b0319f5ce5a))
+* + right panel with registration/sign in pages tr-1 ([efa80c9](https://github.com/Icerock10/typing-race/commit/efa80c920a36d304951b856afc20addda926db58))
+* + room config depending on difficulty, helpers, types to libs tr-33 ([c61b679](https://github.com/Icerock10/typing-race/commit/c61b679bc67c9dbfa20dae57182f7ae7220ed891))
+* + room-dto types tr-10 ([decf16e](https://github.com/Icerock10/typing-race/commit/decf16e4848663fb529681d766cee2f463c7caab))
+* + set deletion timer and delete room on host leaves tr-20 ([938610b](https://github.com/Icerock10/typing-race/commit/938610b463c532466076c4b1a3c3a33b8b13acee))
+* + socket enums to shared, - regex rule in config tr-10 ([5417f64](https://github.com/Icerock10/typing-race/commit/5417f64d71fc9ba4494d803f863128acf08281f1))
+* + starter tr-0 ([a00ace8](https://github.com/Icerock10/typing-race/commit/a00ace86255e3848aa04b7f48770c969378d41f1))
+* + status change on server depending on players count tr-15 ([cf71b2b](https://github.com/Icerock10/typing-race/commit/cf71b2b1a557cc91de554f59ee388e98f42a6bd4))
+* + types for Game, Rooms tr-6 ([fb13a79](https://github.com/Icerock10/typing-race/commit/fb13a79ca9cff10413cfb6a55fd00fbdcb60827f))
+* + typing flag, updated game-store on server tr-26 ([102fa95](https://github.com/Icerock10/typing-race/commit/102fa95e624dca532e83edae2942126e97cc2b5c))
+* + updated types for Player, handled update progress on server tr-24 ([1863178](https://github.com/Icerock10/typing-race/commit/18631784f321a624d55d4aa0791fd8abc6ea2a01))
+* + updateStats handle on client tr-14 ([409d9fa](https://github.com/Icerock10/typing-race/commit/409d9fa2b390bcb5bee69299457f7553cf493b1b))
+* + validation schema on room create tr-16 ([bdf14c4](https://github.com/Icerock10/typing-race/commit/bdf14c4de112c236c78fa21f3f321218ce4fa868))
+* add auth logic tr-8 ([137b50f](https://github.com/Icerock10/typing-race/commit/137b50ff3f62e0e19b8f8e0cd821eabfbc344c5b))
+* add auth page tr-1 ([0f46f70](https://github.com/Icerock10/typing-race/commit/0f46f702695833a662a62af580b1f3c7fdfa70e7))
+* add lobby page tr-2 ([d0e34ed](https://github.com/Icerock10/typing-race/commit/d0e34eddc9d777b6aa53d4a87c498e483b1c8c3e))
+* add oauth logic tr-9 ([2039d56](https://github.com/Icerock10/typing-race/commit/2039d56193e64a21dc5e212cf01bebbe8642b77c))
+* add race page tr-3 ([79f780e](https://github.com/Icerock10/typing-race/commit/79f780ed4168bb00f4eeb03a65c90cd652f72c0f))
+* add room settings tr-33 ([0ea92da](https://github.com/Icerock10/typing-race/commit/0ea92dae2a73c47ae62bdc66c9d26afc2663c45f))
+* add users auth backend tr-5 ([54d5a0f](https://github.com/Icerock10/typing-race/commit/54d5a0f8551297b00f0d5ec1d92ef0d96102f4ea))
+* implement add room tr-10 ([1a49f5a](https://github.com/Icerock10/typing-race/commit/1a49f5a06c7bd457817a384017f1b90e8fe44221))
+* implement create room backend tr-6 ([9473949](https://github.com/Icerock10/typing-race/commit/94739497be235d292abd55ec2d9c9c07b4de4be0))
+* implement race chat tr-27 ([dd4f514](https://github.com/Icerock10/typing-race/commit/dd4f514a7a08791dbd1a8b433363f595fce19c36))
+* implement race leaderboard tr-26 ([37594fc](https://github.com/Icerock10/typing-race/commit/37594fca272b2751bb614f59f7e976cd27c42d69))
+* implement room status tr-15 ([6de9d46](https://github.com/Icerock10/typing-race/commit/6de9d46bc86b80a7297c29190ca761b8f119babe))
+* implement typing logic tr-22 ([a3af913](https://github.com/Icerock10/typing-race/commit/a3af913f1bb0e9c3e2f8dc8223c6b43aaec3842e))
+
+
+### Bug Fixes
+
+* * mock api folder name tr-2 ([9387b77](https://github.com/Icerock10/typing-race/commit/9387b77032a3e6bd0cc424a8cacb2e68b83c9729))
+* * moved mock api into a separate file tr-2 ([f3567b0](https://github.com/Icerock10/typing-race/commit/f3567b097c48798b70fcfc6a1942c6be1b60f68f))
+* + hostId to correctly redirect user, displayed avatars inside room tr-16 ([796d26f](https://github.com/Icerock10/typing-race/commit/796d26f47536b70adff9377023d092c0d2924820))
+* + new action to handle auth after redirect tr-21 ([bae1d92](https://github.com/Icerock10/typing-race/commit/bae1d9215f6bdd0cb04abc500347530e3936e6ad))
+* + updateStats now displays active rooms instead of size tr-17 ([990c2f5](https://github.com/Icerock10/typing-race/commit/990c2f5f856fdb8be01a9e65ed82903d59034d97))
+* user auth after redirect tr-21 ([fac67fe](https://github.com/Icerock10/typing-race/commit/fac67fe6344a6bc3a128a3ab03443dc69edad0b0))
+
 ## [1.20.0](https://github.com/Icerock10/Init-repository/compare/shared-v1.19.0...shared-v1.20.0) (2025-10-03)
 
 
