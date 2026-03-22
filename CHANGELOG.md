@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/Icerock10/typing-race/compare/v1.1.0...v1.2.0) (2026-03-22)
+
+
+### Features
+
+* add game history tr-36 ([77c79f0](https://github.com/Icerock10/typing-race/commit/77c79f029332510b51081537c1b9f0373167b58b))
+
 ## [1.1.0](https://github.com/Icerock10/typing-race/compare/v1.0.0...v1.1.0) (2026-03-22)
 
 
