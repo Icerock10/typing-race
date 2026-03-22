@@ -101,9 +101,10 @@ const checkBranch = (branchPattern: RegExp): void => {
 };
 
 const isReleasePR = pr.title.startsWith('chore: release');
+const isDevelopmentBranch = pr.head.ref === 'development';
 
 const applyDanger = (): void => {
-    if (isReleasePR) {
+    if (isReleasePR || !isDevelopmentBranch) {
         return;
     }
 
