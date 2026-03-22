@@ -7,4 +7,5 @@ export {
     GamesDifficulty,
     GameLanguage,
     GameStatus,
+    GamesApiPath,
 } from './libs/enums/enums.js';

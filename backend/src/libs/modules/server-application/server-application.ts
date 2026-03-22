@@ -3,6 +3,7 @@ import { database } from '~/libs/modules/database/database.js';
 import { logger } from '~/libs/modules/logger/logger.js';
 import { authController } from '~/features/auth/auth.js';
 import { userController } from '~/features/users/users.js';
+import { gameController } from '~/features/game/game.js';
 import { socketService } from '../socket/socket.js';
 import { BaseServerApplicationApi } from './base-server-application-api.js';
 import { BaseServerApplication } from './base-server-application.js';
@@ -11,7 +12,9 @@ const apiV1 = new BaseServerApplicationApi(
     'v1',
     ...userController.routes,
     ...authController.routes,
+    ...gameController.routes,
 );
+
 const serverApplication = new BaseServerApplication({
     apis: [apiV1],
     config,

@@ -4,8 +4,7 @@ type GameResultDto = {
     wpm: number;
     accuracy: number;
     place: number;
-    finishedAt: Date | null;
-    isWinner: boolean;
+    finishedAt: number;
 };
 
 export { type GameResultDto };

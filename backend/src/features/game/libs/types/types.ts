@@ -6,3 +6,4 @@ export {
     type UserDto,
     type AppStatsDto,
 } from '~/libs/types/types.js';
+export { type GameDto } from 'shared';

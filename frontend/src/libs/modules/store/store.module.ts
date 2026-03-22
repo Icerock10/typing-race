@@ -8,7 +8,7 @@ import { AppEnvironment } from '~/libs/enums/enums.js';
 import { type Config } from '~/libs/modules/config/config.js';
 import { type BaseStorage, storage } from '~/libs/modules/storage/storage.js';
 import { authApi, reducer as authReducer } from '~/features/auth/auth.js';
-import { reducer as gameReducer } from '~/features/game/slices/game.js';
+import { reducer as gameReducer, gameApi } from '~/features/game/game.js';
 
 import {
     listenerMiddleware,
@@ -18,6 +18,7 @@ import {
 
 type ExtraArguments = {
     authApi: typeof authApi;
+    gameApi: typeof gameApi;
     storage: BaseStorage;
 };
 
@@ -39,6 +40,7 @@ class Store {
         return {
             authApi,
             storage,
+            gameApi,
         };
     }
 

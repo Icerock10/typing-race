@@ -59,6 +59,7 @@ export {
     GameLanguage,
     GameStatus,
     type ChatMessageDto,
+    GamesApiPath,
 } from './features/games/games.js';
 export {
     type RoomPayload,
