@@ -67,7 +67,7 @@ jobs:
                   aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
                   aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                   application_name: typing-race
-                  environment_name: typing-race-prod
+                  environment_name: typing-race-env
                   region: ${{ secrets.AWS_REGION }}
                   image_tag: ${{ github.sha }}
-                  version_label: ${{ needs.release.outputs.tag_name }}
+                  version_label: ${{ needs.release.outputs.tag_name || github.sha }}
