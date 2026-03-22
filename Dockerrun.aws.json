@@ -1,7 +1,7 @@
 {
     "AWSEBDockerrunVersion": "1",
     "Image": {
-        "Name": "796805497988.dkr.ecr.eu-central-1.amazonaws.com/typing-race:latest",
+        "Name": "796805497988.dkr.ecr.eu-central-1.amazonaws.com/typing-race/repo:latest",
         "Update": "true"
     },
     "Ports": [
