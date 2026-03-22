@@ -69,5 +69,5 @@ jobs:
                   application_name: typing-race
                   environment_name: typing-race-env
                   region: ${{ secrets.AWS_REGION }}
-                  image_tag: ${{ github.sha }}
                   version_label: ${{ needs.release.outputs.tag_name || github.sha }}
+                  deployment_package: Dockerrun.aws.json
