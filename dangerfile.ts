@@ -100,7 +100,13 @@ const checkBranch = (branchPattern: RegExp): void => {
     }
 };
 
+const isReleasePR = pr.title.startsWith('chore: release');
+
 const applyDanger = (): void => {
+    if (isReleasePR) {
+        return;
+    }
+
     if (config.TITLE.PATTERN) {
         checkTitle(config.TITLE.PATTERN);
     }
