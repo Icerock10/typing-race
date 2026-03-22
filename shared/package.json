@@ -2,7 +2,7 @@
     "name": "shared",
     "type": "module",
     "main": "build/index.js",
-    "version": "1.19.0",
+    "version": "1.0.0",
     "types": "src/index.ts",
     "engines": {
         "node": "22.x.x",
