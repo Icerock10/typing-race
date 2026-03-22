@@ -4,7 +4,7 @@ import { type ValueOf } from '~/libs/types/types.js';
 type EnvironmentSchema = {
     API: {
         ORIGIN_URL: string;
-        DEV_URL: string;
+        BASE_URL: string;
     };
     APP: {
         ENVIRONMENT: ValueOf<typeof AppEnvironment>;

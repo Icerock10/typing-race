@@ -43,7 +43,7 @@ const AuthCard: React.FC<Properties> = ({
 
     const onDiscordSignIn = useCallback(() => {
         globalThis.location.replace(
-            `${config.ENV.API.DEV_URL}${OpenAuthPath.DISCORD}`,
+            `${config.ENV.API.BASE_URL}${OpenAuthPath.DISCORD}`,
         );
     }, []);
 

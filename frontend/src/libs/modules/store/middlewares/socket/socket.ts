@@ -4,7 +4,7 @@ import { SocketNamespace } from '~/libs/enums/enums.js';
 import { config } from '~/libs/modules/config/config.js';
 
 const socket = socketManager.getSocket(
-    `${config.ENV.API.DEV_URL}${SocketNamespace.GAME}`,
+    `${config.ENV.API.BASE_URL}${SocketNamespace.GAME}`,
 );
 
 const connectSocket = async (): Promise<void> => {

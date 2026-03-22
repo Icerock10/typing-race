@@ -32,7 +32,7 @@ class BaseConfig implements Config {
                     format: Number,
                 },
                 CLIENT_DEVELOPMENT_SERVER_URL: {
-                    default: null,
+                    default: '',
                     doc: 'App client dev server',
                     env: 'CLIENT_DEVELOPMENT_SERVER_URL',
                     format: String,
