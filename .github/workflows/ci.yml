@@ -3,7 +3,8 @@ name: Continuous Integration
 on:
     pull_request:
         branches:
-            - main
+            - development
+            - production
 
     workflow_dispatch:
 
@@ -66,32 +67,3 @@ jobs:
             - name: Code Linting
               run: |
                   npm run lint
-    build:
-        name: Code Building
-        needs: dependencies
-        runs-on: ubuntu-latest
-
-        steps:
-            - name: Checkout Source Code
-              uses: actions/checkout@v3
-
-            - name: Install NodeJS
-              uses: actions/setup-node@v3
-              with:
-                  node-version-file: .nvmrc
-
-            - name: Restore Dependencies
-              uses: actions/cache@v3
-              with:
-                  path: |
-                      **/node_modules
-                      **/build
-                  key: ci-${{ hashFiles('**/package-lock.json') }}
-
-            - name: Build Shared
-              run: |
-                  npm run build:shared
-
-            - name: Code Building
-              run: |
-                  npm run build
