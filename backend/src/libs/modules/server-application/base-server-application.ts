@@ -2,7 +2,6 @@ import fastifyStatic from '@fastify/static';
 import Fastify, { type FastifyError, type FastifyInstance } from 'fastify';
 import { openAuthConfig } from '~/features/open-auth/open-auth.js';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import fastifyOAuth from '@fastify/oauth2';
 import { HTTPCode, HTTPError } from '~/libs/enums/enums.js';
 import { type SocketService } from '~/libs/modules/socket/libs/types/types.js';
@@ -210,11 +209,7 @@ class BaseServerApplication implements ServerApplication {
     }
 
     private async initServe(): Promise<void> {
-        const staticPath = path.join(
-            path.dirname(fileURLToPath(import.meta.url)),
-            '../../../../backend/public',
-        );
-
+        const staticPath = path.join(process.cwd(), 'backend/public');
         await this.app.register(fastifyStatic, {
             prefix: '/',
             root: staticPath,

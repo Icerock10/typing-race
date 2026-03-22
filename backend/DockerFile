@@ -1,0 +1,58 @@
+# ===== Stage 1: Build shared =====
+FROM node:22-alpine AS shared-builder
+WORKDIR /app
+
+COPY package*.json tsconfig.json ./
+COPY shared/package.json ./shared/
+RUN npm ci
+
+COPY shared/ ./shared/
+RUN cd shared && npm run build
+
+# ===== Stage 2: Build frontend =====
+FROM node:22-alpine AS frontend-builder
+WORKDIR /app
+
+COPY package*.json tsconfig.json ./
+COPY shared/package.json ./shared/
+COPY frontend/package.json ./frontend/
+RUN npm ci
+
+COPY --from=shared-builder /app/shared/build ./shared/build
+COPY shared/ ./shared/
+COPY frontend/ ./frontend/
+
+RUN cd frontend && npm run build
+
+# ===== Stage 3: Build backend =====
+FROM node:22-alpine AS backend-builder
+WORKDIR /app
+
+COPY package*.json tsconfig.json ./
+COPY shared/package.json ./shared/
+COPY backend/package.json ./backend/
+RUN npm ci
+
+COPY --from=shared-builder /app/shared/build ./shared/build
+COPY shared/ ./shared/
+COPY backend/ ./backend/
+
+RUN cd backend && npm run build
+
+# builded frontend to backend/public
+COPY --from=frontend-builder /app/frontend/build ./backend/public
+
+# ===== Stage 4: Production =====
+FROM node:22-alpine AS production
+WORKDIR /app
+
+COPY package*.json ./
+COPY shared/package.json ./shared/
+COPY backend/package.json ./backend/
+RUN npm ci --omit=dev
+
+COPY --from=backend-builder /app/backend/build ./backend/build
+COPY --from=backend-builder /app/backend/public ./backend/public
+COPY --from=shared-builder /app/shared/build ./shared/build
+
+CMD ["node", "backend/build/index.js"]
