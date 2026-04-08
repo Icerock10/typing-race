@@ -13,7 +13,7 @@
     ],
     "scripts": {
         "build:shared": "npm run build -w shared",
-        "build": "npm run build:shared && npm run build:backend && npm run build:frontend && sh ./prepare-build.sh",
+        "build": "npm run build:shared && npm run build:backend && npm run build:frontend",
         "prestart": "npm install --include=dev && npm run build",
         "start": "cd build/backend && npm run start",
         "build:frontend": "npm run build -w frontend",
