@@ -21,7 +21,8 @@ RUN npm ci
 COPY --from=shared-builder /app/shared/build ./shared/build
 COPY shared/ ./shared/
 COPY frontend/ ./frontend/
-
+ARG VITE_APP_PRODUCTION_URL
+ENV VITE_APP_PRODUCTION_URL=$VITE_APP_PRODUCTION_URL
 RUN cd frontend && npm run build
 
 # ===== Stage 3: Build backend =====
@@ -54,5 +55,8 @@ RUN npm ci --omit=dev
 COPY --from=backend-builder /app/backend/build ./backend/build
 COPY --from=backend-builder /app/backend/public ./backend/public
 COPY --from=shared-builder /app/shared/build ./shared/build
+
+ARG VITE_APP_PRODUCTION_URL
+ENV VITE_APP_PRODUCTION_URL=$VITE_APP_PRODUCTION_URL
 
 CMD ["node", "backend/build/index.js"]
