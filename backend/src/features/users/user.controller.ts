@@ -33,12 +33,24 @@ class UserController extends BaseController {
             path: UsersApiPath.USER,
             validation: { params: userIdParameterSchema.shape.params },
         });
+        this.addRoute({
+            handler: () => this.getAllUsers(),
+            method: HTTPRequestMethod.GET,
+            path: UsersApiPath.ROOT,
+            isPublic: true,
+        });
     }
     private async findById(
         options: APIHandlerOptions<{ params?: { id: string } }>,
     ): Promise<APIHandlerResponse> {
         return {
             payload: await this.userService.find(options.params?.id),
+            status: HTTPCode.OK,
+        };
+    }
+    private async getAllUsers(): Promise<APIHandlerResponse> {
+        return {
+            payload: await this.userService.getAll(),
             status: HTTPCode.OK,
         };
     }

@@ -21,6 +21,11 @@ class UserRepository
 
         return foundUser ? UserEntity.initialize(foundUser) : null;
     }
+    public async getAll(): Promise<UserEntity[]> {
+        const foundUsers = await super.getAllDocuments();
+
+        return foundUsers.map((user) => UserEntity.initialize(user));
+    }
     public async findByEmail(email: string): Promise<null | UserEntity> {
         const foundUserByEmail = await this.model.findOne({ email });
 
