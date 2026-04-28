@@ -9,6 +9,7 @@ import { type Config } from '~/libs/modules/config/config.js';
 import { type BaseStorage, storage } from '~/libs/modules/storage/storage.js';
 import { authApi, reducer as authReducer } from '~/features/auth/auth.js';
 import { reducer as gameReducer, gameApi } from '~/features/game/game.js';
+import { reducer as userReducer, userApi } from '~/features/users/user.js';
 
 import {
     listenerMiddleware,
@@ -19,12 +20,14 @@ import {
 type ExtraArguments = {
     authApi: typeof authApi;
     gameApi: typeof gameApi;
+    userApi: typeof userApi;
     storage: BaseStorage;
 };
 
 type RootReducer = {
     auth: ReturnType<typeof authReducer>;
     game: ReturnType<typeof gameReducer>;
+    users: ReturnType<typeof userReducer>;
 };
 
 class Store {
@@ -41,6 +44,7 @@ class Store {
             authApi,
             storage,
             gameApi,
+            userApi,
         };
     }
 
@@ -61,6 +65,7 @@ class Store {
             reducer: {
                 auth: authReducer,
                 game: gameReducer,
+                users: userReducer,
             },
         });
     }

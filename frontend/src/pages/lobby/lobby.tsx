@@ -5,6 +5,7 @@ import {
     useEffect,
 } from '~/libs/hooks/hooks.js';
 import { actions as gameActions } from '~/features/game/game.js';
+import { actions as userActions } from '~/features/users/user.js';
 import {
     Ticker,
     Rooms,
@@ -21,9 +22,11 @@ const Lobby: React.FC = () => {
     const dispatch = useAppDispatch();
     const { user } = useAppSelector((state) => state.auth);
     const { rooms, currentRoom, games } = useAppSelector((state) => state.game);
+    const { users } = useAppSelector((state) => state.users);
 
     useEffect(() => {
         void dispatch(gameActions.getAllGames());
+        void dispatch(userActions.getAllUsers());
     }, [dispatch]);
 
     const mainContentClasses = getClassNames(styles['main'], 'grid');
@@ -32,7 +35,7 @@ const Lobby: React.FC = () => {
         <>
             <Ticker games={games} />
             <Header variant={HeaderVariants.SHRUNK}>
-                <UserMenu user={user} />
+                <UserMenu users={users} user={user} />
             </Header>
             <div className="container">
                 <Hero
