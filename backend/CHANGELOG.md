@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/Icerock10/typing-race/compare/backend-v1.2.0...backend-v1.3.0) (2026-04-28)
+
+
+### Features
+
+* + route to get all users from DB tr-39 ([e4cd26f](https://github.com/Icerock10/typing-race/commit/e4cd26fce7b49ca73510a853f7f56bc5f6a5d2d6))
+
 ## [1.2.0](https://github.com/Icerock10/typing-race/compare/backend-v1.1.0...backend-v1.2.0) (2026-03-22)
 
 

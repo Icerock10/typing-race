@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.3.0](https://github.com/Icerock10/typing-race/compare/v1.2.0...v1.3.0) (2026-04-28)
+
+
+### Features
+
+* + connected user reducer, api to store, display on lobby page tr-39 ([bb3c260](https://github.com/Icerock10/typing-race/commit/bb3c260b17d12052d2ffe37ff9078fbfd61e2734))
+* + route to get all users from DB tr-39 ([e4cd26f](https://github.com/Icerock10/typing-race/commit/e4cd26fce7b49ca73510a853f7f56bc5f6a5d2d6))
+* + user-api tr-39 ([2513a9d](https://github.com/Icerock10/typing-race/commit/2513a9d6db0eadf508e7c5cf391683a7a7051908))
+* + user-slice, actions tr-39 ([fe16843](https://github.com/Icerock10/typing-race/commit/fe16843b6d149481478142cf49a1652edc693ced))
+
+
+### Bug Fixes
+
+* * path tr-40 ([9798691](https://github.com/Icerock10/typing-race/commit/9798691b9d4657192ed40da7497b2cf8a3f2d5cf))
+* + actual links, app version tr-38 ([e9aea54](https://github.com/Icerock10/typing-race/commit/e9aea54afa9768935c60b0f7a0f7667848566b79))
+
 ## [1.2.0](https://github.com/Icerock10/typing-race/compare/v1.1.0...v1.2.0) (2026-03-22)
 
 
