@@ -32,6 +32,11 @@ class UserService {
 
         return item?.toObject() ?? null;
     }
+    public async getAll(): Promise<UserDto[]> {
+        const items = await this.userRepository.getAll();
+
+        return items.map((item) => item.toObject());
+    }
 
     public async findByEmail(email: string): Promise<null | UserEntity> {
         const foundUser = await this.userRepository.findByEmail(email);
