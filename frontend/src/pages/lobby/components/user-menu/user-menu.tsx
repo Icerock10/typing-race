@@ -11,14 +11,15 @@ import { type UserDto } from '~/libs/types/types.js';
 
 type Properties = {
     user: UserDto | null;
+    users: UserDto[];
 };
 
-const UserMenu: React.FC<Properties> = ({ user }) => {
+const UserMenu: React.FC<Properties> = ({ user, users }) => {
     return (
         <Cluster>
             <Cluster className={styles['user-badge']}>
                 <div className="live-dot" />
-                <span>1,204 online</span>
+                <span>{users.length} users</span>
             </Cluster>
             {user ? (
                 <Avatar
