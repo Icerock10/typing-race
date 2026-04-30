@@ -1,4 +1,10 @@
-import { getCurrentUser, signIn, signUp, updateSocketAuth } from './actions.js';
+import {
+    getCurrentUser,
+    signIn,
+    signUp,
+    updateSocketAuth,
+    logout,
+} from './actions.js';
 import { actions } from './auth.slice.js';
 
 const allActions = {
@@ -7,6 +13,7 @@ const allActions = {
     signIn,
     signUp,
     updateSocketAuth,
+    logout,
 };
 
 export { allActions as actions };
