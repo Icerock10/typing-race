@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/Icerock10/typing-race/compare/frontend-v1.4.0...frontend-v1.4.1) (2026-04-30)
+
+
+### Bug Fixes
+
+* * display wpm as 0 when no games found tr-44 ([e551500](https://github.com/Icerock10/typing-race/commit/e5515007236866a52b497b27cdd468aa3af921f5))
+
 ## [1.4.0](https://github.com/Icerock10/typing-race/compare/frontend-v1.3.0...frontend-v1.4.0) (2026-04-30)
 
 
