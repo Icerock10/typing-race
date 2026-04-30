@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.4.0](https://github.com/Icerock10/typing-race/compare/frontend-v1.3.0...frontend-v1.4.0) (2026-04-30)
+
+
+### Features
+
+* + display logout menu UI tr-42 ([301366b](https://github.com/Icerock10/typing-race/commit/301366bd835cb5e23f2cb6c97e27d144387bece0))
+* + placeholder for empty rooms tr-43 ([4eae6c7](https://github.com/Icerock10/typing-race/commit/4eae6c77d393e6d1711790ff2852c4fc73e3fbd4))
+* + use-click-outside hook tr-42 ([7221ac3](https://github.com/Icerock10/typing-race/commit/7221ac38bd5fe0e7f75479c2836427456f697060))
+* + use-logout-menu hook to handle user logout tr-42 ([6591a99](https://github.com/Icerock10/typing-race/commit/6591a99982ef9b619d6b53c76673ebaa73d4c8f7))
+* + wpm record instead of mock value tr-41 ([f4256fd](https://github.com/Icerock10/typing-race/commit/f4256fd6928093cf34cb08bf1daaab38bf85a55a))
+
 ## [1.3.0](https://github.com/Icerock10/typing-race/compare/frontend-v1.2.0...frontend-v1.3.0) (2026-04-28)
 
 
