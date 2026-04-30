@@ -26,7 +26,12 @@ const Stats: React.FC = () => {
                 return stats?.[key].length || STATS_DEFAULT_VALUE;
             }
             case 'wpm': {
-                return wpmRecord;
+                const isValidWpmNumber =
+                    Number.isFinite(wpmRecord) &&
+                    wpmRecord >= STATS_DEFAULT_VALUE
+                        ? wpmRecord
+                        : STATS_DEFAULT_VALUE;
+                return isValidWpmNumber;
             }
 
             default: {
