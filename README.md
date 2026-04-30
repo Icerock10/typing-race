@@ -26,6 +26,7 @@ This is a web application for training typing speed and accuracy in a racing for
 ## How to run:
 
 - `npm install` _at root_
+- `cd shared && npm run build` _to build shared modules_
 - `docker compose up --build` _to run backend_
 - `cd frontend && npm run dev` \_to run frontend
 
