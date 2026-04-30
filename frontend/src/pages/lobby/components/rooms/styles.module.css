@@ -22,6 +22,29 @@
     letter-spacing: 2px;
 }
 
+.placeholder {
+    --cluster-direction: column;
+
+    padding: 60px 40px;
+    border: 1px dashed rgb(255 255 255 / 10%);
+    border-radius: 8px;
+}
+
+.placeholder-title {
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+}
+
+.placeholder-subtitle {
+    color: var(--color-text-muted);
+}
+
+svg[class="icon"] {
+    max-width: 48px;
+    height: 48px;
+    color: var(--color-text-muted);
+}
+
 @media screen and (width <= 900px) {
     .rooms {
         grid-column: span 2;
