@@ -4,6 +4,7 @@ import { Cluster } from '../components.js';
 import { AvatarVariants, OpenAuthProvider } from '~/libs/enums/enums.js';
 import { type ValueOf } from '~/libs/types/types.js';
 import { HandlerParameterIndexes } from '~/libs/constants/constants.js';
+import { LogoutMenu } from './components/logout-menu.js';
 
 type Properties = {
     name?: string;
@@ -38,6 +39,7 @@ const Avatar: React.FC<Properties> = ({
                     <span className={styles['user-name']}>
                         {name?.toLowerCase() ?? ''}
                     </span>
+                    <LogoutMenu name={name as string} />
                 </Cluster>
             );
         }
